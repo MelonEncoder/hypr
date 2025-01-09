@@ -1,0 +1,399 @@
+* {
+    /* `otf-font-awesome` is required to be installed for icons */
+    font-family: "Noto Sans Mono CJK JP", "Noto Sans Mono", "Noto Sans", "Font Awesome 6 Free", "Font Awesome 6 Brands", "Sans", sans-serif, sans, serif;
+    font-size: 14px;
+}
+
+/* ###### * 
+ * WINDOW *
+ * ###### */
+
+window#waybar {
+	margin: 0;
+    background-color: rgba(0, 0, 0, .4);
+    color: #ffffff;
+    /* transition-property: background-color; */
+    transition-duration: .5s;
+}
+
+window#waybar.hidden {
+    opacity: 0.2;
+}
+
+/*
+window#waybar.empty {
+    background-color: transparent;
+}
+window#waybar.solo {
+    background-color: #FFFFFF;
+}
+*/
+
+
+window#waybar.termite {
+    background-color: #3F3F3F;
+}
+
+window#waybar.chromium {
+    background-color: #000000;
+    border: none;
+}
+
+button {
+    /* Avoid rounded borders under each button name */
+    border: none;
+    border-radius: 0px;
+}
+
+button:hover {
+    background: inherit;
+}
+
+/* ################# *
+ * MODULE CONTAINERS *
+ * ################# */
+
+.modules {
+	background-color: blue;
+}
+
+.modules-left,
+.modules-center,
+.modules-right {
+	padding: 0px;
+}
+
+.modules-left {
+	margin-left: 3px;
+}
+
+.modules-right {
+	margin-right: 3px;
+}
+
+
+/* If workspaces is the leftmost module, omit left margin 
+.modules-left > widget:first-child > #workspaces {
+    margin-left: 6px;
+}
+
+If workspaces is the rightmost module, omit right margin 
+.modules-right > widget:last-child > #workspaces {
+    margin-right: 6px;
+}
+*/
+
+/* ####### *
+ * MODULES *
+ * ####### */
+
+/* LEFT */
+
+#workspaces {
+	margin: 0px;
+	margin-right: 2px;
+	padding: 2px;
+	border: none;
+	border-radius: 5px;
+}
+
+#workspaces button {
+	font-family: "Noto Sans CJK JP";
+    padding: 0 12px;
+	margin: 2px;
+	border: 2px transparent solid;
+	border-radius: 0px;
+	box-shadow: none;
+    background-color: transparent;
+	color: #ffffff;
+	transition: 250ms;
+}
+
+#workspaces button:hover {
+	border: 2px white solid;
+}
+
+#workspaces button.active {
+	color: white;
+	box-shadow: 0px 4px 0px 0px white;
+	/* background-color: rgba(40, 200, 222, 1); */
+}
+
+#workspaces button.empty {
+}
+
+#workspaces button.visible {
+	color: white;
+}
+
+#workspaces button.urgent {
+	color: white;
+    background-color: #eb4d4b;
+}
+
+#mpris {
+	margin-left: 4px;
+	padding: 0px 12px;
+}
+
+
+/* CENTER */
+
+#window {
+	padding: 0px 12px;
+	border-radius: 5px;
+}
+
+
+/* RIGHT */
+
+/* you can set a style on hover for any module like this */
+#clock,
+#battery,
+#cpu,
+#memory,
+#disk,
+#temperature,
+#network,
+#wireplumber,
+#tray,
+#custom-system,
+#language,
+#pulseaudio,
+#idle_inhibitor,
+#backlight,
+#power-profiles-daemon,
+#privacy,
+#custom-power, 
+#custom-reboot, 
+#custom-exit,
+#custom-suspend {
+    padding: 2px 6px;
+	margin: 4px;
+    color: white;
+	border-radius: 0;
+	transition: 250ms;
+}
+
+#custom-power,
+#custom-reboot,
+#custom-exit,
+#custom-suspend {
+	border: 2px solid transparent;
+	box-shadow: 0px 4px 0px 0px #783DE5;
+}
+
+#custom-power:hover,
+#custom-reboot:hover,
+#custom-exit:hover,
+#custom-suspend:hover{
+	border: 2px white solid;
+}
+
+#privacy {
+    box-shadow: 0px 4px 0px 0px #dd6727;
+}
+
+#privacy-item {
+    padding: 0 2px;
+    color: white;
+}
+
+#clock {
+    /* box-shadow: 0px 4px 0px 0px rgba(0, 0, 0, 1.0); */
+	color: white;
+}
+
+#battery {
+	border: 2px solid transparent;
+	box-shadow: 0px 4px 0px 0px rgb(200, 200, 200);
+}
+
+#battery:hover {
+	border: 2px white solid;
+}
+
+#battery.charging, #battery.plugged {
+    color: #ffffff;
+    box-shadow: 0px 4px 0px 0px #26A65B;
+}
+
+@keyframes blink {
+    to {
+        background-color: #ffffff;
+        color: #000000;
+    }
+}
+
+/* Using steps() instead of linear as a timing function to limit cpu usage */
+#battery.critical:not(.charging) {
+    box-shadow: 0px 4px 0px 0px #f53c3c;
+    color: #ffffff;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: steps(12);
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+label:focus {
+    background-color: #000000;
+}
+
+#custom-system {
+	border: 2px solid transparent;
+    box-shadow: 0px 4px 0px 0px rgba(0, 176, 147, 1);
+}
+
+#custom-system:hover {
+	border: 2px white solid;
+}
+
+#cpu,
+#memory,
+#disk,
+#temperature {
+	background-color: transparent;
+    box-shadow: 0px 4px 0px 0px rgb(186, 50, 170);
+    color: white;
+}
+
+#temperature.critical {
+    background-color: #eb4d4b;
+}
+
+#backlight {
+	border: 2px solid transparent;
+	box-shadow: 0px 4px 0px 0px rgb(0, 176, 147);
+}
+
+#backlight:hover {
+	border: 2px white solid;	
+}
+
+#network {
+    background-color: rgba(0, 176, 147, 1);
+	color: black;
+}
+
+#network.disconnected {
+    background-color: #f53c3c;
+}
+
+#pulseaudio {
+	border: 2px solid transparent;
+    box-shadow: 0px 4px 0px 0px #28C8DE;
+    color: white;
+}
+
+#pulseaudio:hover {
+	border: 2px white solid;
+}
+
+#pulseaudio.muted {
+    box-shadow: 0px 4px 0px 0px rgba(40, 0, 222, 1);
+    color: #2a5c45;
+}
+
+#wireplumber {
+    background-color: #fff0f5;
+    color: #000000;
+}
+
+#wireplumber.muted {
+    background-color: #f53c3c;
+}
+
+
+#tray {
+    /* box-shadow: 0px 4px 0px 0px rgba(0, 176, 147, 1.0); */
+	color: black;
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+    background-color: #eb4d4b;
+}
+
+#idle_inhibitor {
+	border: 2px solid transparent;
+    box-shadow: 0px 4px 0px 0px #2d3436;
+}
+
+#idle_inhibitor:hover {
+	border: 2px white solid;
+}
+
+#idle_inhibitor.activated {
+    box-shadow: 0px 4px 0px 0px rgb(200, 200, 200);
+}
+
+#power-profiles-daemon {
+	padding: 3px 9px;
+	border: 2px solid transparent;
+}
+
+#power-profiles-daemon:hover {
+	border: 2px white solid;
+}
+
+#power-profiles-daemon.balanced {
+    background-color: #2980b9;
+    background-color: #00B093;
+    color: #000000;
+}
+
+#power-profiles-daemon.performance {
+    background-color: #ce3b3b;
+    /* background-color: #00B093; */
+    color: #000000;
+}
+
+#power-profiles-daemon.power-saver {
+    background-color: #34d15b;
+    /* background-color: #00B093; */
+    color: #000000;
+}
+
+#mpd {
+    background-color: #66cc99;
+    color: #2a5c45;
+}
+
+#mpd.disconnected {
+    background-color: #f53c3c;
+}
+
+#mpd.stopped {
+    background-color: #90b1b1;
+}
+
+#mpd.paused {
+    background-color: #51a37a;
+}
+
+#language {
+    background-color: rgba(0, 176, 147, 1);
+    color: black;
+    min-width: 16px;
+}
+
+#keyboard-state {
+    background: #97e1ad;
+    color: #000000;
+    padding: 0 0px;
+    margin: 0 5px;
+    min-width: 16px;
+}
+
+#keyboard-state > label {
+    padding: 0 5px;
+}
+
+#keyboard-state > label.locked {
+    background: rgba(0, 0, 0, 0.2);
+}

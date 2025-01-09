@@ -1,0 +1,28 @@
+#window {
+	font-family: "Noto Sans Mono CJK JP";
+	font-size: 16px;
+	border-radius: 5px;
+}
+
+#outer-box {
+	padding: 6px;
+}
+
+#input {
+	border-radius: 0px;
+	border: 2px gray solid;
+	margin-bottom: 6px;
+	border-radius: 3px;
+}
+
+#img {
+	margin-right: 6px;
+}
+
+#entry {
+	border-radius: 3px;
+}
+
+#expander-box {
+	border-radius: 3px;
+}

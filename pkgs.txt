@@ -17,8 +17,6 @@ hyprgraphics
 htop
 iw
 iwd
-kitty
-mako
 modemmanager
 network-manager-applet
 nm-connection-editor
@@ -27,8 +25,6 @@ pipewire
 playerctl
 usb_modeswitch
 wireplumber
-waybar
-wofi
 wl-clipboard
 xdg-desktop-portal-hyprland
 xdg-desktop-portal-gtk
@@ -56,9 +52,12 @@ ttf-font-awesome
 [general]
 firefox
 flatpak
+kitty
+mako
 nautilus
-spotify-launcher
 ncspot
+waybar
+wofi
 
 [aur]
 clipse

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CONFIG=~/.config/waybar/config_2/config.jsonc
+CONFIG=~/.config/hypr/waybar/config_2/config.jsonc
 STYLE=~/.config/waybar/config_2/style.css
 
 launch_waybar() {

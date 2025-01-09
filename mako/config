@@ -1,0 +1,27 @@
+sort=-time
+default-timeout=7000
+ignore-timeout=0
+layer=overlay
+width=300
+height=96
+background-color=#000000cd
+border-size=2
+border-radius=3
+border-color=#6c8691cd
+font=Noto Sans Mono CJK JP 12
+text-color=#ffffff
+max-icon-size=78
+icons=1
+
+outer-margin=2,2,2,2
+margin=10
+
+[urgency=low]
+border-color=#6C8691cd
+
+[urgency=normal]
+border-color=#e3721acd
+
+[urgency=high]
+border-color=#dc2145cd
+ignore-timeout=1

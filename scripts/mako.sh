@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CONFIG=~/.config/mako/config
+CONFIG=~/.config/hypr/mako/config
 
 launch() {
 	killall mako
