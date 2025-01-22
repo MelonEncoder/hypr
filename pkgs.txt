@@ -30,6 +30,7 @@ xdg-desktop-portal-hyprland
 xdg-desktop-portal-gtk
 
 [coding]
+clang
 glfw
 go
 meson

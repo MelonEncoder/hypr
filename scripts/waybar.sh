@@ -1,7 +1,7 @@
 #!/bin/bash
 
 CONFIG=~/.config/hypr/waybar/config_2/config.jsonc
-STYLE=~/.config/waybar/config_2/style.css
+STYLE=~/.config/hypr/waybar/config_2/style.css
 
 launch_waybar() {
 	killall waybar
