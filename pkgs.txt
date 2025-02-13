@@ -39,6 +39,7 @@ xdg-desktop-portal-gtk
 
 [applications]
 firefox
+loupe
 nautilus
 neovim
 spotify-launcher
