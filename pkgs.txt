@@ -55,7 +55,7 @@ meson
 cmake
 ninja
 npm
-node
+nodejs
 python
 rust
 rust-analyzer
