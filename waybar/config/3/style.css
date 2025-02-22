@@ -120,10 +120,9 @@ If workspaces is the rightmost module, omit right margin
 	padding: 0px 0px;
 }
 
-
-
 /* you can set a style on hover for any module like this */
 #clock,
+#mpris,
 #battery,
 #network,
 #wireplumber,
