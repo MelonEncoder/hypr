@@ -169,6 +169,8 @@ If workspaces is the rightmost module, omit right margin
 
 #privacy {
     background-color: #dd6727;
+	margin-right: 4px;
+	margin-left: 0;
 }
 
 #privacy-item {
