@@ -43,7 +43,6 @@ loupe
 nautilus
 neovim
 spotify-launcher
-vim
 zed
 
 [coding]
@@ -57,9 +56,6 @@ ninja
 npm
 nodejs
 python
-rust
-rust-analyzer
-sfml
 
 [fonts]
 noto-fonts

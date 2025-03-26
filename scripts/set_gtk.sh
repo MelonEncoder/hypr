@@ -3,7 +3,7 @@
 ## set GTK Themes, Icons, Cursor and Fonts
 
 THEME="Adwaita"
-CURSORS="CatppuccinCursors"
+CURSORS="Adwaita"
 CURSOR_SIZE=22
 ICONS="Adwaita"
 
