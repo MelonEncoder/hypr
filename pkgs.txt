@@ -17,7 +17,7 @@ pavucontrol
 pipewire
 playerctl
 usb_modeswitch
-man
+man-db
 wayland
 wayland-docs
 wayland-protocols
@@ -31,7 +31,7 @@ wl-clipboard
 
 [desktop]
 adwaita-icon-theme
-adwaita-cursor
+adwaita-cursors
 hyprland
 hyprlock
 hypridle
