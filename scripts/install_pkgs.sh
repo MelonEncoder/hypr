@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PACKAGE_FILE="../pkgs.txt"
+PACKAGE_FILE="$1"
 PKGS=""
 PKGS_AUR=""
 AUR=0
@@ -74,4 +74,4 @@ if [ "$PKGS_AUR" != "" ]; then
     yay -S $PKGS_AUR
 fi
 
-echo "Packages installation complete."
+echo "Packages installation finished."

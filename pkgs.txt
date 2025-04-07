@@ -3,6 +3,8 @@ blueman
 bluez
 bluez-utils
 brightnessctl
+cups
+curl
 dnsmasq
 flatpak
 htop
@@ -15,17 +17,28 @@ pavucontrol
 pipewire
 playerctl
 usb_modeswitch
+man
 wayland
+wayland-docs
+wayland-protocols
+wayland-utils
+wcurl
+websocat
+wget
+which
 wireplumber
 wl-clipboard
 
 [desktop]
+adwaita-icon-theme
+adwaita-cursor
 hyprland
 hyprlock
 hypridle
 hyprcursor
 hyprlang
 hyprland-qtutils
+hyprland-qt-support
 hyprwayland-scanner
 hyprpicker
 hyprpaper
@@ -39,6 +52,9 @@ xdg-desktop-portal-gtk
 
 [applications]
 firefox
+flatpak
+gimp
+inkscape
 loupe
 nautilus
 neovim
@@ -58,6 +74,7 @@ nodejs
 python
 
 [fonts]
+adwaita-fonts
 noto-fonts
 noto-fonts-cjk
 noto-fonts-emoji
