@@ -43,7 +43,7 @@ hyprwayland-scanner
 hyprpicker
 hyprpaper
 hyprgraphics
-kitty
+alacritty
 mako
 waybar
 wofi
