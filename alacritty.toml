@@ -1,0 +1,27 @@
+[window]
+padding = { x = 4, y = 4 }
+opacity = 0.8
+
+[font]
+normal = { family = "AdwaitaMono", style = "Regular" }
+bold = { style = "Bold" }
+italic = { style = "Italic" }
+bold_italic = { style = "Bold Italic" }
+size = 11
+
+[colors]
+primary = { background = "#0f0f0f" }
+draw_bold_text_with_bright_colors = true
+
+[cursor]
+style = { shape = "Underline", blinking = "Off" }
+vi_mode_style = { shape = "Block", blinking = "On" }
+blink_timeout = 8
+unfocused_hollow = true
+thickness = 0.1
+
+[terminal]
+shell = "/bin/bash"
+
+[mouse]
+hide_when_typing = true
