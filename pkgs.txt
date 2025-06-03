@@ -72,6 +72,9 @@ ninja
 npm
 nodejs
 python
+rust
+rust-analyzer
+rust-src
 
 [fonts]
 adwaita-fonts
