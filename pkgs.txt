@@ -43,6 +43,7 @@ hyprwayland-scanner
 hyprpicker
 hyprpaper
 hyprgraphics
+hyprsunset
 alacritty
 mako
 waybar
@@ -64,7 +65,6 @@ zed
 [coding]
 clang
 git
-glfw
 go
 meson
 cmake
