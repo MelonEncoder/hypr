@@ -6,8 +6,6 @@ brightnessctl
 cups
 curl
 dnsmasq
-flatpak
-htop
 iw
 iwd
 modemmanager
@@ -55,11 +53,13 @@ xdg-desktop-portal-gtk
 firefox
 flatpak
 gimp
+htop
 inkscape
 loupe
 nautilus
 neovim
 spotify-launcher
+tmux
 zed
 
 [coding]
@@ -75,6 +75,9 @@ python
 rust
 rust-analyzer
 rust-src
+
+[ai]
+ollama
 
 [fonts]
 adwaita-fonts
