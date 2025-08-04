@@ -1,10 +1,6 @@
 #!/bin/bash
 
-CONFIG=~/.config/hypr/mako/config
+CONFIG=~/.config/hypr/mako.conf
 
-launch() {
-	killall mako
-	mako -c $CONFIG &
-}
-
-launch
+killall mako
+mako -c $CONFIG &
