@@ -35,7 +35,6 @@ done
 
 if [ "$PKGS" != "" ]; then
     sudo pacman -S --noconfirm $PKGS
-    echo "Package installation finished."
 else
     echo "No packages to intstll."
 fi
