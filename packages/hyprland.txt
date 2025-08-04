@@ -1,0 +1,14 @@
+hyprland
+hyprlock
+hypridle
+hyprcursor
+hyprlang
+hyprland-qtutils
+hyprland-qt-support
+hyprwayland-scanner
+hyprpicker
+hyprpaper
+hyprgraphics
+hyprsunset
+xdg-desktop-portal-hyprland
+xdg-desktop-portal-gtk

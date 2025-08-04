@@ -1,0 +1,12 @@
+alacritty
+firefox
+flatpak
+htop
+inkscape
+loupe
+mako
+nautilus
+spotify-launcher
+tmux
+waybar
+wofi

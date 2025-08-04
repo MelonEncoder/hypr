@@ -1,0 +1,12 @@
+clang
+git
+go
+meson
+cmake
+ninja
+npm
+nodejs
+python
+rust
+rust-analyzer
+rust-src
