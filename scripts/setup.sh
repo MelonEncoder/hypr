@@ -1,13 +1,11 @@
 #!/bin/bash
 
 ./install/packages.sh
-./install/clipse.sh
-./install/yay.sh
+./install/aur/clipse.sh
+./install/aur/yay.sh
 
 echo "Package installation finished.\n"
 
-./add_locales.sh
-
-./colorize_pacman.sh
-
-./create_apps_dir.sh
+./configure/locales.sh
+./configure/pacman.sh
+./configure/apps_dir.sh

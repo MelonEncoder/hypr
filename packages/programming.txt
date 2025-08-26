@@ -1,11 +1,12 @@
 clang
+cmake
 git
 go
 meson
-cmake
 ninja
 npm
 nodejs
+pyright
 python
 rust
 rust-analyzer
