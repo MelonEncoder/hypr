@@ -4,8 +4,15 @@
 ./install/aur/clipse.sh
 ./install/aur/yay.sh
 
-echo "Package installation finished.\n"
+echo "Package installation finished."
+echo "||"
 
 ./configure/locales.sh
+
+echo "||"
+
 ./configure/pacman.sh
-./configure/apps_dir.sh
+
+echo "||"
+
+./configure/dirs.sh
