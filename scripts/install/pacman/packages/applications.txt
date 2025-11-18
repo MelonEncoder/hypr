@@ -1,12 +1,14 @@
-alacritty
-firefox
 flatpak
+ghostty
 htop
 inkscape
 loupe
 mako
 nautilus
+neovim
 spotify-launcher
 tmux
+vim
 waybar
 wofi
+zed

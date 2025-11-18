@@ -1,6 +1,6 @@
 #!/bin/bash
 
-PACKAGE_DIR="$HOME/.config/hypr/packages"
+PACKAGE_DIR="$HOME/.config/hypr/scripts/install/pacman/packages"
 PKGS=""
 
 package_exists() {
