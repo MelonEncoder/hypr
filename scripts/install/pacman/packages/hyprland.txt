@@ -4,14 +4,16 @@ hypridle
 hyprland
 hyprland-protocols
 hyprland-qt-support
-hyprland-qtutils
+hyprland-guiutils
 hyprlang
 hyprlock
 hyprpaper
 hyprpicker
 hyprpolkitagent
 hyprshot
+hyprshutdown
 hyprsunset
+hyprtoolkit
 hyprutils
 hyprwayland-scanner
 xdg-desktop-portal-gtk

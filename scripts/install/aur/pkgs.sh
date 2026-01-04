@@ -17,13 +17,15 @@ fi
 # CLIPSE
 if ! command -v clipse $>/dev/null; then
     echo "(+) installing 'clipse' from the AUR"
-	cd /tmp
-	git clone https://aur.archlinux.org/clipse.git
-	cd clipse
-	makepkg -si
-	cd ..
-	rm -rf clipse
-	cd ~
+	yay -S clipse
+else
+    echo "AUR package 'clipse' is already installed."
+fi
+
+# HYPRLAUNCHER
+if ! command -v hyprlauncher $>/dev/null; then
+    echo "(+) installing 'clipse' from the AUR"
+	yay -S hyprlauncher
 else
     echo "AUR package 'clipse' is already installed."
 fi
