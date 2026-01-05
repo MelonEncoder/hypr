@@ -7,11 +7,7 @@ echo "Installing packages..."
 echo "Package installation finished."
 
 echo "Now configuring environment..."
-echo "||"
 ./configure/locales.sh
-echo "||"
 ./configure/pacman.sh
-echo "||"
 ./configure/dirs.sh
-echo "||"
 ./configure/neovim.sh
