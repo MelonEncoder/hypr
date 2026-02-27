@@ -6,6 +6,7 @@ loupe
 mako
 nautilus
 neovim
+quickshell
 spotify-launcher
 tmux
 vim
