@@ -8,8 +8,8 @@ import Quickshell.Services.SystemTray
 Button {
 	id: root
 	property bool expanded: false
+	
 	hoverEnabled: true
-
 	implicitWidth: label.implicitWidth + Theme.widgetPaddingX
 	implicitHeight: Theme.widgetHeight
 	onClicked: expanded = !expanded

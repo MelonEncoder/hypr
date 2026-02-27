@@ -9,18 +9,17 @@ Scope {
 		PanelWindow {
 			required property var modelData
 
-			screen: modelData
-			color: Theme.barBackground
-
 			anchors {
 				top: true
 				left: true
 				right: true
 			}
 
+			screen: modelData
+			color: Theme.barBackground
 			implicitHeight: Theme.barHeight
 	
-			// LEFT SECTIOn
+			// LEFT SECTION
 			Item {
 				id: leftSection
 				anchors.left: parent.left
