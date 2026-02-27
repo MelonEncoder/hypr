@@ -26,6 +26,12 @@ Rectangle {
 		return null
 	}
 
+	function focusWorkspace(workspaceId: int): void {
+		if (workspaceId <= 0) return
+		if (Hyprland.focusedWorkspace && Hyprland.focusedWorkspace.id === workspaceId) return
+		Hyprland.dispatch("workspace " + workspaceId)
+	}
+
 	RowLayout {
 		id: workspaceRow
 		anchors.centerIn: parent
@@ -67,7 +73,7 @@ Rectangle {
 				MouseArea {
 					anchors.fill: parent
 					cursorShape: Qt.PointingHandCursor
-					onClicked: Hyprland.dispatch("workspace " + parent.workspaceId)
+					onClicked: root.focusWorkspace(parent.workspaceId)
 				}
 			}
 		}
@@ -106,11 +112,7 @@ Rectangle {
 				MouseArea {
 					anchors.fill: parent
 					cursorShape: Qt.PointingHandCursor
-					onClicked: {
-						if (parent.workspaceId > 0) {
-							Hyprland.dispatch("workspace " + parent.workspaceId)
-						}
-					}
+					onClicked: root.focusWorkspace(parent.workspaceId)
 				}
 			}
 		}

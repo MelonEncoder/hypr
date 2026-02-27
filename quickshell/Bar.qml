@@ -1,5 +1,4 @@
 import Quickshell
-import Quickshell.Io
 import QtQuick
 import QtQuick.Layouts
 	
@@ -61,6 +60,7 @@ Scope {
 					anchors.verticalCenter: parent.verticalCenter
 					anchors.rightMargin: 12
 					spacing: 10
+					IdleInhibitorWidget {}
 					TrayWidget {}
 					DateWidget {}
 					TimeWidget {}

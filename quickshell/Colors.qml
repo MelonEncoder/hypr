@@ -2,7 +2,8 @@ pragma Singleton
 
 import QtQuick
 
-QtObject {
+Item {
+	id: colors
 	readonly property color barBackground: "#161616"
 	readonly property color surfaceBackground: "#2a2f3a"
 	readonly property color surfaceBorder: "#3b4352"
