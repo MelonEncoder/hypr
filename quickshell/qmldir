@@ -1,8 +1,13 @@
 Bar 1.0 Bar.qml
+CurrentWindowWidget 1.0 CurrentWindowWidget.qml
 DateWidget 1.0 DateWidget.qml
 IdleInhibitorWidget 1.0 IdleInhibitorWidget.qml
+MediaWidget 1.0 MediaWidget.qml
+PowerWidget 1.0 PowerWidget.qml
+QuickSettingsWidget 1.0 QuickSettingsWidget.qml
+SystemInfoWidget 1.0 SystemInfoWidget.qml
 TimeWidget 1.0 TimeWidget.qml
 TrayWidget 1.0 TrayWidget.qml
 WorkspacesWidget 1.0 WorkspacesWidget.qml
-singleton Colors 1.0 Colors.qml
+singleton Theme 1.0 Theme.qml
 singleton DateTime 1.0 DateTime.qml

@@ -5,9 +5,10 @@ import Quickshell.Io
 Button {
 	id: toggleButton
 	property bool inhibited: false
+	hoverEnabled: true
 
-	implicitWidth: label.implicitWidth + 12
-	implicitHeight: label.implicitHeight + 12
+	implicitWidth: label.implicitWidth + Theme.widgetPaddingX
+	implicitHeight: Theme.widgetHeight
 	onClicked: inhibited = !inhibited
 
 	contentItem: Text {
@@ -15,16 +16,19 @@ Button {
 		text: toggleButton.inhibited ? "󰈈" : ""
 		horizontalAlignment: Text.AlignHCenter
 		verticalAlignment: Text.AlignVCenter
-		color: toggleButton.inhibited ? Colors.textOnActive : Colors.textPrimary
-		font.pixelSize: 16
+		color: toggleButton.inhibited ? Theme.textOnActive : Theme.textPrimary
+		font.pixelSize: Theme.fontIconSize
+		font.family: Theme.fontFamily
 	}
 
 	background: Rectangle {
-		radius: 5
+		radius: Theme.radius
 
-		color: toggleButton.inhibited ? Colors.activeBackground : Colors.surfaceBackground
-		border.width: 1
-		border.color: toggleButton.inhibited ? Colors.activeBackground : Colors.surfaceBorder
+		color: toggleButton.inhibited
+			? Theme.widgetBackgroundActive
+			: (toggleButton.hovered ? Theme.widgetBackgroundHover : Theme.widgetBackgroundIdle)
+		border.width: Theme.borderWidth
+		border.color: Theme.surfaceBorder
 	}
 
 	Process {

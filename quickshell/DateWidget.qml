@@ -1,18 +1,19 @@
 import QtQuick
 
 Rectangle {
-	radius: 5
-	color: Colors.surfaceBackground
-	border.width: 1
-	border.color: Colors.surfaceBorder
-	implicitWidth: label.implicitWidth + 12
-	implicitHeight: label.implicitHeight + 8
+	radius: Theme.radius
+	color: Theme.widgetBackgroundIdle
+	border.width: Theme.borderWidth
+	border.color: Theme.surfaceBorder
+	implicitWidth: label.implicitWidth + Theme.widgetPaddingX
+	implicitHeight: Theme.widgetHeight
 
 	Text {
 		id: label
 		anchors.centerIn: parent
 		text: DateTime.date
-		color: Colors.textPrimary
-		font.pixelSize: 12
+		color: Theme.textPrimary
+		font.pixelSize: Theme.fontSize
+		font.family: Theme.fontFamily
 	}
 }

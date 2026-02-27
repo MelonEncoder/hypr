@@ -10,7 +10,7 @@ Scope {
 			required property var modelData
 
 			screen: modelData
-			color: Colors.barBackground
+			color: Theme.barBackground
 
 			anchors {
 				top: true
@@ -18,7 +18,7 @@ Scope {
 				right: true
 			}
 
-			implicitHeight: 30
+			implicitHeight: Theme.barHeight
 	
 			// LEFT SECTIOn
 			Item {
@@ -30,7 +30,12 @@ Scope {
 				RowLayout {
 					anchors.left: parent.left
 					anchors.verticalCenter: parent.verticalCenter
-					anchors.leftMargin: 12
+					anchors.leftMargin: Theme.edgeMarginX
+					height: parent.height
+					spacing: Theme.widgetSpacing
+					SystemInfoWidget { Layout.alignment: Qt.AlignVCenter }
+					CurrentWindowWidget { Layout.alignment: Qt.AlignVCenter }
+					MediaWidget { Layout.alignment: Qt.AlignVCenter }
 				}
 			}
 			
@@ -44,7 +49,8 @@ Scope {
 				RowLayout {
 					anchors.horizontalCenter: parent.horizontalCenter
 					anchors.verticalCenter: parent.verticalCenter
-					WorkspacesWidget {}
+					height: parent.height
+					WorkspacesWidget { Layout.alignment: Qt.AlignVCenter }
 				}
 			}
 			
@@ -58,12 +64,15 @@ Scope {
 				RowLayout {		
 					anchors.right: parent.right
 					anchors.verticalCenter: parent.verticalCenter
-					anchors.rightMargin: 12
-					spacing: 10
-					IdleInhibitorWidget {}
-					TrayWidget {}
-					DateWidget {}
-					TimeWidget {}
+					anchors.rightMargin: Theme.edgeMarginX
+					height: parent.height
+					spacing: Theme.widgetSpacing
+					IdleInhibitorWidget { Layout.alignment: Qt.AlignVCenter }
+					TrayWidget { Layout.alignment: Qt.AlignVCenter }
+					QuickSettingsWidget { Layout.alignment: Qt.AlignVCenter }
+					DateWidget { Layout.alignment: Qt.AlignVCenter }
+					TimeWidget { Layout.alignment: Qt.AlignVCenter }
+					PowerWidget { Layout.alignment: Qt.AlignVCenter }
 				}
 			}
 		}

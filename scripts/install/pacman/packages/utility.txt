@@ -7,14 +7,15 @@ curl
 dnsmasq
 iw
 iwd
+man-db
 modemmanager
 network-manager-applet
 nm-connection-editor
 pavucontrol
 pipewire
 playerctl
+qt6ct
 usb_modeswitch
-man-db
 wayland
 wayland-docs
 wayland-protocols
