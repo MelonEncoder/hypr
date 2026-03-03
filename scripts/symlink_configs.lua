@@ -47,12 +47,14 @@ end
 
 repo = expand_home(repo)
 local config = expand_home("~/.config")
+local local_share = expand_home("~/.local/share")
 
 local mappings = {
   { repo .. "/hypr", config .. "/hypr" },
   { repo .. "/mako", config .. "/mako" },
   { repo .. "/nvim", config .. "/nvim" },
   { repo .. "/quickshell", config .. "/quickshell" },
+  { repo .. "/wallpapers", local_share .. "/wallpapers" },
   { repo .. "/waybar", config .. "/waybar" },
   { repo .. "/wofi", config .. "/wofi" },
   { repo .. "/swps.conf", config .. "/swps.conf" },
@@ -63,7 +65,8 @@ print("config: " .. config)
 
 for _, pair in ipairs(mappings) do
   local src, dst = pair[1], pair[2]
-  run("mkdir -p " .. shell_quote(config), dry_run)
+  local parent = dst:match("^(.*)/[^/]+$") or "."
+  run("mkdir -p " .. shell_quote(parent), dry_run)
   run("rm -rf " .. shell_quote(dst), dry_run)
   run("ln -s " .. shell_quote(src) .. " " .. shell_quote(dst), dry_run)
 end

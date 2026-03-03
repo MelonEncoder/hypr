@@ -23,11 +23,11 @@ local function command_exists(cmd)
   return command_ok("command -v " .. cmd .. " >/dev/null 2>&1")
 end
 
-local script = arg and arg[0] or "install_pkgs.lua"
+local script = arg and arg[0] or "pkgs.lua"
 local script_dir = script:match("^(.*)/[^/]+$") or "."
 package.path = script_dir .. "/?.lua;" .. package.path
 
-local pkgs = require("packages")
+local pkgs = require("pkgs")
 
 local pacman_order = {
   "applications",
