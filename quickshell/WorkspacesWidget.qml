@@ -8,7 +8,7 @@ Rectangle {
 	color: Theme.widgetBackgroundIdle
 	border.width: Theme.borderWidth
 	border.color: Theme.surfaceBorder
-	implicitWidth: workspaceRow.implicitWidth + Theme.widgetPaddingX
+	implicitWidth: workspaceRow.implicitWidth
 	implicitHeight: Theme.widgetHeight
 
 	function toJapaneseNumber(n: int): string {
@@ -46,30 +46,34 @@ Rectangle {
 				required property int index
 				readonly property int workspaceId: index + 1
 				readonly property var workspace: root.workspaceForId(workspaceId)
-				readonly property bool hovered: workspaceMouse.containsMouse
 				readonly property bool isActive: Hyprland.focusedWorkspace
 					&& Hyprland.focusedWorkspace.id === workspaceId
 				readonly property bool hasWindows: workspace
 					&& workspace.toplevels
 					&& workspace.toplevels.values.length > 0
+				readonly property real slotSize: Theme.widgetHeight
+				readonly property real indicatorHeight: isActive ? slotSize : (hasWindows ? 12 : 6)
+				readonly property real indicatorWidth: isActive ? slotSize : indicatorHeight
 
-				implicitWidth: label.implicitWidth + Theme.workspaceItemPaddingX
-				implicitHeight: Theme.workspaceItemHeight
+				implicitWidth: slotSize
+				implicitHeight: slotSize
 
 				Rectangle {
 					id: itemBackground
-					anchors.fill: parent
-					radius: Theme.radiusBg
-					color: parent.isActive
-						? Theme.widgetBackgroundActive
-						: (parent.hovered ? Theme.widgetBackgroundHover : "transparent")
+					anchors.centerIn: parent
+					width: parent.indicatorWidth
+					height: parent.indicatorHeight
+					radius: parent.isActive ? root.radius : height / 2
+					color: parent.isActive ? "#ffffff" : (parent.hasWindows ? "#b0b0b0" : "#7a7a7a")
+					opacity: 1
 				}
 
 				Text {
 					id: label
 					anchors.centerIn: parent
 					text: root.toJapaneseNumber(parent.workspaceId)
-					color: parent.isActive ? Theme.textOnActive : (parent.hasWindows ? Theme.textPrimary : "#7a7a7a")
+					visible: parent.isActive
+					color: "#000000"
 					font.pixelSize: Theme.fontSize
 					font.family: Theme.fontFamily
 				}
@@ -91,30 +95,34 @@ Rectangle {
 			Item {
 				required property var modelData
 				readonly property int workspaceId: modelData ? modelData.id : -1
-				readonly property bool hovered: workspaceMouseExtra.containsMouse
 				visible: workspaceId > 5 && workspaceId <= 10
 				readonly property bool isActive: Hyprland.focusedWorkspace
 					&& Hyprland.focusedWorkspace.id === workspaceId
 				readonly property bool hasWindows: modelData
 					&& modelData.toplevels
 					&& modelData.toplevels.values.length > 0
+				readonly property real slotSize: Theme.widgetHeight
+				readonly property real indicatorHeight: isActive ? slotSize : (hasWindows ? 12 : 6)
+				readonly property real indicatorWidth: isActive ? slotSize : indicatorHeight
 
-				implicitWidth: label.implicitWidth + Theme.workspaceItemPaddingX
-				implicitHeight: Theme.workspaceItemHeight
+				implicitWidth: slotSize
+				implicitHeight: slotSize
 
 				Rectangle {
-					anchors.fill: parent
-					radius: Theme.radiusBg
-					color: parent.isActive
-						? Theme.widgetBackgroundActive
-						: (parent.hovered ? Theme.widgetBackgroundHover : "transparent")
+					anchors.centerIn: parent
+					width: parent.indicatorWidth
+					height: parent.indicatorHeight
+					radius: parent.isActive ? root.radius : height / 2
+					color: parent.isActive ? "#ffffff" : (parent.hasWindows ? "#b0b0b0" : "#7a7a7a")
+					opacity: 1
 				}
 
 				Text {
 					id: label
 					anchors.centerIn: parent
 					text: root.toJapaneseNumber(parent.workspaceId)
-					color: parent.isActive ? Theme.textOnActive : (parent.hasWindows ? Theme.textPrimary : "#7a7a7a")
+					visible: parent.isActive
+					color: "#000000"
 					font.pixelSize: Theme.fontSize
 					font.family: Theme.fontFamily
 				}
