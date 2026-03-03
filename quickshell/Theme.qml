@@ -6,8 +6,8 @@ Item {
 	// Unified typography and shape
 	// Color system
 	readonly property color accentColor: "#ff8a8a"
-	readonly property color barBackground: "#111111"
-	readonly property color surfaceBackground: "#1f1f1f"
+	readonly property color barBackground: "#ff111111"
+	readonly property color surfaceBackground: "#2f2f2f"
 	readonly property color widgetBackgroundIdle: surfaceBackground
 	readonly property color widgetBackgroundHover: accentColor
 	readonly property color widgetBackgroundActive: accentColor
@@ -22,7 +22,7 @@ Item {
 	readonly property int radius: 4 // default radius
 
 	// Border scale
-	readonly property int borderWidth: 1
+	readonly property int borderWidth: 0
 
 	// Typography scale
 	readonly property string fontFamily: "JetBrains Mono"
