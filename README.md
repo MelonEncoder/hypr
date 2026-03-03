@@ -1,1 +1,3 @@
-# hypr_conf
+# Dotfiles
+
+This config is epix
