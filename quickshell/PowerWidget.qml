@@ -7,6 +7,9 @@ Button {
 	id: root
 	property bool expanded: false
 	hoverEnabled: true
+	HoverHandler {
+		cursorShape: Qt.PointingHandCursor
+	}
 
 	implicitWidth: label.implicitWidth + Theme.widgetPaddingX
 	implicitHeight: Theme.widgetHeight
@@ -63,26 +66,44 @@ Button {
 
 			Button {
 				text: "Lock"
+				HoverHandler {
+					cursorShape: Qt.PointingHandCursor
+				}
 				onClicked: root.runAction("loginctl lock-session")
 			}
 			Button {
 				text: "Logout"
+				HoverHandler {
+					cursorShape: Qt.PointingHandCursor
+				}
 				onClicked: root.runAction("hyprctl dispatch exit")
 			}
 			Button {
 				text: "Suspend"
+				HoverHandler {
+					cursorShape: Qt.PointingHandCursor
+				}
 				onClicked: root.runAction("systemctl suspend")
 			}
 			Button {
 				text: "Reboot"
+				HoverHandler {
+					cursorShape: Qt.PointingHandCursor
+				}
 				onClicked: root.runAction("systemctl reboot")
 			}
 			Button {
 				text: "Shutdown"
+				HoverHandler {
+					cursorShape: Qt.PointingHandCursor
+				}
 				onClicked: root.runAction("systemctl poweroff")
 			}
 			Button {
 				text: "Cancel"
+				HoverHandler {
+					cursorShape: Qt.PointingHandCursor
+				}
 				onClicked: root.expanded = false
 			}
 		}

@@ -133,6 +133,7 @@ Item {
 			id: headerMouse
 			anchors.fill: parent
 			hoverEnabled: true
+			cursorShape: Qt.PointingHandCursor
 			onClicked: root.expanded = !root.expanded
 		}
 	}

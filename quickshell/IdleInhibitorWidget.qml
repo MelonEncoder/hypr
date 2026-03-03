@@ -6,6 +6,9 @@ Button {
 	id: toggleButton
 	property bool inhibited: false
 	hoverEnabled: true
+	HoverHandler {
+		cursorShape: Qt.PointingHandCursor
+	}
 
 	implicitWidth: label.implicitWidth + Theme.widgetPaddingX
 	implicitHeight: Theme.widgetHeight

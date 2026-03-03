@@ -10,6 +10,9 @@ Button {
 	property bool expanded: false
 	
 	hoverEnabled: true
+	HoverHandler {
+		cursorShape: Qt.PointingHandCursor
+	}
 	implicitWidth: label.implicitWidth + Theme.widgetPaddingX
 	implicitHeight: Theme.widgetHeight
 	onClicked: expanded = !expanded
@@ -81,6 +84,7 @@ Button {
 							id: trayHover
 							anchors.fill: parent
 							hoverEnabled: true
+							cursorShape: Qt.PointingHandCursor
 							acceptedButtons: Qt.LeftButton | Qt.RightButton
 							onClicked: function(mouse) {
 								if (!trayItem.modelData) return

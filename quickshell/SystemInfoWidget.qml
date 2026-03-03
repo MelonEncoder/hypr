@@ -8,6 +8,9 @@ Button {
 	property string osInfo: "Arch Linux"
 	property string kernelInfo: ""
 	hoverEnabled: true
+	HoverHandler {
+		cursorShape: Qt.PointingHandCursor
+	}
 
 	implicitWidth: label.implicitWidth + Theme.widgetPaddingX
 	implicitHeight: Theme.widgetHeight

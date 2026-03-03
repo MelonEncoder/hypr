@@ -11,6 +11,9 @@ Button {
 	property string networkName: ""
 	property int networkSignal: 0
 	hoverEnabled: true
+	HoverHandler {
+		cursorShape: Qt.PointingHandCursor
+	}
 
 	function toPercent(node: var): int {
 		if (!node || !node.audio) return 0
