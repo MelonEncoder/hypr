@@ -33,7 +33,7 @@ Scope {
 					height: parent.height
 					spacing: Theme.widgetSpacing
 					SystemInfoWidget { Layout.alignment: Qt.AlignVCenter }
-					CurrentWindowWidget { Layout.alignment: Qt.AlignVCenter }
+					WorkspacesWidget { Layout.alignment: Qt.AlignVCenter }
 					MediaWidget { Layout.alignment: Qt.AlignVCenter }
 				}
 			}
@@ -49,7 +49,7 @@ Scope {
 					anchors.horizontalCenter: parent.horizontalCenter
 					anchors.verticalCenter: parent.verticalCenter
 					height: parent.height
-					WorkspacesWidget { Layout.alignment: Qt.AlignVCenter }
+					CurrentWindowWidget { Layout.alignment: Qt.AlignVCenter }
 				}
 			}
 			

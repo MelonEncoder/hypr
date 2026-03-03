@@ -122,6 +122,7 @@ Item {
 				text: root.currentPlayer
 					? ("[" + root.formatTime(root.displayPosition) + " / " + root.formatTime(root.normalizeTime(root.currentPlayer.length)) + "]")
 					: "[0:00 / 0:00]"
+				visible: !!root.currentPlayer
 				color: Theme.textMuted
 				font.pixelSize: Theme.fontSize
 				font.family: Theme.fontFamily

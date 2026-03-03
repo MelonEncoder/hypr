@@ -52,7 +52,7 @@ Rectangle {
 					&& workspace.toplevels
 					&& workspace.toplevels.values.length > 0
 				readonly property real slotSize: Theme.widgetHeight
-				readonly property real indicatorHeight: isActive ? slotSize : (hasWindows ? 12 : 6)
+				readonly property real indicatorHeight: isActive ? slotSize : (hasWindows ? 10 : 4)
 				readonly property real indicatorWidth: isActive ? slotSize : indicatorHeight
 
 				implicitWidth: slotSize
@@ -63,13 +63,12 @@ Rectangle {
 					anchors.centerIn: parent
 					width: parent.indicatorWidth
 					height: parent.indicatorHeight
-					radius: parent.isActive ? root.radius : height / 2
-					color: parent.isActive ? "#ffffff" : (parent.hasWindows ? "#b0b0b0" : "#7a7a7a")
+					radius: parent.isActive ? root.radius : height / 4
+	 				color: parent.isActive ? "#ffffff" : (parent.hasWindows ? "#b0b0b0" : "#7a7a7a")
 					opacity: 1
 				}
 
 				Text {
-					id: label
 					anchors.centerIn: parent
 					text: root.toJapaneseNumber(parent.workspaceId)
 					visible: parent.isActive
@@ -118,7 +117,6 @@ Rectangle {
 				}
 
 				Text {
-					id: label
 					anchors.centerIn: parent
 					text: root.toJapaneseNumber(parent.workspaceId)
 					visible: parent.isActive
