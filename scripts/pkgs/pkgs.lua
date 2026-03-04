@@ -9,7 +9,6 @@ local pacman_pkgs = {
     "nautilus",
     "neovim",
     "quickshell",
-    "spotify-launcher",
     "tmux",
     "vim",
     "waybar",
@@ -84,6 +83,7 @@ local pacman_pkgs = {
     "cups",
     "curl",
     "dnsmasq",
+	"gsettings-desktop-schemas",
     "iw",
     "iwd",
     "man-db",
@@ -118,6 +118,7 @@ local flatpak_pkgs = {
   "app.zen_browser.zen",
   "com.obsproject.Studio",
   "com.discordapp.Discord",
+  "com.spotify.Client",
 }
 
 return {
