@@ -7,12 +7,20 @@ import "../../constants"
 
 Rectangle {
 	id: root
-	property bool active: false
 	property bool hovered: clickArea.containsMouse
 	property bool pressed: clickArea.pressed
+	property var iconKeys: ["wifi", "bluetooth", "volume"]
 	property string networkKind: "offline"
-	property string networkName: ""
 	property int networkSignal: 0
+	readonly property int iconCount: iconKeys ? iconKeys.length : 0
+	readonly property int iconSpacing: 4
+	readonly property int slotSize: Math.max(1, BarTheme.widget_height - 8)
+	readonly property var sink: Pipewire.defaultAudioSink
+	readonly property var btAdapter: Bluetooth.defaultAdapter
+	readonly property int speakerVolume: toPercent(sink)
+	readonly property bool speakerMuted: !!sink && !!sink.audio && sink.audio.muted
+
+	signal clicked()
 
 	function toPercent(node: var): int {
 		if (!node || !node.audio) return 0
@@ -21,7 +29,7 @@ Rectangle {
 		return Math.max(0, Math.min(150, Math.round(v * 100)))
 	}
 
-	function netIcon(): string {
+	function wifiIcon(): string {
 		if (networkKind === "wifi") {
 			if (networkSignal <= 0) return "󰤮"
 			if (networkSignal < 25) return "󰤯"
@@ -33,10 +41,13 @@ Rectangle {
 		return "󰖪"
 	}
 
-	function netText(): string {
-		if (networkKind === "offline") return "Offline"
-		if (networkName.length > 0) return networkName
-		return networkKind === "wifi" ? "Wi-Fi" : "Ethernet"
+	function bluetoothIcon(): string {
+		if (!btAdapter || !btAdapter.enabled) return "󰂲"
+		var devices = btAdapter.devices && btAdapter.devices.values ? btAdapter.devices.values : []
+		for (var i = 0; i < devices.length; i++) {
+			if (devices[i].connected) return "󰂯"
+		}
+		return "󰂯"
 	}
 
 	function volumeIcon(): string {
@@ -46,58 +57,50 @@ Rectangle {
 		return "󰕾"
 	}
 
-	function bluetoothIcon(): string {
-		if (!btAdapter || !btAdapter.enabled) return "󰂲"
-
-		var devices = btAdapter.devices && btAdapter.devices.values ? btAdapter.devices.values : []
-		var connected = null
-		for (var i = 0; i < devices.length; i++) {
-			if (devices[i].connected) {
-				connected = devices[i]
-				break
-			}
-		}
-
-		if (!connected) return "󰂯"
-
-		var key = ((connected.icon || "") + " " + (connected.deviceName || "") + " " + (connected.name || "")).toLowerCase()
-		if (key.indexOf("headset") >= 0) return "󰋋"
-		if (key.indexOf("headphone") >= 0) return "󰋎"
-		if (key.indexOf("earbud") >= 0) return "󰥰"
-		if (key.indexOf("speaker") >= 0) return "󰓃"
-		return "󰂯"
+	function iconForKey(key: string): string {
+		if (key === "wifi") return wifiIcon()
+		if (key === "bluetooth") return bluetoothIcon()
+		if (key === "volume") return volumeIcon()
+		return "?"
 	}
 
-	readonly property var sink: Pipewire.defaultAudioSink
-	readonly property var source: Pipewire.defaultAudioSource
-	readonly property var btAdapter: Bluetooth.defaultAdapter
-	readonly property int speakerVolume: toPercent(sink)
-	readonly property bool speakerMuted: !!sink && !!sink.audio && sink.audio.muted
-
-	implicitWidth: label.implicitWidth + (BarTheme.widget_padding * 2)
+	implicitWidth: (iconCount * slotSize) + (Math.max(0, iconCount - 1) * iconSpacing) + (BarTheme.widget_padding * 2)
 	implicitHeight: BarTheme.widget_height
 	radius: Theme.radius_normal
-	color: root.pressed
-		? Theme.color_surface_pressed
-		: (root.hovered ? Theme.color_surface_hover : Theme.color_surface)
+	color: root.pressed ? Theme.color_surface_pressed : (root.hovered ? Theme.color_surface_hover : Theme.color_surface)
 	border.width: Theme.border_width
 	border.color: Theme.color_border
 
-	Text {
-		id: label
+	Row {
+		id: iconRow
 		anchors.centerIn: parent
-		text: root.netIcon() + "  " + root.volumeIcon() + "  " + root.bluetoothIcon()
-		color: Theme.color_text
-		font.pixelSize: Theme.font_size
-		font.family: Theme.font_family
-		elide: Text.ElideRight
+		spacing: root.iconSpacing
+
+		Repeater {
+			model: root.iconKeys
+
+			Item {
+				required property var modelData
+				width: root.slotSize
+				height: root.slotSize
+
+				Text {
+					anchors.centerIn: parent
+					text: root.iconForKey(modelData)
+					color: Theme.color_text
+					font.pixelSize: Theme.font_size + 2
+					font.family: Theme.font_family
+				}
+			}
+		}
 	}
+
 	MouseArea {
 		id: clickArea
 		anchors.fill: parent
 		hoverEnabled: true
 		cursorShape: Qt.PointingHandCursor
-		onClicked: root.active = !root.active
+		onClicked: root.clicked()
 	}
 
 	StdioCollector {
@@ -106,6 +109,7 @@ Rectangle {
 		onStreamFinished: {
 			var lines = text.trim().split("\n")
 			var connected = ""
+
 			for (var i = 0; i < lines.length; i++) {
 				if (lines[i].indexOf(":connected:") >= 0) {
 					connected = lines[i]
@@ -115,17 +119,14 @@ Rectangle {
 
 			if (connected.length === 0) {
 				root.networkKind = "offline"
-				root.networkName = ""
 				root.networkSignal = 0
 				return
 			}
 
 			var parts = connected.split(":")
 			var type = parts.length > 0 ? parts[0] : ""
-			var name = parts.length > 2 ? parts[2] : ""
 			var signal = parts.length > 3 ? parseInt(parts[3]) : 0
 			root.networkKind = (type === "wifi" || type === "ethernet") ? type : "offline"
-			root.networkName = name
 			root.networkSignal = isNaN(signal) ? 0 : signal
 		}
 	}
@@ -139,9 +140,7 @@ Rectangle {
 		interval: 5000
 		running: true
 		repeat: true
-		onTriggered: {
-			networkProbe.exec(["sh", "-c", "nmcli -t -f TYPE,STATE,CONNECTION,SIGNAL device status 2>/dev/null || true"])
-		}
+		onTriggered: networkProbe.exec(["sh", "-c", "nmcli -t -f TYPE,STATE,CONNECTION,SIGNAL device status 2>/dev/null || true"])
 	}
 
 	Component.onCompleted: networkProbe.exec(["sh", "-c", "nmcli -t -f TYPE,STATE,CONNECTION,SIGNAL device status 2>/dev/null || true"])

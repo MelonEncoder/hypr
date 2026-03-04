@@ -82,10 +82,10 @@ Scope {
 						PrivacyIndicator { Layout.alignment: Qt.AlignVCenter }
 						IdleInhibitor { Layout.alignment: Qt.AlignVCenter }
 						SystemTray { Layout.alignment: Qt.AlignVCenter }
-						QuickSettings { Layout.alignment: Qt.AlignVCenter }
+						Audio { Layout.alignment: Qt.AlignVCenter }
 						Date { Layout.alignment: Qt.AlignVCenter }
 						Time { Layout.alignment: Qt.AlignVCenter }
-						PowerOptions { Layout.alignment: Qt.AlignVCenter }
+						SystemOptions { Layout.alignment: Qt.AlignVCenter }
 					}
 				}
 			}
