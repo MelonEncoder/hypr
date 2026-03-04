@@ -73,7 +73,6 @@ local pacman_pkgs = {
     "adwaita-icon-theme",
     "adwaita-cursors",
     "breeze-icons",
-    "breeze-gtk",
     "breeze-cursors",
     "hicolor-icon-theme",
   },
