@@ -13,7 +13,7 @@ Item {
 	property real displayPosition: 0
 
 	implicitWidth: header.implicitWidth
-	implicitHeight: BarTheme.widgetHeight
+	implicitHeight: BarTheme.widget_height
 
 	function normalizeTime(value: real): real {
 		// Some backends expose MPRIS time in microseconds.
@@ -88,35 +88,35 @@ Item {
 
 	Rectangle {
 		id: header
-		radius: Theme.radius
+		radius: Theme.radius_normal
 		color: root.expanded
-			? Theme.colors.surfaceActive
-			: (headerMouse.containsMouse ? Theme.colors.surfaceHover : Theme.colors.surface)
-		border.width: Theme.borderSize
-		border.color: Theme.colors.border
-		implicitWidth: row.implicitWidth + (BarTheme.widgetPadding * 2)
-		implicitHeight: BarTheme.widgetHeight
+			? Theme.color_surface_active
+			: (headerMouse.containsMouse ? Theme.color_surface_hover : Theme.color_surface)
+		border.width: Theme.border_width
+		border.color: Theme.color_border
+		implicitWidth: row.implicitWidth + (BarTheme.widget_padding * 2)
+		implicitHeight: BarTheme.widget_height
 		clip: true
 
 		RowLayout {
 			id: row
 			anchors.fill: parent
-			anchors.leftMargin: BarTheme.widgetPadding
-			anchors.rightMargin: BarTheme.widgetPadding
-			spacing: BarTheme.innerSpacing + 1
+			anchors.leftMargin: BarTheme.widget_padding
+			anchors.rightMargin: BarTheme.widget_padding
+			spacing: BarTheme.inner_spacing + 1
 
 			Text {
 				text: root.appGlyph(root.currentPlayer)
-				color: Theme.colors.text
-				font.pixelSize: Theme.font.size
-				font.family: Theme.font.family
+				color: Theme.color_text
+				font.pixelSize: Theme.font_size
+				font.family: Theme.font_family
 			}
 
 			Text {
 				text: root.mediaLabel(root.currentPlayer)
-				color: Theme.colors.text
-				font.pixelSize: Theme.font.size
-				font.family: Theme.font.family
+				color: Theme.color_text
+				font.pixelSize: Theme.font_size
+				font.family: Theme.font_family
 				elide: Text.ElideRight
 			}
 
@@ -125,9 +125,9 @@ Item {
 					? ("[" + root.formatTime(root.displayPosition) + " / " + root.formatTime(root.normalizeTime(root.currentPlayer.length)) + "]")
 					: "[0:00 / 0:00]"
 				visible: !!root.currentPlayer
-				color: Theme.colors.textMuted
-				font.pixelSize: Theme.font.size
-				font.family: Theme.font.family
+				color: Theme.color_text_muted
+				font.pixelSize: Theme.font_size
+				font.family: Theme.font_family
 			}
 		}
 

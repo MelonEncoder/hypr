@@ -21,14 +21,46 @@ Rectangle {
 			return "[" + (focusedWorkspace ? focusedWorkspace.id : "?") + "]";
 
 		var appId = activeToplevel.wayland && activeToplevel.wayland.appId ? activeToplevel.wayland.appId : "";
-		if (appId.length > 0) 
-			return simplifyAppId(appId);
-
 		var title = activeToplevel.title ? activeToplevel.title : "";
-		if (title.length > 0) 
-			return title;
+		var appName = simplifyAppId(appId);
+		var dynamicTitle = simplifyWindowTitle(title, appName);
+
+		if (dynamicTitle.length > 0) return dynamicTitle;
+		if (appId.length > 0) return appName;
 
 		return "[" + (focusedWorkspace ? focusedWorkspace.id : "?") + "]"
+	}
+
+	function simplifyWindowTitle(title: string, appName: string): string {
+		var raw = title.trim();
+		if (raw.length === 0) return "";
+
+		var parts = raw.split(/\s[-–—|:]\s/);
+		for (var i = 0; i < parts.length; i++) {
+			var candidate = parts[i].trim();
+			if (candidate.length === 0) continue;
+			if (appName.length > 0 && candidate.toLowerCase() === appName.toLowerCase()) continue;
+			return normalizeDisplayName(candidate);
+		}
+
+		return normalizeDisplayName(raw);
+	}
+
+	function normalizeDisplayName(name: string): string {
+		var cleaned = name.trim().replace(/[_-]+/g, " ").replace(/\s+/g, " ");
+		if (cleaned.length === 0) return "";
+		if (cleaned.toLowerCase() === "youtube" || cleaned.toLowerCase() === "youtube.com") return "YouTube";
+
+		var isAllLower = cleaned === cleaned.toLowerCase();
+		var isAllUpper = cleaned === cleaned.toUpperCase();
+		if (!isAllLower && !isAllUpper) return cleaned;
+
+		var words = cleaned.split(" ");
+		for (var i = 0; i < words.length; i++) {
+			if (words[i].length === 0) continue;
+			words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1).toLowerCase();
+		}
+		return words.join(" ");
 	}
 
 	function simplifyAppId(appId: string): string {
@@ -44,24 +76,24 @@ Rectangle {
 		return simple.charAt(0).toUpperCase() + simple.slice(1)
 	}
 
-	radius: Theme.radius
-	color: Theme.colors.surface
-	border.width: Theme.borderSize
-	border.color: Theme.colors.border
-	implicitHeight: BarTheme.widgetHeight
-	implicitWidth: Math.min(420, label.implicitWidth + (BarTheme.widgetPadding * 2))
+	radius: Theme.radius_normal
+	color: Theme.color_surface
+	border.width: Theme.border_width
+	border.color: Theme.color_border
+	implicitHeight: BarTheme.widget_height
+	implicitWidth: Math.min(420, label.implicitWidth + (BarTheme.widget_padding * 2))
 
 	Text {
 		id: label
 		anchors.left: parent.left
 		anchors.right: parent.right
-		anchors.leftMargin: BarTheme.widgetPadding
-		anchors.rightMargin: BarTheme.widgetPadding
+		anchors.leftMargin: BarTheme.widget_padding
+		anchors.rightMargin: BarTheme.widget_padding
 		anchors.verticalCenter: parent.verticalCenter
 		text: root.windowTitle
-		color: Theme.colors.text
-		font.pixelSize: Theme.font.size
-		font.family: Theme.font.family
+		color: Theme.color_text
+		font.pixelSize: Theme.font_size
+		font.family: Theme.font_family
 		elide: Text.ElideRight
 	}
 }

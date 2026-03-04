@@ -4,19 +4,19 @@ import "../../constants"
 import "../../services"
 
 Rectangle {
-	radius: Theme.radius
-	color: Theme.colors.surface
-	border.width: Theme.borderSize
-	border.color: Theme.colors.border
-	implicitWidth: label.implicitWidth + (BarTheme.widgetPadding * 2)
-	implicitHeight: BarTheme.widgetHeight
+	radius: Theme.radius_normal
+	color: Theme.color_surface
+	border.width: Theme.border_width
+	border.color: Theme.color_border
+	implicitWidth: label.implicitWidth + (BarTheme.widget_padding * 2)
+	implicitHeight: BarTheme.widget_height
 
 	Text {
 		id: label
 		anchors.centerIn: parent
 		text: DateTime.time
-		color: Theme.colors.text
-		font.pixelSize: Theme.font.size
-		font.family: Theme.font.family
+		color: Theme.color_text
+		font.pixelSize: Theme.font_size
+		font.family: Theme.font_family
 	}
 }

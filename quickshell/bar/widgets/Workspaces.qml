@@ -8,12 +8,12 @@ import "../../constants"
 
 Rectangle {
 	id: root
-	radius: Theme.radius
-	color: Theme.colors.surface
-	border.width: Theme.borderSize
-	border.color: Theme.colors.border
+	radius: Theme.radius_normal
+	color: Theme.color_surface
+	border.width: Theme.border_width
+	border.color: Theme.color_border
 	implicitWidth: workspaceRow.implicitWidth
-	implicitHeight: BarTheme.widgetHeight
+	implicitHeight: BarTheme.widget_height
 
 	function toJapaneseNumber(n: int): string {
 		var digits = ["", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十"]
@@ -54,7 +54,7 @@ Rectangle {
 				readonly property bool hasWindows: workspace
 					&& workspace.toplevels
 					&& workspace.toplevels.values.length > 0
-				readonly property real slotSize: BarTheme.widgetHeight
+				readonly property real slotSize: BarTheme.widget_height
 				readonly property real indicatorHeight: isActive ? slotSize : (hasWindows ? 9 : 4)
 				readonly property real indicatorWidth: isActive ? slotSize : indicatorHeight
 
@@ -78,8 +78,8 @@ Rectangle {
 					text: root.toJapaneseNumber(parent.workspaceId)
 					visible: parent.isActive
 					color: "#000000"
-					font.pixelSize: Theme.font.size
-					font.family: Theme.font.family
+					font.pixelSize: Theme.font_size
+					font.family: Theme.font_family
 				}
 
 				MouseArea {

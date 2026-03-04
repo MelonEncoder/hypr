@@ -4,24 +4,20 @@ import QtQuick
 import "."
 
 QtObject {
-	readonly property QtObject colors: QtObject {
-		readonly property color background: "#ff000000"
-		readonly property color surface: "#2f2f2f"
-		readonly property color surfaceHover: "#ff8a8a"
-		readonly property color surfaceActive: "#ff8a8a"
-		readonly property color border: "#66ffffff"
-		readonly property color text: "#ffffff"
-		readonly property color textMuted: "#d9d9d9"
-		readonly property color textSubtle: "#bfbfbf"
-		readonly property color textOnActive: "#ffffff"
-	}
+	readonly property color color_background: "#ff000000"
+	readonly property color color_surface: "#2f2f2f"
+	readonly property color color_surface_hover: "#ff8a8a"
+	readonly property color color_surface_active: "#ff8a8a"
+	readonly property color color_border: "#66ffffff"
+	readonly property color color_text: "#ffffff"
+	readonly property color color_text_muted: "#d9d9d9"
+	readonly property color color_text_subtle: "#bfbfbf"
+	readonly property color color_text_on_active: "#ffffff"
 
-	readonly property QtObject font: QtObject {
-		readonly property string family: "JetBrains Nerd Mono"
-		readonly property int size: 12
-	}
+	readonly property string font_family: "JetBrains Nerd Mono"
+	readonly property int font_size: 12
 		
-	readonly property int radiusBg: 2
-	readonly property int radius: 4
-	readonly property int borderSize: 0
+	readonly property int radius_background: 2
+	readonly property int radius_normal: 4
+	readonly property int border_width: 0
 }

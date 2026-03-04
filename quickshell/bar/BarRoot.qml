@@ -21,17 +21,17 @@ Scope {
 			}
 
 			screen: modelData
-			color: Theme.colors.background
-			implicitHeight: barContent.implicitHeight + (BarTheme.contentMargin * 2)
+			color: Theme.color_background
+			implicitHeight: barContent.implicitHeight + (BarTheme.content_margin * 2)
 			
 			Item {
 				id: barContent
 				anchors.top: parent.top
 				anchors.left: parent.left
 				anchors.right: parent.right
-				anchors.topMargin: BarTheme.contentMargin
-				anchors.leftMargin: BarTheme.contentMargin
-				anchors.rightMargin: BarTheme.contentMargin
+				anchors.topMargin: BarTheme.content_margin
+				anchors.leftMargin: BarTheme.content_margin
+				anchors.rightMargin: BarTheme.content_margin
 				implicitHeight: Math.max(leftRow.implicitHeight, centerRow.implicitHeight, rightRow.implicitHeight)
 
 				// LEFT SECTION
@@ -45,7 +45,7 @@ Scope {
 						id: leftRow
 						anchors.left: parent.left
 						anchors.verticalCenter: parent.verticalCenter
-						spacing: BarTheme.widgetSpacing
+						spacing: BarTheme.widget_spacing
 						SystemInfo { Layout.alignment: Qt.AlignVCenter }
 						Workspaces { Layout.alignment: Qt.AlignVCenter }
 						Media { Layout.alignment: Qt.AlignVCenter }
@@ -78,7 +78,7 @@ Scope {
 						id: rightRow
 						anchors.right: parent.right
 						anchors.verticalCenter: parent.verticalCenter
-						spacing: BarTheme.widgetSpacing
+						spacing: BarTheme.widget_spacing
 						IdleInhibitor { Layout.alignment: Qt.AlignVCenter }
 						SystemTray { Layout.alignment: Qt.AlignVCenter }
 						QuickSettings { Layout.alignment: Qt.AlignVCenter }

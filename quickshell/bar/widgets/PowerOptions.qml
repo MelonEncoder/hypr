@@ -9,22 +9,22 @@ Rectangle {
 	property bool expanded: false
 	property bool hovered: rootClickArea.containsMouse
 
-	implicitWidth: label.implicitWidth + (BarTheme.widgetPadding * 2)
-	implicitHeight: BarTheme.widgetHeight
-	radius: Theme.radius
+	implicitWidth: label.implicitWidth + (BarTheme.widget_padding * 2)
+	implicitHeight: BarTheme.widget_height
+	radius: Theme.radius_normal
 	color: root.expanded
-		? Theme.colors.surfaceActive
-		: (root.hovered ? Theme.colors.surfaceHover : Theme.colors.surface)
-	border.width: Theme.borderSize
-	border.color: Theme.colors.border
+		? Theme.color_surface_active
+		: (root.hovered ? Theme.color_surface_hover : Theme.color_surface)
+	border.width: Theme.border_width
+	border.color: Theme.color_border
 
 	Text {
 		id: label
 		anchors.centerIn: parent
 		text: "󰐥"
-		color: root.expanded ? Theme.colors.textOnActive : Theme.colors.text
-		font.pixelSize: Theme.font.size
-		font.family: Theme.font.family
+		color: root.expanded ? Theme.color_text_on_active : Theme.color_text
+		font.pixelSize: Theme.font_size
+		font.family: Theme.font_family
 	}
 	MouseArea {
 		id: rootClickArea
@@ -45,13 +45,13 @@ Rectangle {
 
 	Rectangle {
 		visible: root.expanded
-		y: root.height + BarTheme.popupOffset
+		y: root.height + BarTheme.popup_offset
 		width: 250
 		height: 130
-		radius: Theme.radius
-		color: Theme.colors.surfaceHover
-		border.width: Theme.borderSize
-		border.color: Theme.colors.border
+		radius: Theme.radius_normal
+		color: Theme.color_surface_hover
+		border.width: Theme.border_width
+		border.color: Theme.color_border
 		z: 1000
 
 		GridLayout {
@@ -64,16 +64,16 @@ Rectangle {
 			Rectangle {
 				Layout.fillWidth: true
 				Layout.fillHeight: true
-				radius: Theme.radius
-				color: lockHover.containsMouse ? Theme.colors.surfaceActive : Theme.colors.surface
-				border.width: Theme.borderSize
-				border.color: Theme.colors.border
+				radius: Theme.radius_normal
+				color: lockHover.containsMouse ? Theme.color_surface_active : Theme.color_surface
+				border.width: Theme.border_width
+				border.color: Theme.color_border
 				Text {
 					anchors.centerIn: parent
 					text: "Lock"
-					color: Theme.colors.text
-					font.pixelSize: Theme.font.size
-					font.family: Theme.font.family
+					color: Theme.color_text
+					font.pixelSize: Theme.font_size
+					font.family: Theme.font_family
 				}
 				MouseArea {
 					id: lockHover
@@ -86,16 +86,16 @@ Rectangle {
 			Rectangle {
 				Layout.fillWidth: true
 				Layout.fillHeight: true
-				radius: Theme.radius
-				color: logoutHover.containsMouse ? Theme.colors.surfaceActive : Theme.colors.surface
-				border.width: Theme.borderSize
-				border.color: Theme.colors.border
+				radius: Theme.radius_normal
+				color: logoutHover.containsMouse ? Theme.color_surface_active : Theme.color_surface
+				border.width: Theme.border_width
+				border.color: Theme.color_border
 				Text {
 					anchors.centerIn: parent
 					text: "Logout"
-					color: Theme.colors.text
-					font.pixelSize: Theme.font.size
-					font.family: Theme.font.family
+					color: Theme.color_text
+					font.pixelSize: Theme.font_size
+					font.family: Theme.font_family
 				}
 				MouseArea {
 					id: logoutHover
@@ -108,16 +108,16 @@ Rectangle {
 			Rectangle {
 				Layout.fillWidth: true
 				Layout.fillHeight: true
-				radius: Theme.radius
-				color: suspendHover.containsMouse ? Theme.colors.surfaceActive : Theme.colors.surface
-				border.width: Theme.borderSize
-				border.color: Theme.colors.border
+				radius: Theme.radius_normal
+				color: suspendHover.containsMouse ? Theme.color_surface_active : Theme.color_surface
+				border.width: Theme.border_width
+				border.color: Theme.color_border
 				Text {
 					anchors.centerIn: parent
 					text: "Suspend"
-					color: Theme.colors.text
-					font.pixelSize: Theme.font.size
-					font.family: Theme.font.family
+					color: Theme.color_text
+					font.pixelSize: Theme.font_size
+					font.family: Theme.font_family
 				}
 				MouseArea {
 					id: suspendHover
@@ -130,16 +130,16 @@ Rectangle {
 			Rectangle {
 				Layout.fillWidth: true
 				Layout.fillHeight: true
-				radius: Theme.radius
-				color: rebootHover.containsMouse ? Theme.colors.surfaceActive : Theme.colors.surface
-				border.width: Theme.borderSize
-				border.color: Theme.colors.border
+				radius: Theme.radius_normal
+				color: rebootHover.containsMouse ? Theme.color_surface_active : Theme.color_surface
+				border.width: Theme.border_width
+				border.color: Theme.color_border
 				Text {
 					anchors.centerIn: parent
 					text: "Reboot"
-					color: Theme.colors.text
-					font.pixelSize: Theme.font.size
-					font.family: Theme.font.family
+					color: Theme.color_text
+					font.pixelSize: Theme.font_size
+					font.family: Theme.font_family
 				}
 				MouseArea {
 					id: rebootHover
@@ -152,16 +152,16 @@ Rectangle {
 			Rectangle {
 				Layout.fillWidth: true
 				Layout.fillHeight: true
-				radius: Theme.radius
-				color: shutdownHover.containsMouse ? Theme.colors.surfaceActive : Theme.colors.surface
-				border.width: Theme.borderSize
-				border.color: Theme.colors.border
+				radius: Theme.radius_normal
+				color: shutdownHover.containsMouse ? Theme.color_surface_active : Theme.color_surface
+				border.width: Theme.border_width
+				border.color: Theme.color_border
 				Text {
 					anchors.centerIn: parent
 					text: "Shutdown"
-					color: Theme.colors.text
-					font.pixelSize: Theme.font.size
-					font.family: Theme.font.family
+					color: Theme.color_text
+					font.pixelSize: Theme.font_size
+					font.family: Theme.font_family
 				}
 				MouseArea {
 					id: shutdownHover
@@ -174,16 +174,16 @@ Rectangle {
 			Rectangle {
 				Layout.fillWidth: true
 				Layout.fillHeight: true
-				radius: Theme.radius
-				color: cancelHover.containsMouse ? Theme.colors.surfaceActive : Theme.colors.surface
-				border.width: Theme.borderSize
-				border.color: Theme.colors.border
+				radius: Theme.radius_normal
+				color: cancelHover.containsMouse ? Theme.color_surface_active : Theme.color_surface
+				border.width: Theme.border_width
+				border.color: Theme.color_border
 				Text {
 					anchors.centerIn: parent
 					text: "Cancel"
-					color: Theme.colors.text
-					font.pixelSize: Theme.font.size
-					font.family: Theme.font.family
+					color: Theme.color_text
+					font.pixelSize: Theme.font_size
+					font.family: Theme.font_family
 				}
 				MouseArea {
 					id: cancelHover

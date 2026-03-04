@@ -11,22 +11,22 @@ Rectangle {
 	property bool expanded: false
 	property bool hovered: clickArea.containsMouse
 
-	implicitWidth: label.implicitWidth + (BarTheme.widgetPadding * 2)
-	implicitHeight: BarTheme.widgetHeight
-	radius: Theme.radius
+	implicitWidth: label.implicitWidth + (BarTheme.widget_padding * 2)
+	implicitHeight: BarTheme.widget_height
+	radius: Theme.radius_normal
 	color: root.expanded
-		? Theme.colors.surfaceActive
-		: (root.hovered ? Theme.colors.surfaceHover : Theme.colors.surface)
-	border.width: Theme.borderSize
-	border.color: Theme.colors.border
+		? Theme.color_surface_active
+		: (root.hovered ? Theme.color_surface_hover : Theme.color_surface)
+	border.width: Theme.border_width
+	border.color: Theme.color_border
 
 	Text {
 		id: label
 		anchors.centerIn: parent
 		text: root.expanded ?  "" : ""
-		color: root.expanded ? Theme.colors.textOnActive : Theme.colors.text
-		font.pixelSize: Theme.font.size
-		font.family: Theme.font.family
+		color: root.expanded ? Theme.color_text_on_active : Theme.color_text
+		font.pixelSize: Theme.font_size
+		font.family: Theme.font_family
 	}
 	MouseArea {
 		id: clickArea
@@ -43,23 +43,23 @@ Rectangle {
 		anchor.rect.x: root.mapToItem(QsWindow.window ? QsWindow.window.contentItem : null, 0, 0).x
 			+ Math.round((root.width - width) / 2)
 		anchor.rect.y: root.mapToItem(QsWindow.window ? QsWindow.window.contentItem : null, 0, 0).y
-			+ root.height + BarTheme.popupOffset
-		implicitWidth: trayRow.implicitWidth + (BarTheme.widgetPadding * 2)
-		implicitHeight: trayRow.implicitHeight + (BarTheme.widgetPadding * 2)
+			+ root.height + BarTheme.popup_offset
+		implicitWidth: trayRow.implicitWidth + (BarTheme.widget_padding * 2)
+		implicitHeight: trayRow.implicitHeight + (BarTheme.widget_padding * 2)
 		color: "transparent"
 
 		Rectangle {
 			anchors.fill: parent
-			radius: Theme.radius
-			color: Theme.colors.surface
-			border.width: Theme.borderSize
-			border.color: Theme.colors.border
+			radius: Theme.radius_normal
+			color: Theme.color_surface
+			border.width: Theme.border_width
+			border.color: Theme.color_border
 			clip: true
 
 			RowLayout {
 				id: trayRow
 				anchors.centerIn: parent
-				spacing: BarTheme.innerSpacing
+				spacing: BarTheme.inner_spacing
 
 				Repeater {
 					model: SystemTray.items
@@ -68,16 +68,16 @@ Rectangle {
 						id: trayItem
 						required property var modelData
 						property bool hovered: trayHover.containsMouse
-						radius: Theme.radiusBg
-						color: hovered ? Theme.colors.surfaceHover : "transparent"
-						implicitWidth: BarTheme.trayItemSize
-						implicitHeight: BarTheme.trayItemSize
+						radius: Theme.radius_background
+						color: hovered ? Theme.color_surface_hover : "transparent"
+						implicitWidth: BarTheme.tray_item_size
+						implicitHeight: BarTheme.tray_item_size
 
 						IconImage {
 							id: trayIcon
 							anchors.centerIn: parent
 							source: trayItem.modelData.icon
-							implicitSize: BarTheme.trayIconSize
+							implicitSize: BarTheme.tray_icon_size
 						}
 
 						MouseArea {

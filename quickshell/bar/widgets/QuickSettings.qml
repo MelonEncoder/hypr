@@ -73,22 +73,22 @@ Rectangle {
 	readonly property int speakerVolume: toPercent(sink)
 	readonly property bool speakerMuted: !!sink && !!sink.audio && sink.audio.muted
 
-	implicitWidth: label.implicitWidth + (BarTheme.widgetPadding * 2)
-	implicitHeight: BarTheme.widgetHeight
-	radius: Theme.radius
+	implicitWidth: label.implicitWidth + (BarTheme.widget_padding * 2)
+	implicitHeight: BarTheme.widget_height
+	radius: Theme.radius_normal
 	color: root.active
-		? Theme.colors.surfaceActive
-		: (root.hovered ? Theme.colors.surfaceHover : Theme.colors.surface)
-	border.width: Theme.borderSize
-	border.color: Theme.colors.border
+		? Theme.color_surface_active
+		: (root.hovered ? Theme.color_surface_hover : Theme.color_surface)
+	border.width: Theme.border_width
+	border.color: Theme.color_border
 
 	Text {
 		id: label
 		anchors.centerIn: parent
 		text: root.netIcon() + "  " + root.volumeIcon() + "  " + root.bluetoothIcon()
-		color: root.active ? Theme.colors.textOnActive : Theme.colors.text
-		font.pixelSize: Theme.font.size
-		font.family: Theme.font.family
+		color: root.active ? Theme.color_text_on_active : Theme.color_text
+		font.pixelSize: Theme.font_size
+		font.family: Theme.font_family
 		elide: Text.ElideRight
 	}
 	MouseArea {
