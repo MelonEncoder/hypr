@@ -1,7 +1,13 @@
 //@ pragma UseQApplication
 import Quickshell
-import "."
+import "bar"
+import "lock"
+import "wallpaper"
+import "notifications"
 
-Scope {
-	Bar {}
+ShellRoot {
+	WallpaperRoot {}
+	BarRoot {}
+	NotificationsRoot {}
+	LockRoot {}
 }

@@ -3,6 +3,8 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import Quickshell.Services.Mpris
 import Quickshell
+import ".."
+import "../../constants"
 
 Item {
 	id: root
@@ -11,7 +13,7 @@ Item {
 	property real displayPosition: 0
 
 	implicitWidth: header.implicitWidth
-	implicitHeight: Theme.widgetHeight
+	implicitHeight: BarTheme.widgetHeight
 
 	function normalizeTime(value: real): real {
 		// Some backends expose MPRIS time in microseconds.
@@ -88,33 +90,33 @@ Item {
 		id: header
 		radius: Theme.radius
 		color: root.expanded
-			? Theme.widgetBackgroundActive
-			: (headerMouse.containsMouse ? Theme.widgetBackgroundHover : Theme.widgetBackgroundIdle)
-		border.width: Theme.borderWidth
-		border.color: Theme.surfaceBorder
-		implicitWidth: row.implicitWidth + (Theme.widgetPaddingX + 2)
-		implicitHeight: Theme.widgetHeight
+			? Theme.colors.surfaceActive
+			: (headerMouse.containsMouse ? Theme.colors.surfaceHover : Theme.colors.surface)
+		border.width: Theme.borderSize
+		border.color: Theme.colors.border
+		implicitWidth: row.implicitWidth + (BarTheme.widgetPadding * 2)
+		implicitHeight: BarTheme.widgetHeight
 		clip: true
 
 		RowLayout {
 			id: row
 			anchors.fill: parent
-			anchors.leftMargin: Theme.innerSpacing + 1
-			anchors.rightMargin: Theme.innerSpacing + 1
-			spacing: Theme.innerSpacing + 1
+			anchors.leftMargin: BarTheme.widgetPadding
+			anchors.rightMargin: BarTheme.widgetPadding
+			spacing: BarTheme.innerSpacing + 1
 
 			Text {
 				text: root.appGlyph(root.currentPlayer)
-				color: Theme.textPrimary
-				font.pixelSize: Theme.fontIconSize
-				font.family: Theme.fontFamily
+				color: Theme.colors.text
+				font.pixelSize: Theme.font.size
+				font.family: Theme.font.family
 			}
 
 			Text {
 				text: root.mediaLabel(root.currentPlayer)
-				color: Theme.textPrimary
-				font.pixelSize: Theme.fontSize
-				font.family: Theme.fontFamily
+				color: Theme.colors.text
+				font.pixelSize: Theme.font.size
+				font.family: Theme.font.family
 				elide: Text.ElideRight
 			}
 
@@ -123,9 +125,9 @@ Item {
 					? ("[" + root.formatTime(root.displayPosition) + " / " + root.formatTime(root.normalizeTime(root.currentPlayer.length)) + "]")
 					: "[0:00 / 0:00]"
 				visible: !!root.currentPlayer
-				color: Theme.textMuted
-				font.pixelSize: Theme.fontSize
-				font.family: Theme.fontFamily
+				color: Theme.colors.textMuted
+				font.pixelSize: Theme.font.size
+				font.family: Theme.font.family
 			}
 		}
 

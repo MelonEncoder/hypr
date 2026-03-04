@@ -1,39 +1,40 @@
 import QtQuick
-import QtQuick.Controls
 import Quickshell.Io
+import ".."
+import "../../constants"
 
-Button {
+Rectangle {
 	id: root
 	property bool expanded: false
+	property bool hovered: clickArea.containsMouse
 	property string osInfo: "Arch Linux"
 	property string kernelInfo: ""
-	hoverEnabled: true
-	HoverHandler {
-		cursorShape: Qt.PointingHandCursor
-	}
 
-	implicitWidth: label.implicitWidth + Theme.widgetPaddingX
-	implicitHeight: Theme.widgetHeight
-	onClicked: expanded = !expanded
+	implicitWidth: label.implicitWidth + (BarTheme.widgetPadding * 2)
+	implicitHeight: BarTheme.widgetHeight
+	radius: Theme.radius
+	color: root.expanded
+		? Theme.colors.surfaceActive
+		: (root.hovered ? Theme.colors.surfaceHover : Theme.colors.surface)
+	border.width: Theme.borderSize
+	border.color: Theme.colors.border
 
-	contentItem: Text {
+	Text {
 		id: label
+		anchors.centerIn: parent
 		text: root.expanded ? (root.osInfo + (root.kernelInfo !== "" ? " | " + root.kernelInfo : "")) : ""
-		horizontalAlignment: Text.AlignHCenter
-		verticalAlignment: Text.AlignVCenter
-		color: root.expanded ? Theme.textOnActive : Theme.textPrimary
-		font.pixelSize: Theme.fontIconSize
-		font.family: Theme.fontFamily
+		color: root.expanded ? Theme.colors.textOnActive : Theme.colors.text
+		font.pixelSize: Theme.font.size
+		font.family: Theme.font.family
 		elide: Text.ElideRight
 	}
 
-	background: Rectangle {
-		radius: Theme.radius
-		color: root.expanded
-			? Theme.widgetBackgroundActive
-			: (root.hovered ? Theme.widgetBackgroundHover : Theme.widgetBackgroundIdle)
-		border.width: Theme.borderWidth
-		border.color: Theme.surfaceBorder
+	MouseArea {
+		id: clickArea
+		anchors.fill: parent
+		hoverEnabled: true
+		cursorShape: Qt.PointingHandCursor
+		onClicked: root.expanded = !root.expanded
 	}
 
 	StdioCollector {

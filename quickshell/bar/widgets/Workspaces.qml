@@ -1,15 +1,17 @@
 import QtQuick
 import QtQuick.Layouts
 import Quickshell.Hyprland
+import ".."
+import "../../constants"
 
 Rectangle {
 	id: root
 	radius: Theme.radius
-	color: Theme.widgetBackgroundIdle
-	border.width: Theme.borderWidth
-	border.color: Theme.surfaceBorder
+	color: Theme.colors.surface
+	border.width: Theme.borderSize
+	border.color: Theme.colors.border
 	implicitWidth: workspaceRow.implicitWidth
-	implicitHeight: Theme.widgetHeight
+	implicitHeight: BarTheme.widgetHeight
 
 	function toJapaneseNumber(n: int): string {
 		var digits = ["", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十"]
@@ -35,7 +37,7 @@ Rectangle {
 	RowLayout {
 		id: workspaceRow
 		anchors.centerIn: parent
-		spacing: Theme.innerSpacing
+		spacing: BarTheme.innerSpacing
 	
 
 		// persistant workspaces
@@ -51,7 +53,7 @@ Rectangle {
 				readonly property bool hasWindows: workspace
 					&& workspace.toplevels
 					&& workspace.toplevels.values.length > 0
-				readonly property real slotSize: Theme.widgetHeight
+				readonly property real slotSize: BarTheme.widgetHeight
 				readonly property real indicatorHeight: isActive ? slotSize : (hasWindows ? 10 : 4)
 				readonly property real indicatorWidth: isActive ? slotSize : indicatorHeight
 
@@ -73,8 +75,8 @@ Rectangle {
 					text: root.toJapaneseNumber(parent.workspaceId)
 					visible: parent.isActive
 					color: "#000000"
-					font.pixelSize: Theme.fontSize
-					font.family: Theme.fontFamily
+					font.pixelSize: Theme.font.size
+					font.family: Theme.font.family
 				}
 
 				MouseArea {
@@ -100,7 +102,7 @@ Rectangle {
 				readonly property bool hasWindows: modelData
 					&& modelData.toplevels
 					&& modelData.toplevels.values.length > 0
-				readonly property real slotSize: Theme.widgetHeight
+				readonly property real slotSize: BarTheme.widgetHeight
 				readonly property real indicatorHeight: isActive ? slotSize : (hasWindows ? 12 : 6)
 				readonly property real indicatorWidth: isActive ? slotSize : indicatorHeight
 
@@ -121,8 +123,8 @@ Rectangle {
 					text: root.toJapaneseNumber(parent.workspaceId)
 					visible: parent.isActive
 					color: "#000000"
-					font.pixelSize: Theme.fontSize
-					font.family: Theme.fontFamily
+					font.pixelSize: Theme.font.size
+					font.family: Theme.font.family
 				}
 
 				MouseArea {

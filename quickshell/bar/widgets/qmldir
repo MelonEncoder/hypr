@@ -1,0 +1,10 @@
+CurrentWindow 1.0 CurrentWindow.qml
+Date 1.0 Date.qml
+IdleInhibitor 1.0 IdleInhibitor.qml
+Media 1.0 Media.qml
+PowerOptions 1.0 PowerOptions.qml
+QuickSettings 1.0 QuickSettings.qml
+SystemInfo 1.0 SystemInfo.qml
+SystemTray 1.0 SystemTray.qml
+Time 1.0 Time.qml
+Workspaces 1.0 Workspaces.qml

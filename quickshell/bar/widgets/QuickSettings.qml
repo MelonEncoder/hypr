@@ -1,19 +1,17 @@
 import QtQuick
-import QtQuick.Controls
 import Quickshell.Io
 import Quickshell.Bluetooth
 import Quickshell.Services.Pipewire
+import ".."
+import "../../constants"
 
-Button {
+Rectangle {
 	id: root
 	property bool active: false
+	property bool hovered: clickArea.containsMouse
 	property string networkKind: "offline"
 	property string networkName: ""
 	property int networkSignal: 0
-	hoverEnabled: true
-	HoverHandler {
-		cursorShape: Qt.PointingHandCursor
-	}
 
 	function toPercent(node: var): int {
 		if (!node || !node.audio) return 0
@@ -75,28 +73,30 @@ Button {
 	readonly property int speakerVolume: toPercent(sink)
 	readonly property bool speakerMuted: !!sink && !!sink.audio && sink.audio.muted
 
-	implicitWidth: label.implicitWidth + Theme.widgetPaddingX
-	implicitHeight: Theme.widgetHeight
-	onClicked: active = !active
+	implicitWidth: label.implicitWidth + (BarTheme.widgetPadding * 2)
+	implicitHeight: BarTheme.widgetHeight
+	radius: Theme.radius
+	color: root.active
+		? Theme.colors.surfaceActive
+		: (root.hovered ? Theme.colors.surfaceHover : Theme.colors.surface)
+	border.width: Theme.borderSize
+	border.color: Theme.colors.border
 
-	contentItem: Text {
+	Text {
 		id: label
+		anchors.centerIn: parent
 		text: root.netIcon() + "  " + root.volumeIcon() + "  " + root.bluetoothIcon()
-		color: root.active ? Theme.textOnActive : Theme.textPrimary
-		font.pixelSize: Theme.fontIconSize
-		font.family: Theme.fontFamily
-		horizontalAlignment: Text.AlignHCenter
-		verticalAlignment: Text.AlignVCenter
+		color: root.active ? Theme.colors.textOnActive : Theme.colors.text
+		font.pixelSize: Theme.font.size
+		font.family: Theme.font.family
 		elide: Text.ElideRight
 	}
-
-	background: Rectangle {
-		radius: Theme.radius
-		color: root.active
-			? Theme.widgetBackgroundActive
-			: (root.hovered ? Theme.widgetBackgroundHover : Theme.widgetBackgroundIdle)
-		border.width: Theme.borderWidth
-		border.color: Theme.surfaceBorder
+	MouseArea {
+		id: clickArea
+		anchors.fill: parent
+		hoverEnabled: true
+		cursorShape: Qt.PointingHandCursor
+		onClicked: root.active = !root.active
 	}
 
 	StdioCollector {

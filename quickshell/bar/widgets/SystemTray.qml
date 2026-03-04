@@ -1,39 +1,39 @@
 import QtQuick
-import QtQuick.Controls
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Widgets
 import Quickshell.Services.SystemTray
+import ".."
+import "../../constants"
 
-Button {
+Rectangle {
 	id: root
 	property bool expanded: false
-	
-	hoverEnabled: true
-	HoverHandler {
-		cursorShape: Qt.PointingHandCursor
-	}
-	implicitWidth: label.implicitWidth + Theme.widgetPaddingX
-	implicitHeight: Theme.widgetHeight
-	onClicked: expanded = !expanded
+	property bool hovered: clickArea.containsMouse
 
-	contentItem: Text {
+	implicitWidth: label.implicitWidth + (BarTheme.widgetPadding * 2)
+	implicitHeight: BarTheme.widgetHeight
+	radius: Theme.radius
+	color: root.expanded
+		? Theme.colors.surfaceActive
+		: (root.hovered ? Theme.colors.surfaceHover : Theme.colors.surface)
+	border.width: Theme.borderSize
+	border.color: Theme.colors.border
+
+	Text {
 		id: label
+		anchors.centerIn: parent
 		text: root.expanded ?  "" : ""
-		color: root.expanded ? Theme.textOnActive : Theme.textPrimary
-		font.pixelSize: Theme.fontIconSize
-		font.family: Theme.fontFamily
-		horizontalAlignment: Text.AlignHCenter
-		verticalAlignment: Text.AlignVCenter
+		color: root.expanded ? Theme.colors.textOnActive : Theme.colors.text
+		font.pixelSize: Theme.font.size
+		font.family: Theme.font.family
 	}
-
-	background: Rectangle {
-		radius: Theme.radius
-		color: root.expanded
-			? Theme.widgetBackgroundActive
-			: (root.hovered ? Theme.widgetBackgroundHover : Theme.widgetBackgroundIdle)
-		border.width: Theme.borderWidth
-		border.color: Theme.surfaceBorder
+	MouseArea {
+		id: clickArea
+		anchors.fill: parent
+		hoverEnabled: true
+		cursorShape: Qt.PointingHandCursor
+		onClicked: root.expanded = !root.expanded
 	}
 
 	PopupWindow {
@@ -43,23 +43,23 @@ Button {
 		anchor.rect.x: root.mapToItem(QsWindow.window ? QsWindow.window.contentItem : null, 0, 0).x
 			+ Math.round((root.width - width) / 2)
 		anchor.rect.y: root.mapToItem(QsWindow.window ? QsWindow.window.contentItem : null, 0, 0).y
-			+ root.height + Theme.popupOffset
-		implicitWidth: trayRow.implicitWidth + Theme.widgetPaddingX
-		implicitHeight: trayRow.implicitHeight + Theme.widgetPaddingY
+			+ root.height + BarTheme.popupOffset
+		implicitWidth: trayRow.implicitWidth + (BarTheme.widgetPadding * 2)
+		implicitHeight: trayRow.implicitHeight + (BarTheme.widgetPadding * 2)
 		color: "transparent"
 
 		Rectangle {
 			anchors.fill: parent
 			radius: Theme.radius
-			color: Theme.widgetBackgroundIdle
-			border.width: Theme.borderWidth
-			border.color: Theme.surfaceBorder
+			color: Theme.colors.surface
+			border.width: Theme.borderSize
+			border.color: Theme.colors.border
 			clip: true
 
 			RowLayout {
 				id: trayRow
 				anchors.centerIn: parent
-				spacing: Theme.innerSpacing
+				spacing: BarTheme.innerSpacing
 
 				Repeater {
 					model: SystemTray.items
@@ -69,15 +69,15 @@ Button {
 						required property var modelData
 						property bool hovered: trayHover.containsMouse
 						radius: Theme.radiusBg
-						color: hovered ? Theme.widgetBackgroundHover : "transparent"
-						implicitWidth: Theme.trayItemSize
-						implicitHeight: Theme.trayItemSize
+						color: hovered ? Theme.colors.surfaceHover : "transparent"
+						implicitWidth: BarTheme.trayItemSize
+						implicitHeight: BarTheme.trayItemSize
 
 						IconImage {
 							id: trayIcon
 							anchors.centerIn: parent
 							source: trayItem.modelData.icon
-							implicitSize: Theme.trayIconSize
+							implicitSize: BarTheme.trayIconSize
 						}
 
 						MouseArea {

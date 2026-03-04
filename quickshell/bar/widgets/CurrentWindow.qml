@@ -1,5 +1,8 @@
 import QtQuick
 import Quickshell.Hyprland
+import Quickshell.Widgets
+import ".."
+import "../../constants"
 
 Rectangle {
 	id: root
@@ -42,23 +45,23 @@ Rectangle {
 	}
 
 	radius: Theme.radius
-	color: Theme.widgetBackgroundIdle
-	border.width: Theme.borderWidth
-	border.color: Theme.surfaceBorder
-	implicitWidth: Math.min(420, label.implicitWidth + (Theme.widgetPaddingX + 4))
-	implicitHeight: Theme.widgetHeight
+	color: Theme.colors.surface
+	border.width: Theme.borderSize
+	border.color: Theme.colors.border
+	implicitHeight: BarTheme.widgetHeight
+	implicitWidth: Math.min(420, label.implicitWidth + (BarTheme.widgetPadding * 2))
 
 	Text {
 		id: label
-		anchors.verticalCenter: parent.verticalCenter
 		anchors.left: parent.left
-		anchors.leftMargin: Theme.widgetPaddingY
 		anchors.right: parent.right
-		anchors.rightMargin: Theme.widgetPaddingY
+		anchors.leftMargin: BarTheme.widgetPadding
+		anchors.rightMargin: BarTheme.widgetPadding
+		anchors.verticalCenter: parent.verticalCenter
 		text: root.windowTitle
-		color: Theme.textPrimary
-		font.pixelSize: Theme.fontSize
-		font.family: Theme.fontFamily
+		color: Theme.colors.text
+		font.pixelSize: Theme.font.size
+		font.family: Theme.font.family
 		elide: Text.ElideRight
 	}
 }
