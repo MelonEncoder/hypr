@@ -13,6 +13,4 @@ QtObject {
 	readonly property int popupOffset: 4
 	readonly property int trayItemSize: 22
 	readonly property int trayIconSize: 16
-	readonly property int workspaceItemHeight: 20
-	readonly property int workspaceItemPaddingX: 12
 }

@@ -1,3 +1,5 @@
+pragma ComponentBehavior: Bound
+
 import QtQuick
 import QtQuick.Layouts
 import Quickshell.Hyprland
@@ -30,19 +32,18 @@ Rectangle {
 
 	function focusWorkspace(workspaceId: int): void {
 		if (workspaceId <= 0) return
-		if (Hyprland.focusedWorkspace && Hyprland.focusedWorkspace.id === workspaceId) return
+		if (Hyprland.focusedWorkspace && (Hyprland.focusedWorkspace.id === workspaceId)) return
 		Hyprland.dispatch("workspace " + workspaceId)
 	}
 
 	RowLayout {
 		id: workspaceRow
 		anchors.centerIn: parent
-		spacing: BarTheme.innerSpacing
-	
+		spacing: 4
 
 		// persistant workspaces
 		Repeater {
-			model: 5
+			model: 10
 
 			Item {
 				required property int index
@@ -54,11 +55,13 @@ Rectangle {
 					&& workspace.toplevels
 					&& workspace.toplevels.values.length > 0
 				readonly property real slotSize: BarTheme.widgetHeight
-				readonly property real indicatorHeight: isActive ? slotSize : (hasWindows ? 10 : 4)
+				readonly property real indicatorHeight: isActive ? slotSize : (hasWindows ? 9 : 4)
 				readonly property real indicatorWidth: isActive ? slotSize : indicatorHeight
 
 				implicitWidth: slotSize
 				implicitHeight: slotSize
+
+				visible: index < 5 || isActive || hasWindows
 
 				Rectangle {
 					id: itemBackground
@@ -81,54 +84,6 @@ Rectangle {
 
 				MouseArea {
 					id: workspaceMouse
-					anchors.fill: parent
-					hoverEnabled: true
-					cursorShape: Qt.PointingHandCursor
-					onClicked: root.focusWorkspace(parent.workspaceId)
-				}
-			}
-		}
-	
-		// extra workspaces when active
-		Repeater {
-			model: Hyprland.workspaces
-
-			Item {
-				required property var modelData
-				readonly property int workspaceId: modelData ? modelData.id : -1
-				visible: workspaceId > 5 && workspaceId <= 10
-				readonly property bool isActive: Hyprland.focusedWorkspace
-					&& Hyprland.focusedWorkspace.id === workspaceId
-				readonly property bool hasWindows: modelData
-					&& modelData.toplevels
-					&& modelData.toplevels.values.length > 0
-				readonly property real slotSize: BarTheme.widgetHeight
-				readonly property real indicatorHeight: isActive ? slotSize : (hasWindows ? 12 : 6)
-				readonly property real indicatorWidth: isActive ? slotSize : indicatorHeight
-
-				implicitWidth: slotSize
-				implicitHeight: slotSize
-
-				Rectangle {
-					anchors.centerIn: parent
-					width: parent.indicatorWidth
-					height: parent.indicatorHeight
-					radius: parent.isActive ? root.radius : height / 2
-					color: parent.isActive ? "#ffffff" : (parent.hasWindows ? "#b0b0b0" : "#7a7a7a")
-					opacity: 1
-				}
-
-				Text {
-					anchors.centerIn: parent
-					text: root.toJapaneseNumber(parent.workspaceId)
-					visible: parent.isActive
-					color: "#000000"
-					font.pixelSize: Theme.font.size
-					font.family: Theme.font.family
-				}
-
-				MouseArea {
-					id: workspaceMouseExtra
 					anchors.fill: parent
 					hoverEnabled: true
 					cursorShape: Qt.PointingHandCursor
