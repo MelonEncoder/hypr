@@ -238,7 +238,7 @@ Item {
 	ClippingRectangle {
 		id: header
 		radius: Theme.radius_normal
-		color: headerMouse.containsMouse ? Theme.color_surface_hover : Theme.color_surface
+		color: headerMouse.pressed ? Theme.color_surface_pressed : (headerMouse.containsMouse ? Theme.color_surface_hover : Theme.color_surface)
 		border.width: Theme.border_width
 		border.color: Theme.color_border
 		

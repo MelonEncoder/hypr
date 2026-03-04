@@ -9,6 +9,7 @@ Rectangle {
 	id: root
 	property bool active: false
 	property bool hovered: clickArea.containsMouse
+	property bool pressed: clickArea.pressed
 	property string networkKind: "offline"
 	property string networkName: ""
 	property int networkSignal: 0
@@ -76,8 +77,8 @@ Rectangle {
 	implicitWidth: label.implicitWidth + (BarTheme.widget_padding * 2)
 	implicitHeight: BarTheme.widget_height
 	radius: Theme.radius_normal
-	color: root.active
-		? Theme.color_surface_active
+	color: root.pressed
+		? Theme.color_surface_pressed
 		: (root.hovered ? Theme.color_surface_hover : Theme.color_surface)
 	border.width: Theme.border_width
 	border.color: Theme.color_border
@@ -86,7 +87,7 @@ Rectangle {
 		id: label
 		anchors.centerIn: parent
 		text: root.netIcon() + "  " + root.volumeIcon() + "  " + root.bluetoothIcon()
-		color: root.active ? Theme.color_text_on_active : Theme.color_text
+		color: Theme.color_text
 		font.pixelSize: Theme.font_size
 		font.family: Theme.font_family
 		elide: Text.ElideRight

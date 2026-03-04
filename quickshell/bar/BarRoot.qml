@@ -79,6 +79,7 @@ Scope {
 						anchors.right: parent.right
 						anchors.verticalCenter: parent.verticalCenter
 						spacing: BarTheme.widget_spacing
+						PrivacyIndicator { Layout.alignment: Qt.AlignVCenter }
 						IdleInhibitor { Layout.alignment: Qt.AlignVCenter }
 						SystemTray { Layout.alignment: Qt.AlignVCenter }
 						QuickSettings { Layout.alignment: Qt.AlignVCenter }
