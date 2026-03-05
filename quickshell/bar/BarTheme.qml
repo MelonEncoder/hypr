@@ -10,7 +10,7 @@ QtObject {
 	readonly property int widget_padding: 8
 	readonly property int widget_height: Theme.font_size + (widget_padding * 2)
 	readonly property int inner_spacing: 6
-	readonly property int popup_offset_y: 8
+	readonly property int popup_offset_y: bar_padding
 	readonly property int tray_item_size: 22
 	readonly property int tray_icon_size: 16
 }
