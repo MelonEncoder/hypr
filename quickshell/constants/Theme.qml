@@ -15,7 +15,8 @@ QtObject {
 	readonly property color color_text_subtle: "#bfbfbf"
 	readonly property color color_text_on_active: "#ffffff"
 
-	readonly property string font_family: "JetBrains Nerd Mono"
+	readonly property string font_family: "JetBrainsMono"
+	readonly property string font_family_icon: "Symbols Nerd Font"
 	readonly property int font_size: 12
 		
 	readonly property int radius_background: 2

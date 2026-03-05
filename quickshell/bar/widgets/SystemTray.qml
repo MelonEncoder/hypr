@@ -1,3 +1,5 @@
+pragma ComponentBehavior: Bound
+
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
@@ -27,8 +29,9 @@ Rectangle {
 		text: root.expanded ?  "" : ""
 		color: Theme.color_text
 		font.pixelSize: Theme.font_size
-		font.family: Theme.font_family
+		font.family: Theme.font_family_icon
 	}
+
 	MouseArea {
 		id: clickArea
 		anchors.fill: parent
@@ -39,20 +42,21 @@ Rectangle {
 
 	PopupWindow {
 		id: dropdown
-		anchor.window: QsWindow.window
+		anchor.item: root
 		visible: root.expanded
-		anchor.rect.x: root.mapToItem(QsWindow.window ? QsWindow.window.contentItem : null, 0, 0).x
-			+ Math.round((root.width - width) / 2)
-		anchor.rect.y: root.mapToItem(QsWindow.window ? QsWindow.window.contentItem : null, 0, 0).y
-			+ root.height + BarTheme.popup_offset
+
+		anchor.rect.x: -1 * (trayRow.width / 2) 
+		anchor.rect.y: root.height + BarTheme.popup_offset_y
+
 		implicitWidth: trayRow.implicitWidth + (BarTheme.widget_padding * 2)
 		implicitHeight: trayRow.implicitHeight + (BarTheme.widget_padding * 2)
 		color: "transparent"
 
 		Rectangle {
+			id: dropdownBackground
 			anchors.fill: parent
-			radius: Theme.radius_normal
-			color: Theme.color_surface
+			radius: Theme.radius_background
+			color: Theme.color_background
 			border.width: Theme.border_width
 			border.color: Theme.color_border
 			clip: true
@@ -70,10 +74,10 @@ Rectangle {
 						required property var modelData
 						property bool hovered: trayHover.containsMouse
 						property bool pressed: trayHover.pressed
-						radius: Theme.radius_background
-						color: pressed ? Theme.color_surface_pressed : (hovered ? Theme.color_surface_hover : "transparent")
-						implicitWidth: BarTheme.tray_item_size
-						implicitHeight: BarTheme.tray_item_size
+						radius: Theme.radius_normal
+						color: pressed ? Theme.color_surface_pressed : (hovered ? Theme.color_surface_hover : Theme.color_surface)
+						implicitWidth: BarTheme.tray_item_size + (BarTheme.widget_padding)
+						implicitHeight: BarTheme.tray_item_size + (BarTheme.widget_padding)
 
 						IconImage {
 							id: trayIcon

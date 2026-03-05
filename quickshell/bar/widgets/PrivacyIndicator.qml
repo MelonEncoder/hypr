@@ -27,7 +27,7 @@ Rectangle {
 			text: ""
 			color: Theme.color_text
 			font.pixelSize: Theme.font_size
-			font.family: Theme.font_family
+			font.family: Theme.font_family_icon
 		}
 
 		Text {
@@ -35,7 +35,7 @@ Rectangle {
 			text: "󰍺"
 			color: Theme.color_text
 			font.pixelSize: Theme.font_size
-			font.family: Theme.font_family
+			font.family: Theme.font_family_icon
 		}
 	}
 

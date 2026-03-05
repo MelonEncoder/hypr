@@ -5,7 +5,7 @@ import QtQuick.Layouts
 import "."
 import "../constants"
 import "widgets"
-	
+
 Scope {
 	Variants {
 		model: Quickshell.screens;
@@ -22,19 +22,18 @@ Scope {
 
 			screen: modelData
 			color: Theme.color_background
-			implicitHeight: barContent.implicitHeight + (BarTheme.content_margin * 2)
-			
+			implicitHeight: barContent.implicitHeight + (BarTheme.bar_padding * 2)
+
 			Item {
 				id: barContent
 				anchors.top: parent.top
 				anchors.left: parent.left
 				anchors.right: parent.right
-				anchors.topMargin: BarTheme.content_margin
-				anchors.leftMargin: BarTheme.content_margin
-				anchors.rightMargin: BarTheme.content_margin
+				anchors.topMargin: BarTheme.bar_padding
+				anchors.leftMargin: BarTheme.bar_padding
+				anchors.rightMargin: BarTheme.bar_padding
 				implicitHeight: Math.max(leftRow.implicitHeight, centerRow.implicitHeight, rightRow.implicitHeight)
 
-				// LEFT SECTION
 				Item {
 					id: leftSection
 					anchors.left: parent.left
@@ -51,8 +50,7 @@ Scope {
 						Media { Layout.alignment: Qt.AlignVCenter }
 					}
 				}
-				
-				// CENTER SECTION
+
 				Item {
 					id: centerSection
 					anchors.horizontalCenter: parent.horizontalCenter
@@ -63,18 +61,18 @@ Scope {
 						id: centerRow
 						anchors.horizontalCenter: parent.horizontalCenter
 						anchors.verticalCenter: parent.verticalCenter
+						spacing: BarTheme.widget_spacing
 						CurrentWindow { Layout.alignment: Qt.AlignVCenter }
 					}
 				}
-				
-				// RIGHT SECTION
+
 				Item {
 					id: rightSection
 					anchors.right: parent.right
 					anchors.verticalCenter: parent.verticalCenter
 					width: parent.width / 3
 					height: rightRow.implicitHeight
-					RowLayout {		
+					RowLayout {
 						id: rightRow
 						anchors.right: parent.right
 						anchors.verticalCenter: parent.verticalCenter

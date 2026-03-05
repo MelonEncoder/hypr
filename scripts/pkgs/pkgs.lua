@@ -21,8 +21,8 @@ local pacman_pkgs = {
     "noto-fonts-cjk",
     "noto-fonts-emoji",
     "otf-font-awesome",
+    "ttf-jetbrains-mono-nerd",
     "ttf-nerd-fonts-symbols",
-    "ttf-noto-nerd",
   },
   hyprland = {
     "hyprcursor",

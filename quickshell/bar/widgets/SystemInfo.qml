@@ -28,7 +28,7 @@ Rectangle {
 		text: root.expanded ? (root.distroDisplay + (root.kernelDisplay !== "" ? " | " + root.kernelDisplay : "")) : ""
 		color: Theme.color_text
 		font.pixelSize: Theme.font_size
-		font.family: Theme.font_family
+		font.family: root.expanded ? Theme.font_family : Theme.font_family_icon
 		elide: Text.ElideRight
 	}
 
