@@ -64,9 +64,7 @@ local pacman_pkgs = {
     "nodejs",
     "pyright",
     "python",
-    "rust",
-    "rust-analyzer",
-    "rust-src",
+	"rustup",
   },
   themes = {
     "adwaita-icon-theme",

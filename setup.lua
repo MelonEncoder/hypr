@@ -26,6 +26,7 @@ run("lua " .. shell_quote(scripts_dir .. "/configure/pacman.lua"))
 run("lua " .. shell_quote(scripts_dir .. "/configure/directories.lua"))
 run("lua " .. shell_quote(scripts_dir .. "/configure/gtk.lua"))
 run("lua " .. shell_quote(scripts_dir .. "/configure/qt.lua"))
+run("lua " .. shell_quote(scripts_dir .. "/configure/rust.lua"))
 print("Environment configuration finished.")
 
 print("Linking config files...")
