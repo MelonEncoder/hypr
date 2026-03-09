@@ -4,6 +4,9 @@
     ./hardware-configuration.nix
   ];
 
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+
   networking.hostName = "latitude";
   networking.modemmanager.enable = true;
   time.timeZone = "US/Eastern";
