@@ -54,7 +54,6 @@ local mappings = {
   { repo .. "/home/common/.config/nvim", config .. "/nvim" },
   { repo .. "/home/linux/.config/quickshell", config .. "/quickshell" },
   { repo .. "/home/linux/.local/share/wallpapers", local_share .. "/wallpapers" },
-  { repo .. "/home/linux/.config/wofi", config .. "/wofi" },
 }
 
 print("repo: " .. repo)

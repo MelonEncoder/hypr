@@ -10,7 +10,6 @@ local pacman_pkgs = {
     "quickshell",
     "tmux",
     "vim",
-    "wofi",
     "zed",
   },
   fonts = {

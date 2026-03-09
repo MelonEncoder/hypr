@@ -117,7 +117,6 @@
     wget
     which
     wl-clipboard
-    wofi
     zed-editor
   ] ++ (with pkgsUnstable; [
     hyprcursor
