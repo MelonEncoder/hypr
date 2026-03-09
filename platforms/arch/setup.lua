@@ -13,11 +13,13 @@ local function run(cmd)
 end
 
 local script = arg and arg[0] or "setup.lua"
-local repo_dir = script:match("^(.*)/[^/]+$") or "."
-local scripts_dir = repo_dir .. "/scripts"
+local arch_dir = script:match("^(.*)/[^/]+$") or "."
+local repo_root = arch_dir .. "/../.."
+local scripts_dir = arch_dir .. "/scripts"
+local pkgs_dir = arch_dir .. "/pkgs"
 
 print("Installing packages...")
-run("lua " .. shell_quote(scripts_dir .. "/pkgs/install.lua"))
+run("lua " .. shell_quote(pkgs_dir .. "/install.lua"))
 print("Package installation finished.")
 
 print("Now configuring environment...")
@@ -30,5 +32,5 @@ run("lua " .. shell_quote(scripts_dir .. "/configure/rust.lua"))
 print("Environment configuration finished.")
 
 print("Linking config files...")
-run("lua " .. shell_quote(scripts_dir .. "/symlink_configs.lua") .. " --repo " .. shell_quote(repo_dir))
+run("lua " .. shell_quote(scripts_dir .. "/symlink_configs.lua") .. " --repo " .. shell_quote(repo_root))
 print("Config linking finished.")
