@@ -106,6 +106,11 @@ Rectangle {
 						required property var modelData
 						property bool hovered: trayHover.containsMouse
 						property bool pressed: trayHover.pressed
+						readonly property string itemLabel: {
+							if (!modelData) return "?"
+							var text = (modelData.tooltipTitle || modelData.title || modelData.id || "?") + ""
+							return text.length > 0 ? text.charAt(0).toUpperCase() : "?"
+						}
 						radius: Theme.radius_normal
 						color: pressed ? Theme.color_surface_pressed : (hovered ? Theme.color_surface_hover : Theme.color_surface)
 						implicitWidth: BarTheme.tray_item_size + (BarTheme.widget_padding)
@@ -116,6 +121,18 @@ Rectangle {
 							anchors.centerIn: parent
 							source: trayItem.modelData.icon
 							implicitSize: BarTheme.tray_icon_size
+							visible: source.toString() !== "" && status === Image.Ready
+							asynchronous: true
+						}
+
+						Text {
+							anchors.centerIn: parent
+							visible: !trayIcon.visible
+							text: trayItem.itemLabel
+							color: Theme.color_text
+							font.pixelSize: Math.max(9, Theme.font_size - 1)
+							font.family: Theme.font_family
+							font.bold: true
 						}
 
 						MouseArea {
