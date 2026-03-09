@@ -118,7 +118,6 @@
     man-db
     meson
     nautilus
-    neovim
     ninja
     nix
 	go
@@ -158,6 +157,7 @@
 	hyprsysteminfo
 	hyprcursor
 	hyprnotify
+    neovim
   ]);
 
   # Arch-only items from pkgs.lua that still need separate NixOS handling:
