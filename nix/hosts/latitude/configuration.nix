@@ -41,7 +41,6 @@
 	  "app.zen_browser.zen"
 	  "com.obsproject.Studio"
 	  "com.discordapp.Discord"
-	  "com.spotify.Client"
 	];
   };
   services.gvfs.enable = true;
@@ -129,6 +128,7 @@
     kdePackages.qt6ct
     quickshell
     rustup
+    spotify
     tmux
     usb-modeswitch
     vim
