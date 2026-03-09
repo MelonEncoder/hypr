@@ -81,6 +81,7 @@ Scope {
 						IdleInhibitor { Layout.alignment: Qt.AlignVCenter }
 						SystemTray { Layout.alignment: Qt.AlignVCenter }
 						Audio { Layout.alignment: Qt.AlignVCenter }
+						BatteryStatus { Layout.alignment: Qt.AlignVCenter }
 						Date { Layout.alignment: Qt.AlignVCenter }
 						Time { Layout.alignment: Qt.AlignVCenter }
 						SystemOptions { Layout.alignment: Qt.AlignVCenter }

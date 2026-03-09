@@ -15,10 +15,12 @@ Rectangle {
 	property string osId: "arch"
 	property string osLike: ""
 	property string kernelInfo: ""
+	property string osVersionRaw: ""
 	property var distroMeta: resolveDistro(root.osId, root.osLike, root.osInfo)
 	property string distroDisplay: root.distroMeta.name
 	property string distroIcon: root.distroMeta.icon
 	property string kernelDisplay: formatKernel(root.kernelInfo)
+	property string versionDisplay: formatVersion(root.osVersionRaw)
 	readonly property int popupWidth: 240
 	readonly property var powerActions: [
 		{ action: "lock", icon: "", label: "Lock Screen" },
@@ -40,6 +42,12 @@ Rectangle {
 		var dash = text.indexOf("-")
 		if (dash > 0) text = text.slice(0, dash)
 		return text
+	}
+
+	function formatVersion(value: string): string {
+		var text = value.trim()
+		if (text.length === 0) return ""
+		return text.replace(/\s+/g, " ")
 	}
 
 	function resolveDistro(id: string, like: string, pretty: string): var {
@@ -165,6 +173,15 @@ Rectangle {
 									font.pixelSize: Theme.font_size - 1
 									font.family: Theme.font_family
 								}
+
+								Text {
+									Layout.fillWidth: true
+									text: root.versionDisplay.length > 0 ? ("Version " + root.versionDisplay) : ""
+									visible: text.length > 0
+									color: Theme.color_text_subtle
+									font.pixelSize: Theme.font_size - 1
+									font.family: Theme.font_family
+								}
 							}
 
 								Text {
@@ -244,7 +261,8 @@ Rectangle {
 			if (lines.length > 0 && lines[0].length > 0) root.osInfo = lines[0]
 			if (lines.length > 1 && lines[1].length > 0) root.osId = lines[1]
 			if (lines.length > 2) root.osLike = lines[2]
-			if (lines.length > 3 && lines[3].length > 0) root.kernelInfo = lines[3]
+			if (lines.length > 3) root.osVersionRaw = lines[3]
+			if (lines.length > 4 && lines[4].length > 0) root.kernelInfo = lines[4]
 		}
 	}
 
@@ -254,7 +272,7 @@ Rectangle {
 		command: [
 			"sh",
 			"-c",
-			". /etc/os-release 2>/dev/null; printf '%s\\n' \"${PRETTY_NAME:-Linux}\" \"${ID:-linux}\" \"${ID_LIKE:-}\"; uname -r"
+			". /etc/os-release 2>/dev/null; printf '%s\\n' \"${PRETTY_NAME:-Linux}\" \"${ID:-linux}\" \"${ID_LIKE:-}\" \"${VERSION_ID:-${VERSION:-}}\"; uname -r"
 		]
 	}
 
