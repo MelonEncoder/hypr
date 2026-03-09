@@ -2,7 +2,7 @@
 {
   home.username = lib.mkDefault "ian";
   home.homeDirectory = lib.mkDefault "/home/ian";
-  home.stateVersion = "25.05";
+  home.stateVersion = "25.11";
 
   programs.home-manager.enable = true;
 
