@@ -39,6 +39,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
+            home-manager.backupFileExtension = "backup";
             home-manager.users.ian.imports = [
               ./nix/home/common.nix
               ./nix/home/linux.nix
