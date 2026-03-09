@@ -1,6 +1,8 @@
 { config, lib, pkgs, ... }:
 {
+  xdg.configFile."fcitx5".source = ../../home/linux/.config/fcitx5;
   xdg.configFile."hypr".source = ../../home/linux/.config/hypr;
+  xdg.configFile."qt6ct".source = ../../home/linux/.config/qt6ct;
   xdg.configFile."quickshell".source = ../../home/linux/.config/quickshell;
   home.file.".local/share/wallpapers".source = ../../home/linux/.local/share/wallpapers;
 
@@ -25,14 +27,6 @@
       icon-theme = "Adwaita";
     };
   };
-
-  xdg.configFile."qt6ct/qt6ct.conf".text = ''
-    [Appearance]
-    icon_theme=breeze
-    style=Breeze
-    standard_dialogs=default
-    custom_palette=false
-  '';
 
   xdg.userDirs = {
     enable = true;

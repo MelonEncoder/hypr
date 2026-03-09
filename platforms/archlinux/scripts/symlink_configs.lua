@@ -50,9 +50,12 @@ local config = expand_home("~/.config")
 local local_share = expand_home("~/.local/share")
 
 local mappings = {
+  { repo .. "/home/linux/.config/fcitx5", config .. "/fcitx5" },
   { repo .. "/home/linux/.config/hypr", config .. "/hypr" },
   { repo .. "/home/common/.config/nvim", config .. "/nvim" },
+  { repo .. "/home/linux/.config/qt6ct", config .. "/qt6ct" },
   { repo .. "/home/linux/.config/quickshell", config .. "/quickshell" },
+  { repo .. "/home/common/.config/zed", config .. "/zed" },
   { repo .. "/home/linux/.local/share/wallpapers", local_share .. "/wallpapers" },
 }
 

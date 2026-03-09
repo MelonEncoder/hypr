@@ -7,4 +7,5 @@
   programs.home-manager.enable = true;
 
   xdg.configFile."nvim".source = ../../home/common/.config/nvim;
+  xdg.configFile."zed".source = ../../home/common/.config/zed;
 }
