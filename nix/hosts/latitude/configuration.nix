@@ -81,7 +81,7 @@
     blueman
     bluez
     brightnessctl
-    breeze-icons
+    kdePackages.breeze-icons
     clang
     cmake
     curl
