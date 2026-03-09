@@ -10,6 +10,11 @@
   networking.hostName = "latitude";
   networking.modemmanager.enable = true;
   time.timeZone = "US/Eastern";
+  i18n.defaultLocale = "en_US.UTF-8";
+  i18n.supportedLocales = [
+    "en_US.UTF-8/UTF-8"
+    "ja_JP.UTF-8/UTF-8"
+  ];
 
   users.users.ian = {
     isNormalUser = true;
@@ -26,7 +31,19 @@
   security.polkit.enable = true;
 
   services.blueman.enable = true;
-  services.flatpak.enable = true;
+  services.flatpak = {
+    enable = true;
+    remote = {
+      name = "flathub";
+      url = "https://flathub.org/repo/flathub.flatpakrepo";
+    };
+	packages = [
+	  "app.zen_browser.zen"
+	  "com.obsproject.Studio"
+	  "com.discordapp.Discord"
+	  "com.spotify.Client"
+	];
+  };
   services.gvfs.enable = true;
   services.printing.enable = true;
   services.xserver.enable = true;
@@ -86,6 +103,7 @@
     kdePackages.breeze-icons
     clang
     cmake
+	clipse
     dnsmasq
     git
     ghostty
@@ -102,6 +120,7 @@
     neovim
     ninja
     nix
+	go
     nodejs_24
     pavucontrol
     playerctl
@@ -127,9 +146,16 @@
     hyprpicker
     hyprpolkitagent
     hyprshot
+	hyprwire
     hyprsunset
     hyprutils
     hyprwayland-scanner
+	hyprgraphics
+	hyprland-qt-support
+	hyprland-qtutils
+	hyprsysteminfo
+	hyprcursor
+	hyprnotify
   ]);
 
   # Arch-only items from pkgs.lua that still need separate NixOS handling:
