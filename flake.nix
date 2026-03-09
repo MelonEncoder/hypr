@@ -4,6 +4,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=latest";
 
     home-manager = {
       url = "github:nix-community/home-manager/release-25.11";
@@ -11,7 +12,7 @@
     };
   };
 
-  outputs = { nixpkgs, nixpkgs-unstable, home-manager, ... }:
+  outputs = { nixpkgs, nixpkgs-unstable, home-manager, nix-flatpak, ... }:
     let
       system = "x86_64-linux";
 
@@ -32,6 +33,7 @@
         };
 
         modules = [
+          nix-flatpak.nixosModules.nix-flatpak
           ./nix/hosts/latitude/configuration.nix
           home-manager.nixosModules.home-manager
           {

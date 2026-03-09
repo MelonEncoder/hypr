@@ -33,10 +33,10 @@
   services.blueman.enable = true;
   services.flatpak = {
     enable = true;
-    remote = {
+    remotes = [{
       name = "flathub";
-      url = "https://flathub.org/repo/flathub.flatpakrepo";
-    };
+      location = "https://flathub.org/repo/flathub.flatpakrepo";
+    }];
 	packages = [
 	  "app.zen_browser.zen"
 	  "com.obsproject.Studio"
