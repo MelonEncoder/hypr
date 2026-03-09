@@ -103,7 +103,6 @@
     neovim
     ninja
     nix
-    nm-connection-editor
     nodejs_24
     pavucontrol
     playerctl
