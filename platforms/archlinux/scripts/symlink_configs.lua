@@ -51,12 +51,10 @@ local local_share = expand_home("~/.local/share")
 
 local mappings = {
   { repo .. "/home/linux/.config/hypr", config .. "/hypr" },
-  { repo .. "/home/linux/.config/mako", config .. "/mako" },
   { repo .. "/home/common/.config/nvim", config .. "/nvim" },
   { repo .. "/home/linux/.config/quickshell", config .. "/quickshell" },
   { repo .. "/home/linux/.local/share/wallpapers", local_share .. "/wallpapers" },
   { repo .. "/home/linux/.config/wofi", config .. "/wofi" },
-  { repo .. "/home/linux/.config/swps.conf", config .. "/swps.conf" },
 }
 
 print("repo: " .. repo)

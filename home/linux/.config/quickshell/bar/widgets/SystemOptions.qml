@@ -14,10 +14,14 @@ Rectangle {
 	property bool expanded: false
 	property bool hovered: clickArea.containsMouse
 	property bool pressed: clickArea.pressed
+	property string panelScreenName: ""
 	property int brightnessPercent: 50
 	property int brightnessMax: 100
 	property int ddcDisplay: 1
 	property int pendingBrightnessRaw: -1
+	property int pendingBrightnessPercent: -1
+	property string brightnessBackend: "ddcutil"
+	property string brightnessCtlDevice: ""
 	property bool wifiExpanded: false
 	property bool bluetoothExpanded: false
 	property bool wifiLoading: false
@@ -46,6 +50,7 @@ Rectangle {
 		root.brightnessPercent = next
 		var max = Math.max(1, root.brightnessMax)
 		root.pendingBrightnessRaw = Math.round((next * max) / 100)
+		root.pendingBrightnessPercent = next
 		brightnessApplyTimer.restart()
 	}
 
@@ -58,6 +63,40 @@ Rectangle {
 	function shellQuote(value: string): string {
 		if (!value) return "''"
 		return "'" + value.replace(/'/g, "'\"'\"'") + "'"
+	}
+
+	function detectBrightnessBackend(): void {
+		brightnessDetect.exec([
+			"sh",
+			"-c",
+			"name=" + shellQuote(root.panelScreenName) + "; " +
+			"if printf '%s' \"$name\" | grep -Eq '^(eDP|LVDS|DSI)' ; then " +
+				"for dev in /sys/class/backlight/*; do " +
+					"[ -d \"$dev\" ] || continue; " +
+					"printf 'brightnessctl\\t%s\\n' \"$(basename \"$dev\")\"; " +
+					"exit 0; " +
+				"done; " +
+			"fi; " +
+			"printf 'ddcutil\\t%s\\n' \"$name\""
+		])
+	}
+
+	function probeBrightness(): void {
+		if (root.brightnessBackend === "brightnessctl" && root.brightnessCtlDevice.length > 0) {
+			brightnessProbe.exec([
+				"sh",
+				"-c",
+				"current=$(brightnessctl -d " + shellQuote(root.brightnessCtlDevice) + " g 2>/dev/null); " +
+				"max=$(brightnessctl -d " + shellQuote(root.brightnessCtlDevice) + " m 2>/dev/null); " +
+				"[ -n \"$current\" ] && [ -n \"$max\" ] && printf 'current value = %s\\nmax value = %s\\n' \"$current\" \"$max\" || true"
+			])
+			return
+		}
+		brightnessProbe.exec([
+			"sh",
+			"-c",
+			"ddcutil --brief --display " + root.ddcDisplay + " getvcp 10 2>/dev/null || true"
+		])
 	}
 
 	function btName(device: var): string {
@@ -218,7 +257,7 @@ Rectangle {
 		onClicked: {
 			root.expanded = !root.expanded
 			if (root.expanded) {
-				brightnessProbe.exec(["sh", "-c", "ddcutil --brief --display " + root.ddcDisplay + " getvcp 10 2>/dev/null || true"])
+				root.detectBrightnessBackend()
 				root.refreshWifi()
 				root.refreshBluetooth()
 			}
@@ -845,6 +884,23 @@ Rectangle {
 	}
 
 	Process {
+		id: brightnessDetect
+		stdout: StdioCollector {
+			waitForEnd: true
+			onStreamFinished: {
+				var raw = text.trim()
+				if (raw.length === 0) return
+				var parts = raw.split(/\t+/)
+				var backend = parts.length > 0 ? parts[0].trim() : ""
+				if (backend !== "brightnessctl" && backend !== "ddcutil") backend = "ddcutil"
+				root.brightnessBackend = backend
+				root.brightnessCtlDevice = backend === "brightnessctl" && parts.length > 1 ? parts[1].trim() : ""
+				root.probeBrightness()
+			}
+		}
+	}
+
+	Process {
 		id: brightnessProbe
 		stdout: StdioCollector {
 			id: brightnessOut
@@ -870,6 +926,15 @@ Rectangle {
 		running: false
 		repeat: false
 		onTriggered: {
+			if (root.brightnessBackend === "brightnessctl") {
+				if (root.pendingBrightnessPercent < 0 || root.brightnessCtlDevice.length === 0) return
+				brightnessSet.exec([
+					"sh",
+					"-c",
+					"brightnessctl -d " + shellQuote(root.brightnessCtlDevice) + " set " + root.pendingBrightnessPercent + "% >/dev/null 2>&1 || true"
+				])
+				return
+			}
 			if (root.pendingBrightnessRaw < 0) return
 			brightnessSet.exec([
 				"sh",
@@ -880,7 +945,7 @@ Rectangle {
 	}
 
 	Component.onCompleted: {
-		brightnessProbe.exec(["sh", "-c", "ddcutil --brief --display " + root.ddcDisplay + " getvcp 10 2>/dev/null || true"])
+		root.detectBrightnessBackend()
 		root.refreshWifi()
 		root.refreshBluetooth()
 	}

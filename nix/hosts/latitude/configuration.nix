@@ -96,7 +96,6 @@
     iw
     iwd
     loupe
-    mako
     man-db
     meson
     nautilus

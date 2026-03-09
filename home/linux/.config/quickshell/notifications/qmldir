@@ -1,1 +1,3 @@
+singleton NotificationSettings 1.0 NotificationSettings.qml
+singleton NotificationTheme 1.0 NotificationTheme.qml
 NotificationsRoot 1.0 NotificationsRoot.qml

@@ -84,7 +84,10 @@ Scope {
 						BatteryStatus { Layout.alignment: Qt.AlignVCenter }
 						Date { Layout.alignment: Qt.AlignVCenter }
 						Time { Layout.alignment: Qt.AlignVCenter }
-						SystemOptions { Layout.alignment: Qt.AlignVCenter }
+						SystemOptions {
+							Layout.alignment: Qt.AlignVCenter
+							panelScreenName: modelData && modelData.name ? modelData.name : ""
+						}
 					}
 				}
 			}

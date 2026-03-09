@@ -5,7 +5,6 @@ local pacman_pkgs = {
     "htop",
     "inkscape",
     "loupe",
-    "mako",
     "nautilus",
     "neovim",
     "quickshell",

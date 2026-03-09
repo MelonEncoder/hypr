@@ -192,7 +192,7 @@ Scope {
 
 	Variants {
 		id: selectorWindows
-		model: Quickshell.screens
+		model: root.selectorVisible ? Quickshell.screens : []
 
 		PanelWindow {
 			id: selectorWindow
@@ -213,10 +213,8 @@ Scope {
 				bottom: true
 			}
 
-			width: modelData.width
-			height: modelData.height
-			implicitWidth: width
-			implicitHeight: height
+			implicitWidth: modelData.width
+			implicitHeight: modelData.height
 
 			Rectangle {
 				anchors.horizontalCenter: parent.horizontalCenter
@@ -384,5 +382,4 @@ Scope {
 		}
 	}
 
-	Component.onCompleted: refreshWallpapers()
 }
