@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 {
   xdg.configFile."hypr".source = ../../home/linux/.config/hypr;
   xdg.configFile."quickshell".source = ../../home/linux/.config/quickshell;
@@ -48,12 +48,12 @@
   };
 
   home.activation.createScreenshotDirectory =
-    config.lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       mkdir -p "${config.home.homeDirectory}/Pictures/Screenshots"
     '';
 
   home.activation.configureRustup =
-    config.lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       if command -v rustup >/dev/null 2>&1; then
         ${pkgs.rustup}/bin/rustup default stable
         ${pkgs.rustup}/bin/rustup target add wasm32-wasip1
