@@ -55,19 +55,6 @@ Rectangle {
 		setBrightness(Math.round(ratio * 100))
 	}
 
-	function runPowerAction(action: string): void {
-		var cmd = ""
-		if (action === "poweroff") cmd = "systemctl poweroff"
-		else if (action === "reboot") cmd = "systemctl reboot"
-		else if (action === "suspend") cmd = "systemctl suspend"
-		else if (action === "logout") cmd = "hyprctl dispatch exit"
-		else if (action === "lock") cmd = "hyprlock"
-		if (cmd.length === 0) return
-
-		root.expanded = false
-		powerControl.exec(["sh", "-c", cmd + " >/dev/null 2>&1 || true"])
-	}
-
 	function shellQuote(value: string): string {
 		if (!value) return "''"
 		return "'" + value.replace(/'/g, "'\"'\"'") + "'"
@@ -257,50 +244,6 @@ Rectangle {
 				spacing: BarTheme.inner_spacing
 				width: root.popupWidth
 
-				RowLayout {
-					id: powerOptions
-					Layout.fillWidth: true
-					spacing: BarTheme.inner_spacing
-
-					Repeater {
-						model: [
-							{ action: "poweroff", icon: "" },
-							{ action: "reboot", icon: "" },
-							{ action: "suspend", icon: "" },
-							{ action: "logout", icon: "󰍃" },
-							{ action: "lock", icon: ""}
-						]
-
-						Rectangle {
-							id: powerButton
-							required property var modelData
-							property bool hovered: powerHover.containsMouse
-							property bool pressed: powerHover.pressed
-
-							Layout.fillWidth: true
-							Layout.preferredHeight: width
-							radius: Theme.radius_normal
-							color: pressed ? Theme.color_surface_pressed : (hovered ? Theme.color_surface_hover : Theme.color_surface)
-
-							Text {
-								anchors.centerIn: parent
-								text: powerButton.modelData.icon
-								color: Theme.color_text
-								font.pixelSize: Theme.font_size + 2
-								font.family: Theme.font_family_icon
-							}
-
-							MouseArea {
-								id: powerHover
-								anchors.fill: parent
-								hoverEnabled: true
-								cursorShape: Qt.PointingHandCursor
-								onClicked: root.runPowerAction(powerButton.modelData.action)
-							}
-						}
-					}
-				}
-				
 					Rectangle {
 						id: brightnessControl
 						Layout.fillWidth: true
@@ -718,10 +661,6 @@ Rectangle {
 		}
 	}
 
-
-	Process {
-		id: powerControl
-	}
 
 	Process {
 		id: bluetoothCtl
