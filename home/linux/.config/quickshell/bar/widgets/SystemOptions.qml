@@ -189,6 +189,13 @@ Rectangle {
 	border.width: Theme.border_width
 	border.color: Theme.color_border
 
+	Behavior on color {
+		ColorAnimation {
+			duration: Animations.duration_hover
+			easing.type: Animations.easing_standard
+		}
+	}
+
 
 	Item {
 		id: icon
@@ -219,8 +226,9 @@ Rectangle {
 	}
 
 	PopupWindow {
+		id: dropdown
 		anchor.item: root
-		visible: root.expanded
+		visible: root.expanded || dropdownPanel.opacity > 0.01
 
 		anchor.rect.x: -(root.popupWidth - root.width)
 		anchor.rect.y: root.height + BarTheme.popup_offset_y
@@ -230,12 +238,38 @@ Rectangle {
 		color: "transparent"
 
 		Rectangle {
+			id: dropdownPanel
 			anchors.fill: parent
 			radius: Theme.radius_background
 			color: Theme.color_background
 			border.width: Theme.border_width
 			border.color: Theme.color_border
 			clip: true
+			opacity: root.expanded ? 1 : 0
+			scale: root.expanded ? 1 : Animations.dropdown_scale_closed
+			y: root.expanded ? 0 : -Animations.dropdown_offset
+			transformOrigin: Item.Top
+
+			Behavior on opacity {
+				NumberAnimation {
+					duration: Animations.duration_dropdown
+					easing.type: Animations.easing_emphasized
+				}
+			}
+
+			Behavior on scale {
+				NumberAnimation {
+					duration: Animations.duration_dropdown
+					easing.type: Animations.easing_emphasized
+				}
+			}
+
+			Behavior on y {
+				NumberAnimation {
+					duration: Animations.duration_dropdown
+					easing.type: Animations.easing_emphasized
+				}
+			}
 
 			ColumnLayout {
 				id: popupContent
@@ -347,130 +381,153 @@ Rectangle {
 								}
 							}
 
-							ColumnLayout {
-								visible: root.wifiExpanded
+							Item {
+								visible: root.wifiExpanded || opacity > 0.01
 								Layout.fillWidth: true
-								spacing: 3
+								implicitHeight: root.wifiExpanded ? wifiExpandedContent.implicitHeight : 0
+								opacity: root.wifiExpanded ? 1 : 0
+								clip: true
 
-								Text {
-									text: "Connected"
-									color: Theme.color_text_subtle
-									font.pixelSize: Theme.font_size - 1
-									font.family: Theme.font_family
-									Layout.fillWidth: true
+								Behavior on implicitHeight {
+									NumberAnimation {
+										duration: Animations.duration_dropdown_section
+										easing.type: Animations.easing_standard
+									}
 								}
 
-								Repeater {
-									model: root.connectedWifiNetworks
+								Behavior on opacity {
+									NumberAnimation {
+										duration: Animations.duration_dropdown_section
+										easing.type: Animations.easing_emphasized
+									}
+								}
+
+								ColumnLayout {
+									id: wifiExpandedContent
+									anchors.left: parent.left
+									anchors.right: parent.right
+									spacing: 3
+
+									Text {
+										text: "Connected"
+										color: Theme.color_text_subtle
+										font.pixelSize: Theme.font_size - 1
+										font.family: Theme.font_family
+										Layout.fillWidth: true
+									}
+
+									Repeater {
+										model: root.connectedWifiNetworks
+
+										Rectangle {
+											id: connectedWifiItem
+											required property var modelData
+											property bool hovered: connectedWifiMouse.containsMouse
+											property bool pressed: connectedWifiMouse.pressed
+											Layout.fillWidth: true
+											Layout.preferredHeight: 24
+											radius: Theme.radius_normal
+											color: pressed ? Theme.color_surface_pressed : (hovered ? Theme.color_surface_hover : "transparent")
+
+											Text {
+												anchors.left: parent.left
+												anchors.leftMargin: 8
+												anchors.verticalCenter: parent.verticalCenter
+												text: root.wifiName(connectedWifiItem.modelData)
+												color: Theme.color_text
+												font.pixelSize: Theme.font_size
+												font.family: Theme.font_family
+												elide: Text.ElideRight
+												width: parent.width - 16
+											}
+
+											MouseArea {
+												id: connectedWifiMouse
+												anchors.fill: parent
+												hoverEnabled: true
+												cursorShape: Qt.PointingHandCursor
+												onClicked: root.disconnectWifi()
+											}
+										}
+									}
 
 									Rectangle {
-										id: connectedWifiItem
-										required property var modelData
-										property bool hovered: connectedWifiMouse.containsMouse
-										property bool pressed: connectedWifiMouse.pressed
 										Layout.fillWidth: true
 										Layout.preferredHeight: 24
 										radius: Theme.radius_normal
-										color: pressed ? Theme.color_surface_pressed : (hovered ? Theme.color_surface_hover : "transparent")
+										color: "transparent"
+										visible: root.wifiLoading || root.connectedWifiNetworks.length === 0
 
 										Text {
 											anchors.left: parent.left
 											anchors.leftMargin: 8
 											anchors.verticalCenter: parent.verticalCenter
-											text: root.wifiName(connectedWifiItem.modelData)
-											color: Theme.color_text
-											font.pixelSize: Theme.font_size
+											text: root.wifiLoading ? "Loading..." : "None connected"
+											color: Theme.color_text_subtle
+											font.pixelSize: Theme.font_size - 1
 											font.family: Theme.font_family
-											elide: Text.ElideRight
-											width: parent.width - 16
-										}
-
-										MouseArea {
-											id: connectedWifiMouse
-											anchors.fill: parent
-											hoverEnabled: true
-											cursorShape: Qt.PointingHandCursor
-											onClicked: root.disconnectWifi()
 										}
 									}
-								}
-
-								Rectangle {
-									Layout.fillWidth: true
-									Layout.preferredHeight: 24
-									radius: Theme.radius_normal
-									color: "transparent"
-									visible: root.wifiLoading || root.connectedWifiNetworks.length === 0
 
 									Text {
-										anchors.left: parent.left
-										anchors.leftMargin: 8
-										anchors.verticalCenter: parent.verticalCenter
-										text: root.wifiLoading ? "Loading..." : "None connected"
+										text: "Available"
 										color: Theme.color_text_subtle
 										font.pixelSize: Theme.font_size - 1
 										font.family: Theme.font_family
+										Layout.fillWidth: true
 									}
-								}
 
-								Text {
-									text: "Available"
-									color: Theme.color_text_subtle
-									font.pixelSize: Theme.font_size - 1
-									font.family: Theme.font_family
-									Layout.fillWidth: true
-								}
+									Repeater {
+										model: root.availableWifiNetworks
 
-								Repeater {
-									model: root.availableWifiNetworks
+										Rectangle {
+											id: availableWifiItem
+											required property var modelData
+											property bool hovered: availableWifiMouse.containsMouse
+											property bool pressed: availableWifiMouse.pressed
+											Layout.fillWidth: true
+											Layout.preferredHeight: 24
+											radius: Theme.radius_normal
+											color: pressed ? Theme.color_surface_pressed : (hovered ? Theme.color_surface_hover : "transparent")
+
+											Text {
+												anchors.left: parent.left
+												anchors.leftMargin: 8
+												anchors.verticalCenter: parent.verticalCenter
+												text: root.wifiName(availableWifiItem.modelData)
+												color: Theme.color_text
+												font.pixelSize: Theme.font_size
+												font.family: Theme.font_family
+												elide: Text.ElideRight
+												width: parent.width - 16
+											}
+
+											MouseArea {
+												id: availableWifiMouse
+												anchors.fill: parent
+												hoverEnabled: true
+												cursorShape: Qt.PointingHandCursor
+												onClicked: root.connectWifi(availableWifiItem.modelData)
+											}
+										}
+									}
 
 									Rectangle {
-										id: availableWifiItem
-										required property var modelData
-										property bool hovered: availableWifiMouse.containsMouse
-										property bool pressed: availableWifiMouse.pressed
 										Layout.fillWidth: true
 										Layout.preferredHeight: 24
 										radius: Theme.radius_normal
-										color: pressed ? Theme.color_surface_pressed : (hovered ? Theme.color_surface_hover : "transparent")
+										color: "transparent"
+										visible: root.wifiLoading || root.availableWifiNetworks.length === 0
 
 										Text {
 											anchors.left: parent.left
 											anchors.leftMargin: 8
 											anchors.verticalCenter: parent.verticalCenter
-											text: root.wifiName(availableWifiItem.modelData)
-											color: Theme.color_text
-											font.pixelSize: Theme.font_size
+											text: root.wifiLoading ? "Loading..." : "None available"
+											color: Theme.color_text_subtle
+											font.pixelSize: Theme.font_size - 1
 											font.family: Theme.font_family
-											elide: Text.ElideRight
-											width: parent.width - 16
 										}
-
-										MouseArea {
-											id: availableWifiMouse
-											anchors.fill: parent
-											hoverEnabled: true
-											cursorShape: Qt.PointingHandCursor
-											onClicked: root.connectWifi(availableWifiItem.modelData)
-										}
-									}
-								}
-
-								Rectangle {
-									Layout.fillWidth: true
-									Layout.preferredHeight: 24
-									radius: Theme.radius_normal
-									color: "transparent"
-									visible: root.wifiLoading || root.availableWifiNetworks.length === 0
-
-									Text {
-										anchors.left: parent.left
-										anchors.leftMargin: 8
-										anchors.verticalCenter: parent.verticalCenter
-										text: root.wifiLoading ? "Loading..." : "None available"
-										color: Theme.color_text_subtle
-										font.pixelSize: Theme.font_size - 1
-										font.family: Theme.font_family
 									}
 								}
 							}
@@ -528,130 +585,153 @@ Rectangle {
 									}
 								}
 
-							ColumnLayout {
-								visible: root.bluetoothExpanded
+							Item {
+								visible: root.bluetoothExpanded || opacity > 0.01
 								Layout.fillWidth: true
-								spacing: 3
+								implicitHeight: root.bluetoothExpanded ? bluetoothExpandedContent.implicitHeight : 0
+								opacity: root.bluetoothExpanded ? 1 : 0
+								clip: true
 
-								Text {
-									text: "Connected"
-									color: Theme.color_text_subtle
-									font.pixelSize: Theme.font_size - 1
-									font.family: Theme.font_family
-									Layout.fillWidth: true
+								Behavior on implicitHeight {
+									NumberAnimation {
+										duration: Animations.duration_dropdown_section
+										easing.type: Animations.easing_standard
+									}
 								}
 
-								Repeater {
-									model: root.connectedBtDevices
+								Behavior on opacity {
+									NumberAnimation {
+										duration: Animations.duration_dropdown_section
+										easing.type: Animations.easing_emphasized
+									}
+								}
+
+								ColumnLayout {
+									id: bluetoothExpandedContent
+									anchors.left: parent.left
+									anchors.right: parent.right
+									spacing: 3
+
+									Text {
+										text: "Connected"
+										color: Theme.color_text_subtle
+										font.pixelSize: Theme.font_size - 1
+										font.family: Theme.font_family
+										Layout.fillWidth: true
+									}
+
+									Repeater {
+										model: root.connectedBtDevices
+
+										Rectangle {
+											id: connectedBtDevice
+											required property var modelData
+											property bool hovered: connectedDeviceMouse.containsMouse
+											property bool pressed: connectedDeviceMouse.pressed
+											Layout.fillWidth: true
+											Layout.preferredHeight: 24
+											radius: Theme.radius_normal
+											color: pressed ? Theme.color_surface_pressed : (hovered ? Theme.color_surface_hover : "transparent")
+
+											Text {
+												anchors.left: parent.left
+												anchors.leftMargin: 8
+												anchors.verticalCenter: parent.verticalCenter
+												text: root.btName(connectedBtDevice.modelData)
+												color: Theme.color_text
+												font.pixelSize: Theme.font_size
+												font.family: Theme.font_family
+												elide: Text.ElideRight
+												width: parent.width - 16
+											}
+
+											MouseArea {
+												id: connectedDeviceMouse
+												anchors.fill: parent
+												hoverEnabled: true
+												cursorShape: Qt.PointingHandCursor
+												onClicked: root.disconnectDevice(connectedBtDevice.modelData)
+											}
+										}
+									}
 
 									Rectangle {
-										id: connectedBtDevice
-										required property var modelData
-										property bool hovered: connectedDeviceMouse.containsMouse
-										property bool pressed: connectedDeviceMouse.pressed
 										Layout.fillWidth: true
 										Layout.preferredHeight: 24
 										radius: Theme.radius_normal
-										color: pressed ? Theme.color_surface_pressed : (hovered ? Theme.color_surface_hover : "transparent")
+										color: "transparent"
+										visible: root.bluetoothLoading || root.connectedBtDevices.length === 0
 
 										Text {
 											anchors.left: parent.left
 											anchors.leftMargin: 8
 											anchors.verticalCenter: parent.verticalCenter
-											text: root.btName(connectedBtDevice.modelData)
-											color: Theme.color_text
-											font.pixelSize: Theme.font_size
+											text: root.bluetoothLoading ? "Loading..." : "None connected"
+											color: Theme.color_text_subtle
+											font.pixelSize: Theme.font_size - 1
 											font.family: Theme.font_family
-											elide: Text.ElideRight
-											width: parent.width - 16
-										}
-
-										MouseArea {
-											id: connectedDeviceMouse
-											anchors.fill: parent
-											hoverEnabled: true
-											cursorShape: Qt.PointingHandCursor
-											onClicked: root.disconnectDevice(connectedBtDevice.modelData)
 										}
 									}
-								}
-
-								Rectangle {
-									Layout.fillWidth: true
-									Layout.preferredHeight: 24
-									radius: Theme.radius_normal
-									color: "transparent"
-									visible: root.bluetoothLoading || root.connectedBtDevices.length === 0
 
 									Text {
-										anchors.left: parent.left
-										anchors.leftMargin: 8
-										anchors.verticalCenter: parent.verticalCenter
-										text: root.bluetoothLoading ? "Loading..." : "None connected"
+										text: "Available"
 										color: Theme.color_text_subtle
 										font.pixelSize: Theme.font_size - 1
 										font.family: Theme.font_family
+										Layout.fillWidth: true
 									}
-								}
 
-								Text {
-									text: "Available"
-									color: Theme.color_text_subtle
-									font.pixelSize: Theme.font_size - 1
-									font.family: Theme.font_family
-									Layout.fillWidth: true
-								}
+									Repeater {
+										model: root.availableBtDevices
 
-								Repeater {
-									model: root.availableBtDevices
+										Rectangle {
+											id: availableBtDevice
+											required property var modelData
+											property bool hovered: availableDeviceMouse.containsMouse
+											property bool pressed: availableDeviceMouse.pressed
+											Layout.fillWidth: true
+											Layout.preferredHeight: 24
+											radius: Theme.radius_normal
+											color: pressed ? Theme.color_surface_pressed : (hovered ? Theme.color_surface_hover : "transparent")
+
+											Text {
+												anchors.left: parent.left
+												anchors.leftMargin: 8
+												anchors.verticalCenter: parent.verticalCenter
+												text: root.btName(availableBtDevice.modelData)
+												color: Theme.color_text
+												font.pixelSize: Theme.font_size
+												font.family: Theme.font_family
+												elide: Text.ElideRight
+												width: parent.width - 16
+											}
+
+											MouseArea {
+												id: availableDeviceMouse
+												anchors.fill: parent
+												hoverEnabled: true
+												cursorShape: Qt.PointingHandCursor
+												onClicked: root.connectDevice(availableBtDevice.modelData)
+											}
+										}
+									}
 
 									Rectangle {
-										id: availableBtDevice
-										required property var modelData
-										property bool hovered: availableDeviceMouse.containsMouse
-										property bool pressed: availableDeviceMouse.pressed
 										Layout.fillWidth: true
 										Layout.preferredHeight: 24
 										radius: Theme.radius_normal
-										color: pressed ? Theme.color_surface_pressed : (hovered ? Theme.color_surface_hover : "transparent")
+										color: "transparent"
+										visible: root.bluetoothLoading || root.availableBtDevices.length === 0
 
 										Text {
 											anchors.left: parent.left
 											anchors.leftMargin: 8
 											anchors.verticalCenter: parent.verticalCenter
-											text: root.btName(availableBtDevice.modelData)
-											color: Theme.color_text
-											font.pixelSize: Theme.font_size
+											text: root.bluetoothLoading ? "Loading..." : "None available"
+											color: Theme.color_text_subtle
+											font.pixelSize: Theme.font_size - 1
 											font.family: Theme.font_family
-											elide: Text.ElideRight
-											width: parent.width - 16
 										}
-
-										MouseArea {
-											id: availableDeviceMouse
-											anchors.fill: parent
-											hoverEnabled: true
-											cursorShape: Qt.PointingHandCursor
-											onClicked: root.connectDevice(availableBtDevice.modelData)
-										}
-									}
-								}
-
-								Rectangle {
-									Layout.fillWidth: true
-									Layout.preferredHeight: 24
-									radius: Theme.radius_normal
-									color: "transparent"
-									visible: root.bluetoothLoading || root.availableBtDevices.length === 0
-
-									Text {
-										anchors.left: parent.left
-										anchors.leftMargin: 8
-										anchors.verticalCenter: parent.verticalCenter
-										text: root.bluetoothLoading ? "Loading..." : "None available"
-										color: Theme.color_text_subtle
-										font.pixelSize: Theme.font_size - 1
-										font.family: Theme.font_family
 									}
 								}
 							}

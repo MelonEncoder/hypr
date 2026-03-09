@@ -71,15 +71,51 @@ Rectangle {
 					radius: parent.isActive ? root.radius : height / 4
 	 				color: parent.isActive ? "#ffffff" : (parent.hasWindows ? "#b0b0b0" : "#7a7a7a")
 					opacity: 1
+
+					Behavior on width {
+						NumberAnimation {
+							duration: Animations.duration_fast
+							easing.type: Animations.easing_standard
+						}
+					}
+
+					Behavior on height {
+						NumberAnimation {
+							duration: Animations.duration_fast
+							easing.type: Animations.easing_standard
+						}
+					}
+
+					Behavior on radius {
+						NumberAnimation {
+							duration: Animations.duration_fast
+							easing.type: Animations.easing_standard
+						}
+					}
+
+					Behavior on color {
+						ColorAnimation {
+							duration: Animations.duration_fast
+							easing.type: Animations.easing_standard
+						}
+					}
 				}
 
 				Text {
 					anchors.centerIn: parent
 					text: root.toJapaneseNumber(parent.workspaceId)
-					visible: parent.isActive
+					visible: opacity > 0.01
+					opacity: parent.isActive ? 1 : 0
 					color: "#000000"
 					font.pixelSize: Theme.font_size
 					font.family: Theme.font_family
+
+					Behavior on opacity {
+						NumberAnimation {
+							duration: Animations.duration_fast
+							easing.type: Animations.easing_standard
+						}
+					}
 				}
 
 				MouseArea {

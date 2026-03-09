@@ -94,6 +94,13 @@ Rectangle {
 	border.width: Theme.border_width
 	border.color: Theme.color_border
 
+	Behavior on color {
+		ColorAnimation {
+			duration: Animations.duration_hover
+			easing.type: Animations.easing_standard
+		}
+	}
+
 	Text {
 		id: osIcon
 		anchors.centerIn: parent
@@ -114,19 +121,45 @@ Rectangle {
 	PopupWindow {
 		id: dropdown
 		anchor.item: root
-		visible: root.expanded
+		visible: root.expanded || dropdownPanel.opacity > 0.01
 		anchor.rect.y: root.height + BarTheme.popup_offset_y
 		implicitWidth: root.popupWidth + (BarTheme.widget_padding * 2)
 		implicitHeight: popupContent.implicitHeight + (BarTheme.widget_padding * 2)
 		color: "transparent"
 
 		Rectangle {
+			id: dropdownPanel
 			anchors.fill: parent
 			radius: Theme.radius_background
 			color: Theme.color_background
 			border.width: Theme.border_width
 			border.color: Theme.color_border
 			clip: true
+			opacity: root.expanded ? 1 : 0
+			scale: root.expanded ? 1 : Animations.dropdown_scale_closed
+			y: root.expanded ? 0 : -Animations.dropdown_offset
+			transformOrigin: Item.Top
+
+			Behavior on opacity {
+				NumberAnimation {
+					duration: Animations.duration_dropdown
+					easing.type: Animations.easing_emphasized
+				}
+			}
+
+			Behavior on scale {
+				NumberAnimation {
+					duration: Animations.duration_dropdown
+					easing.type: Animations.easing_emphasized
+				}
+			}
+
+			Behavior on y {
+				NumberAnimation {
+					duration: Animations.duration_dropdown
+					easing.type: Animations.easing_emphasized
+				}
+			}
 
 			ColumnLayout {
 				id: popupContent

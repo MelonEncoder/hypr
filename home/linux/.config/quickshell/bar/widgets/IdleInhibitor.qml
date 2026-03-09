@@ -18,6 +18,13 @@ Rectangle {
 	border.width: Theme.border_width
 	border.color: Theme.color_border
 
+	Behavior on color {
+		ColorAnimation {
+			duration: Animations.duration_hover
+			easing.type: Animations.easing_standard
+		}
+	}
+
 	Text {
 		id: label
 		anchors.centerIn: parent
