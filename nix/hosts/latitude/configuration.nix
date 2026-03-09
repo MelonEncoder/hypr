@@ -5,6 +5,7 @@
   ];
 
   networking.hostName = "latitude";
+  networking.modemmanager.enable = true;
   time.timeZone = "US/Eastern";
 
   users.users.ian = {
@@ -24,7 +25,6 @@
   services.blueman.enable = true;
   services.flatpak.enable = true;
   services.gvfs.enable = true;
-  services.modemmanager.enable = true;
   services.printing.enable = true;
   services.xserver.enable = true;
   services.pipewire = {
