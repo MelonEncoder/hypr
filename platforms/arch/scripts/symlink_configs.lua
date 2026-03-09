@@ -56,7 +56,7 @@ local mappings = {
   { repo .. "/home/linux/.config/quickshell", config .. "/quickshell" },
   { repo .. "/home/linux/.local/share/wallpapers", local_share .. "/wallpapers" },
   { repo .. "/home/linux/.config/wofi", config .. "/wofi" },
-  { repo .. "/swps.conf", config .. "/swps.conf" },
+  { repo .. "/home/linux/.config/swps.conf", config .. "/swps.conf" },
 }
 
 print("repo: " .. repo)
