@@ -22,7 +22,8 @@ Rectangle {
 	readonly property var optionComponents: [
 		brightnessComponent,
 		wifiComponent,
-		bluetoothComponent
+		bluetoothComponent,
+		powerProfilesComponent
 	]
 
 	implicitWidth: slotSize + (Bar.BarTheme.widget_padding * 2)
@@ -132,6 +133,14 @@ Rectangle {
 		id: bluetoothComponent
 
 		Bluetooth {
+			width: popupContent.width
+		}
+	}
+
+	Component {
+		id: powerProfilesComponent
+
+		PowerProfiles {
 			width: popupContent.width
 		}
 	}
