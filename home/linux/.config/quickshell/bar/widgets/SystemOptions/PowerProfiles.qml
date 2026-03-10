@@ -9,42 +9,75 @@ Rectangle {
 	id: root
 	property bool expanded: false
 	property bool daemonKnown: false
-	property bool daemonInstalled: false
+	property bool daemonRunning: false
+	property bool profilesKnown: false
+	property string currentProfileId: ""
+	property var supportedProfileIds: []
 	readonly property int sectionMargin: Math.round(Bar.BarTheme.widget_padding / 2)
 	readonly property int expandedContentHeight: powerProfilesExpandedContent.implicitHeight
 	readonly property var availableProfiles: getAvailableProfiles()
 
+	function hasProfile(profileId: string): bool {
+		return root.supportedProfileIds.indexOf(profileId) !== -1
+	}
+
 	function getAvailableProfiles(): var {
 		return [
-			{ value: UPower.PowerProfile.PowerSaver, label: "Power Saver" },
-			{ value: UPower.PowerProfile.Balanced, label: "Balanced" },
+			{
+				value: UPower.PowerProfile.PowerSaver,
+				id: "power-saver",
+				label: root.daemonRunning && !root.hasProfile("power-saver")
+					? "Power Saver - unavailable"
+					: "Power Saver",
+				enabled: root.hasProfile("power-saver")
+			},
+			{
+				value: UPower.PowerProfile.Balanced,
+				id: "balanced",
+				label: root.daemonRunning && !root.hasProfile("balanced")
+					? "Balanced - unavailable"
+					: "Balanced",
+				enabled: root.hasProfile("balanced")
+			},
 			{
 				value: UPower.PowerProfile.Performance,
-				label: root.daemonInstalled && !UPower.PowerProfiles.hasPerformanceProfile
+				label: root.daemonRunning && !root.hasProfile("performance")
 					? "Performance - unavailable"
 					: "Performance",
-				enabled: UPower.PowerProfiles.hasPerformanceProfile
+				id: "performance",
+				enabled: root.hasProfile("performance")
 			}
 		]
 	}
 
-	function profileLabel(profile: int): string {
-		var label = UPower.PowerProfile.toString(profile)
-		if (label && label.length > 0) return label
-		return "Balanced"
+	function profileLabel(profileId: string): string {
+		switch (profileId) {
+		case "power-saver":
+			return "Power Saver"
+		case "performance":
+			return "Performance"
+		case "balanced":
+			return "Balanced"
+		default:
+			return "Balanced"
+		}
 	}
 
 	function subtitleText(): string {
 		if (!root.daemonKnown) return "Checking..."
-		if (!root.daemonInstalled) return "Install power-profiles-daemon"
-		return root.profileLabel(UPower.PowerProfiles.profile)
+		if (!root.daemonRunning) return "Enable power-profiles-daemon"
+		if (!root.profilesKnown) return "Checking profiles..."
+		if (root.supportedProfileIds.length <= 1) return "No power profiles available"
+		if (root.currentProfileId.length > 0) return root.profileLabel(root.currentProfileId)
+		return "Balanced"
 	}
 
-	function setProfile(profile: int): void {
-		if (!root.daemonInstalled) return
-		if (profile === UPower.PowerProfile.Performance && !UPower.PowerProfiles.hasPerformanceProfile) return
-		if (UPower.PowerProfiles.profile === profile) return
-		UPower.PowerProfiles.profile = profile
+	function setProfile(profileId: string): void {
+		if (!root.daemonRunning) return
+		if (root.supportedProfileIds.indexOf(profileId) === -1) return
+		if (root.currentProfileId === profileId) return
+		profileSet.exec(["powerprofilesctl", "set", profileId])
+		profilesRefresh.restart()
 	}
 
 	implicitWidth: 280
@@ -145,11 +178,11 @@ Rectangle {
 							required property var modelData
 							property bool hovered: profileMouse.containsMouse
 							property bool pressed: profileMouse.pressed
-							readonly property bool selectable: root.daemonInstalled && modelData.enabled !== false
+							readonly property bool selectable: root.daemonRunning && modelData.enabled !== false
 							Layout.fillWidth: true
 							Layout.preferredHeight: 24
 							radius: Constants.Theme.radius_normal
-							color: profileItem.selectable && UPower.PowerProfiles.profile === modelData.value
+							color: profileItem.selectable && root.currentProfileId === modelData.id
 								? Constants.Theme.color_surface_hover
 								: (pressed ? Constants.Theme.color_surface_pressed : (hovered ? Constants.Theme.color_surface_hover : "transparent"))
 
@@ -169,7 +202,7 @@ Rectangle {
 								anchors.right: parent.right
 								anchors.rightMargin: 8
 								anchors.verticalCenter: parent.verticalCenter
-								visible: profileItem.selectable && UPower.PowerProfiles.profile === profileItem.modelData.value
+								visible: profileItem.selectable && root.currentProfileId === profileItem.modelData.id
 								text: "󰄬"
 								color: Constants.Theme.color_text
 								font.pixelSize: Constants.Theme.font_size - 1
@@ -182,7 +215,7 @@ Rectangle {
 								hoverEnabled: true
 								cursorShape: profileItem.selectable ? Qt.PointingHandCursor : Qt.ArrowCursor
 								enabled: profileItem.selectable
-								onClicked: root.setProfile(profileItem.modelData.value)
+								onClicked: root.setProfile(profileItem.modelData.id)
 							}
 						}
 					}
@@ -196,7 +229,15 @@ Rectangle {
 		waitForEnd: true
 		onStreamFinished: {
 			root.daemonKnown = true
-			root.daemonInstalled = text.trim() === "1"
+			root.daemonRunning = text.trim() === "1"
+			if (root.daemonRunning) {
+				root.profilesKnown = false
+				profilesProbe.exec(["powerprofilesctl", "list"])
+			} else {
+				root.profilesKnown = true
+				root.currentProfileId = ""
+				root.supportedProfileIds = []
+			}
 		}
 	}
 
@@ -205,11 +246,55 @@ Rectangle {
 		stdout: daemonProbeOut
 	}
 
+	StdioCollector {
+		id: profilesProbeOut
+		waitForEnd: true
+		onStreamFinished: {
+			var ids = []
+			var current = ""
+			var lines = text.split("\n")
+
+			for (var i = 0; i < lines.length; i++) {
+				var match = lines[i].match(/^(\*?\s*)(power-saver|balanced|performance):\s*$/)
+				if (!match) continue
+				var id = match[2]
+				if (ids.indexOf(id) === -1) ids.push(id)
+				if (match[1].indexOf("*") !== -1) current = id
+			}
+
+			root.supportedProfileIds = ids
+			root.currentProfileId = current
+			root.profilesKnown = true
+		}
+	}
+
+	Process {
+		id: profilesProbe
+		stdout: profilesProbeOut
+	}
+
+	Process {
+		id: profileSet
+	}
+
+	Timer {
+		id: profilesRefresh
+		interval: 400
+		running: false
+		repeat: false
+		onTriggered: {
+			if (root.daemonRunning) {
+				root.profilesKnown = false
+				profilesProbe.exec(["powerprofilesctl", "list"])
+			}
+		}
+	}
+
 	Component.onCompleted: {
 		daemonProbe.exec([
 			"sh",
 			"-c",
-			"if command -v powerprofilesctl >/dev/null 2>&1 || command -v powerprofilesd >/dev/null 2>&1; then printf '1\\n'; else printf '0\\n'; fi"
+			"if pgrep -f '/power-profiles-daemon( |$)' >/dev/null 2>&1; then printf '1\\n'; else printf '0\\n'; fi"
 		])
 	}
 }

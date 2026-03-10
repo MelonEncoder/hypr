@@ -1,12 +1,15 @@
 import QtQuick
 import QtQuick.Layouts
 import Quickshell.Bluetooth
+import Quickshell.Io
 import "../../../constants" as Constants
 import "../../" as Bar
 
 Rectangle {
 	id: root
 	property bool expanded: false
+	property bool serviceKnown: false
+	property bool serviceRunning: false
 	readonly property int sectionMargin: Math.round(Bar.BarTheme.widget_padding / 2)
 	readonly property var btAdapter: Bluetooth.defaultAdapter
 	readonly property var btDevices: btAdapter && btAdapter.devices && btAdapter.devices.values ? btAdapter.devices.values : []
@@ -24,6 +27,8 @@ Rectangle {
 	}
 
 	function currentBluetoothSubtitle(): string {
+		if (!root.serviceKnown) return "Checking..."
+		if (!root.serviceRunning) return "Enable bluetooth service"
 		if (!root.enabled) return "bluetooth disabled"
 		if (root.connectedDevices.length > 0) return root.btName(root.connectedDevices[0])
 		return "none connected"
@@ -218,7 +223,9 @@ Rectangle {
 							anchors.left: parent.left
 							anchors.leftMargin: 8
 							anchors.verticalCenter: parent.verticalCenter
-							text: root.enabled ? "None connected" : "Bluetooth disabled"
+							text: root.serviceRunning
+								? (root.enabled ? "None connected" : "Bluetooth disabled")
+								: "Bluetooth needs to be installed / enabled"
 							color: Constants.Theme.color_text_subtle
 							font.pixelSize: Constants.Theme.font_size - 1
 							font.family: Constants.Theme.font_family
@@ -279,9 +286,11 @@ Rectangle {
 							anchors.left: parent.left
 							anchors.leftMargin: 8
 							anchors.verticalCenter: parent.verticalCenter
-							text: root.enabled
-								? (root.discovering ? "Scanning..." : "None available")
-								: "Bluetooth disabled"
+							text: !root.serviceRunning
+								? "Bluetooth needs to be installed / enabled"
+								: (root.enabled
+									? (root.discovering ? "Scanning..." : "None available")
+									: "Bluetooth disabled")
 							color: Constants.Theme.color_text_subtle
 							font.pixelSize: Constants.Theme.font_size - 1
 							font.family: Constants.Theme.font_family
@@ -292,6 +301,20 @@ Rectangle {
 		}
 	}
 
+	StdioCollector {
+		id: bluetoothServiceProbeOut
+		waitForEnd: true
+		onStreamFinished: {
+			root.serviceKnown = true
+			root.serviceRunning = text.trim() === "1"
+		}
+	}
+
+	Process {
+		id: bluetoothServiceProbe
+		stdout: bluetoothServiceProbeOut
+	}
+
 	Timer {
 		id: bluetoothDiscoveryStop
 		interval: 10000
@@ -300,5 +323,13 @@ Rectangle {
 		onTriggered: {
 			if (root.btAdapter && root.btAdapter.discovering) root.btAdapter.discovering = false
 		}
+	}
+
+	Component.onCompleted: {
+		bluetoothServiceProbe.exec([
+			"sh",
+			"-c",
+			"if pgrep -x bluetoothd >/dev/null 2>&1; then printf '1\\n'; else printf '0\\n'; fi"
+		])
 	}
 }
