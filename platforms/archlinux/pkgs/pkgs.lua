@@ -89,6 +89,7 @@ local pacman_pkgs = {
     "pavucontrol",
     "pipewire",
     "playerctl",
+    "power-profiles-daemon",
     "qt6ct",
     "usb_modeswitch",
     "wayland",

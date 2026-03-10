@@ -46,6 +46,7 @@
 	];
   };
   services.gvfs.enable = true;
+  services.power-profiles-daemon.enable = true;
   services.printing.enable = true;
   services.xserver.enable = true;
   services.xserver.desktopManager.runXdgAutostartIfNone = true;
@@ -124,6 +125,7 @@
     nodejs_24
     pavucontrol
     playerctl
+    power-profiles-daemon
     pyright
     python3
     kdePackages.qt6ct

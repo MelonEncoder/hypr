@@ -23,6 +23,7 @@ run("lua " .. shell_quote(pkgs_dir .. "/install.lua"))
 print("Package installation finished.")
 
 print("Now configuring environment...")
+run("lua " .. shell_quote(scripts_dir .. "/configure/enable-services.lua"))
 run("lua " .. shell_quote(scripts_dir .. "/configure/locales.lua"))
 run("lua " .. shell_quote(scripts_dir .. "/configure/pacman.lua"))
 run("lua " .. shell_quote(scripts_dir .. "/configure/directories.lua"))
