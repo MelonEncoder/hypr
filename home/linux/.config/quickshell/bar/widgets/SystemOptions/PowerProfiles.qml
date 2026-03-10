@@ -37,7 +37,7 @@ Rectangle {
 	function subtitleText(): string {
 		if (!root.daemonKnown) return "Checking..."
 		if (!root.daemonInstalled) return "Install power-profiles-daemon"
-		return root.profileLabel(UPower.PowerProfiles.profile).toLowerCase()
+		return root.profileLabel(UPower.PowerProfiles.profile)
 	}
 
 	function setProfile(profile: int): void {

@@ -23,6 +23,12 @@ Rectangle {
 		return ""
 	}
 
+	function currentBluetoothSubtitle(): string {
+		if (!root.enabled) return "bluetooth disabled"
+		if (root.connectedDevices.length > 0) return root.btName(root.connectedDevices[0])
+		return "none connected"
+	}
+
 	function isUsefulBtName(value: string): bool {
 		if (!value || value.length === 0) return false
 		var trimmed = value.trim()
@@ -87,19 +93,33 @@ Rectangle {
 			spacing: 4
 
 			Rectangle {
+				id: bluetoothHeader
 				Layout.fillWidth: true
-				Layout.preferredHeight: Bar.BarTheme.widget_height
+				Layout.preferredHeight: Bar.BarTheme.widget_height + 10
 				radius: Constants.Theme.radius_normal
 				color: Constants.Theme.color_surface_hover
 
-				Text {
+				Column {
 					anchors.left: parent.left
 					anchors.leftMargin: 8
 					anchors.verticalCenter: parent.verticalCenter
-					text: root.enabled ? "Bluetooth" : "Bluetooth Off"
-					color: Constants.Theme.color_text
-					font.pixelSize: Constants.Theme.font_size
-					font.family: Constants.Theme.font_family
+					spacing: 0
+
+					Text {
+						text: root.enabled ? "Bluetooth" : "Bluetooth Off"
+						color: Constants.Theme.color_text
+						font.pixelSize: Constants.Theme.font_size
+						font.family: Constants.Theme.font_family
+					}
+
+					Text {
+						text: root.currentBluetoothSubtitle()
+						color: Constants.Theme.color_text_subtle
+						font.pixelSize: Constants.Theme.font_size - 1
+						font.family: Constants.Theme.font_family
+						elide: Text.ElideRight
+						width: Math.max(0, bluetoothHeader.width - 32)
+					}
 				}
 
 				Text {
@@ -144,25 +164,8 @@ Rectangle {
 					anchors.right: parent.right
 					spacing: 3
 
-					Rectangle {
-						Layout.fillWidth: true
-						Layout.preferredHeight: 24
-						radius: Constants.Theme.radius_normal
-						color: Constants.Theme.color_surface_hover
-
-						Text {
-							anchors.left: parent.left
-							anchors.leftMargin: 8
-							anchors.verticalCenter: parent.verticalCenter
-							text: root.discovering ? "Discovering..." : (root.enabled ? "Ready" : "No adapter")
-							color: Constants.Theme.color_text
-							font.pixelSize: Constants.Theme.font_size - 1
-							font.family: Constants.Theme.font_family
-						}
-					}
-
 					Text {
-						text: "Connected"
+						text: "Connected Devices"
 						color: Constants.Theme.color_text_subtle
 						font.pixelSize: Constants.Theme.font_size - 1
 						font.family: Constants.Theme.font_family
