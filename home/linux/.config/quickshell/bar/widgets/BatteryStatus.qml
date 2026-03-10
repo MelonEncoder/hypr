@@ -1,13 +1,17 @@
 import QtQuick
-import Quickshell.Io
+import Quickshell.Services.UPower
 import ".."
 import "../../constants"
 
 Rectangle {
 	id: root
-	property bool hasBattery: false
-	property int batteryPercent: 0
-	property bool charging: false
+	readonly property var batteryDevice: UPower.displayDevice
+	readonly property bool hasBattery: !!batteryDevice && batteryDevice.ready
+		&& batteryDevice.isPresent && batteryDevice.isLaptopBattery
+	readonly property int batteryPercent: batteryDevice
+		? clampPercent(Math.round(batteryDevice.percentage))
+		: 0
+	readonly property bool charging: root.hasBattery && !UPower.onBattery
 
 	visible: root.hasBattery
 	implicitWidth: content.implicitWidth + (BarTheme.widget_padding * 2)
@@ -33,21 +37,6 @@ Rectangle {
 	function batteryIcon(percent: int, isCharging: bool): string {
 		if (isCharging) return ""
 		return levelIcon(percent)
-	}
-
-	function refresh(): void {
-		probe.exec([
-			"sh",
-			"-c",
-			"if ls /sys/class/power_supply/BAT* >/dev/null 2>&1; then " +
-			"bat=\"$(ls -d /sys/class/power_supply/BAT* 2>/dev/null | head -n 1)\"; " +
-			"cap=\"$(cat \"$bat/capacity\" 2>/dev/null)\"; " +
-			"stat=\"$(cat \"$bat/status\" 2>/dev/null)\"; " +
-			"[ -n \"$cap\" ] || cap=0; " +
-			"case \"$stat\" in Charging|Full) ch=1 ;; *) ch=0 ;; esac; " +
-			"printf '%s:%s:1\\n' \"$cap\" \"$ch\"; " +
-			"else printf '0:0:0\\n'; fi"
-		])
 	}
 
 	Item {
@@ -77,39 +66,4 @@ Rectangle {
 			font.family: Theme.font_family
 		}
 	}
-
-	StdioCollector {
-		id: probeOut
-		waitForEnd: true
-		onStreamFinished: {
-			var raw = text.trim()
-			if (raw.length === 0) {
-				root.hasBattery = false
-				return
-			}
-
-			var parts = raw.split(":")
-			if (parts.length !== 3) return
-			var cap = parseInt(parts[0])
-			var ch = parseInt(parts[1])
-			var exists = parseInt(parts[2])
-			root.hasBattery = exists === 1
-			if (!isNaN(cap)) root.batteryPercent = root.clampPercent(cap)
-			root.charging = ch === 1
-		}
-	}
-
-	Process {
-		id: probe
-		stdout: probeOut
-	}
-
-	Timer {
-		interval: 5000
-		running: true
-		repeat: true
-		onTriggered: root.refresh()
-	}
-
-	Component.onCompleted: root.refresh()
 }
