@@ -2,49 +2,57 @@
 
 Cross-platform dotfiles with shared config, OS-specific bootstrap, and Nix host definitions.
 
+## Setup
+
+Clone this repository into `~/.local/share/dotfiles`:
+
+```bash
+git clone [repo-url] ~/.local/share/dotfiles
+cd ~/.local/share/dotfiles
+```
+
 ## Layout
 
-- `home/common/.config`: shared user config (currently `nvim`)
+- `home/common/.config`: shared user config (`nvim`, etc.)
 - `home/linux/.config`: Linux-only config (`hypr`, `quickshell`, etc.)
-- `home/linux/.local/share`: Linux local data (`wallpapers`)
+- `home/linux/.local/share`: Linux local data (`wallpapers`, etc.)
 - `platforms/arch`: Arch bootstrap (`setup.lua`, package + configure scripts)
-- `platforms/nixos`: NixOS bootstrap entrypoints
-- `platforms/macos`: macOS bootstrap entrypoints
-- `nix/hosts`: machine definitions (NixOS / nix-darwin style)
-- `nix/home`: Home Manager modules (`common`, `linux`, `darwin`)
+- `platforms/macos`: macOS bootstrap (`setup.sh`)
+- `nix/hosts`: machine definitions for NixOS configuations
+- `nix/home`: Home Manager modules (`common`, `linux`)
 - `nix/modules`: reusable Nix modules
 
 ## Usage
 
-### Arch
+### NixOS
 
 ```bash
-lua platforms/arch/setup.lua
+sudo nixos-rebuild switch --flake .#[host]
 ```
 
-### NixOS (from this repo)
+### Arch Linux
+
+Requires the installation of the lua package before you can run the command.
 
 ```bash
-sudo nixos-rebuild switch --flake .#nixos
+lua platforms/archlinux/setup.lua
 ```
 
-Or use:
+### macOS
+
+Installs Homebrew if needed, then links the shared user config into `~/.config`
+with timestamped backups of any existing `nvim` or `zed` directories:
 
 ```bash
-./platforms/nixos/bootstrap.sh
-```
-
-### Home Manager (non-NixOS Linux)
-
-```bash
-home-manager switch --flake .#ian@arch
+zsh platforms/macos/setup.sh
 ```
 
 ## Notes
 
-- `nix/hosts/nixos/hardware-configuration.nix` is a placeholder.
-- Replace it using output from:
+- `nix/hosts/nixos/hardware-configuration.nix` is a placeholder if not already filled.
+- Replace it with your hardware by using the command:
 
 ```bash
 sudo nixos-generate-config --show-hardware-config
+cp /etc/nixos/hardware-configuation.nix to ~/.local/share/dotfiles/nix/hosts/[host]/hardware-configuration.nix
 ```
