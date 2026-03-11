@@ -48,7 +48,7 @@
         ];
       };
 
-      nixosConfigurations.desktop = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.desktop-nvidia = nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = {
           inherit unstablePkgs;
@@ -56,7 +56,7 @@
 
         modules = [
           nix-flatpak.nixosModules.nix-flatpak
-          ./nix/hosts/desktop/configuration.nix
+          ./nix/hosts/desktop-nvidia/configuration.nix
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;

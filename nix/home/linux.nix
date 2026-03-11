@@ -4,6 +4,7 @@
   xdg.configFile."hypr".source = ../../home/linux/.config/hypr;
   xdg.configFile."qt6ct".source = ../../home/linux/.config/qt6ct;
   xdg.configFile."quickshell".source = ../../home/linux/.config/quickshell;
+  xdg.configFile."nixpkgs".source = ../../home/linux/.config/nixpkgs;
   home.file.".local/share/wallpapers".source = ../../home/linux/.local/share/wallpapers;
 
   gtk = {

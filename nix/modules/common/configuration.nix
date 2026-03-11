@@ -119,6 +119,8 @@
     pkgs.nautilus
     pkgs.ninja
     pkgs.nix
+    pkgs.nil
+    pkgs.nixd
     pkgs.nodejs_24
     pkgs.pavucontrol
     pkgs.playerctl
@@ -128,7 +130,6 @@
     pkgs.kdePackages.qt6ct
     pkgs.quickshell
     pkgs.rustup
-    pkgs.spotify
     pkgs.tmux
     pkgs.usb-modeswitch
     pkgs.vim
