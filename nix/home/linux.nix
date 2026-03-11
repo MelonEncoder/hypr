@@ -50,8 +50,8 @@
     lib.hm.dag.entryAfter [ "writeBoundary" ] ''
       if command -v rustup >/dev/null 2>&1; then
         ${pkgs.rustup}/bin/rustup default stable
-        ${pkgs.rustup}/bin/rustup target add wasm32-wasip1
         ${pkgs.rustup}/bin/rustup component add rust-analyzer
+        ${pkgs.rustup}/bin/rustup target add wasm32-wasip1
       fi
     '';
 

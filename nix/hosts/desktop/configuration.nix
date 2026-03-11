@@ -5,5 +5,5 @@
     ./hardware-configuration.nix
   ];
 
-  networking.hostName = "latitude";
+  networking.hostName = "desktop";
 }

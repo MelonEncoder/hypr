@@ -21,7 +21,7 @@
         config.allowUnfree = true;
       };
 
-      pkgsUnstable = import nixpkgs-unstable {
+      unstablePkgs = import nixpkgs-unstable {
         inherit system;
         config.allowUnfree = true;
       };
@@ -29,12 +29,34 @@
       nixosConfigurations.latitude = nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = {
-          inherit pkgsUnstable;
+          inherit unstablePkgs;
         };
 
         modules = [
           nix-flatpak.nixosModules.nix-flatpak
           ./nix/hosts/latitude/configuration.nix
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.backupFileExtension = "backup";
+            home-manager.users.ian.imports = [
+              ./nix/home/common.nix
+              ./nix/home/linux.nix
+            ];
+          }
+        ];
+      };
+
+      nixosConfigurations.desktop = nixpkgs.lib.nixosSystem {
+        inherit system;
+        specialArgs = {
+          inherit unstablePkgs;
+        };
+
+        modules = [
+          nix-flatpak.nixosModules.nix-flatpak
+          ./nix/hosts/desktop/configuration.nix
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
