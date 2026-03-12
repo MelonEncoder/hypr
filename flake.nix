@@ -12,7 +12,14 @@
     };
   };
 
-  outputs = { nixpkgs, nixpkgs-unstable, home-manager, nix-flatpak, ... }:
+  outputs =
+    {
+      nixpkgs,
+      nixpkgs-unstable,
+      home-manager,
+      nix-flatpak,
+      ...
+    }:
     let
       system = "x86_64-linux";
 
@@ -25,8 +32,9 @@
         inherit system;
         config.allowUnfree = true;
       };
-    in {
-      nixosConfigurations.latitude = nixpkgs.lib.nixosSystem {
+    in
+    {
+      nixosConfigurations.nixos-latitude = nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = {
           inherit unstablePkgs;
@@ -34,7 +42,7 @@
 
         modules = [
           nix-flatpak.nixosModules.nix-flatpak
-          ./nix/hosts/latitude/configuration.nix
+          ./nix/hosts/nixos-latitude/configuration.nix
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
@@ -48,7 +56,7 @@
         ];
       };
 
-      nixosConfigurations.desktop-nvidia = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.nixos-pc-nvidia = nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = {
           inherit unstablePkgs;
@@ -56,7 +64,7 @@
 
         modules = [
           nix-flatpak.nixosModules.nix-flatpak
-          ./nix/hosts/desktop-nvidia/configuration.nix
+          ./nix/hosts/nixos-pc-nvidia/configuration.nix
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;

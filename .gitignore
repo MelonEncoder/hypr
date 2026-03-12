@@ -9,6 +9,5 @@
 
 result
 result-*
-flake.lock
 
 home/common/.config/zed/prompts

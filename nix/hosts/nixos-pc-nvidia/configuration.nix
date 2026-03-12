@@ -1,7 +1,11 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  pkgs,
+  ...
+}:
 {
   imports = [
-    ../../modules/common/configuration.nix
+    ../../modules/common/default.nix
     ./hardware-configuration.nix
   ];
 
@@ -11,10 +15,9 @@
   };
 
   # Load nvidia driver for Xorg and Wayland
-  services.xserver.videoDrivers = ["nvidia"];
+  services.xserver.videoDrivers = [ "nvidia" ];
 
   hardware.nvidia = {
-
     # Modesetting is required.
     modesetting.enable = true;
 
@@ -44,5 +47,11 @@
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
 
-  networking.hostName = "desktop-nvidia";
+  environment.systemPackages = [
+    pkgs.davinci-resolve
+    pkgs.blender
+    pkgs.godotPackages_4_6.godot
+  ];
+
+  networking.hostName = "nixos-pc";
 }
