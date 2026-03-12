@@ -11,3 +11,7 @@ result
 result-*
 
 home/common/.config/zed/prompts
+
+node_modules
+package.json
+package-lock.json

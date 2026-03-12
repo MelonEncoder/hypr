@@ -24,7 +24,6 @@
     pkgs.curl
     pkgs.decibels
     pkgs.dnsmasq
-    pkgs.dconf-editor
     pkgs.ffmpeg-full
     pkgs.ghostty
     pkgs.gimp
@@ -57,12 +56,12 @@
     pkgs.iwd
     pkgs.lsof
     pkgs.loupe
+    pkgs.lua
     pkgs.man-db
     pkgs.meson
     pkgs.mpv
     pkgs.nautilus
     unstablePkgs.neovim
-    pkgs.netstat
     pkgs.ninja
     pkgs.nix
     pkgs.nil

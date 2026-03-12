@@ -89,6 +89,13 @@
       pkgs.xdg-desktop-portal-gtk
       unstablePkgs.xdg-desktop-portal-hyprland
     ];
+    config = {
+      common = {
+        default = "hyprland;gtk";
+        "org.freedesktop.impl.portal.FileChooser" = "gtk";
+        "org.freedesktop.impl.portal.OpenURI" = "gtk";
+      };
+    };
   };
 
   system.stateVersion = "25.11";

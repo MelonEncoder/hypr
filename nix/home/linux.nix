@@ -34,6 +34,16 @@
     };
   };
 
+  home.sessionVariables = {
+    XDG_CURRENT_DESKTOP = "Hyprland";
+    XDG_SESSION_DESKTOP = "Hyprland";
+    XDG_SESSION_TYPE = "wayland";
+    GTK_USE_PORTAL = "1";
+    MOZ_ENABLE_WAYLAND = "1";
+    NIXOS_OZONE_WL = "1";
+    ELECTRON_OZONE_PLATFORM_HINT = "auto";
+  };
+
   xdg.userDirs = {
     enable = true;
     createDirectories = true;
@@ -48,6 +58,13 @@
 
     extraConfig = {
       PROJECTS = "${config.home.homeDirectory}/Projects";
+    };
+  };
+
+  xdg.mimeApps = {
+    enable = true;
+    defaultApplications = {
+      "inode/directory" = [ "org.gnome.Nautilus.desktop" ];
     };
   };
 
