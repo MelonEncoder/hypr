@@ -10,6 +10,10 @@
   ];
 
   nixpkgs.config.allowUnfree = true;
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -70,6 +74,7 @@
     xwayland.enable = true;
   };
   programs.nm-applet.enable = true;
+  programs.ssh.enableAskPassword = false;
 
   xdg.portal = {
     enable = true;
