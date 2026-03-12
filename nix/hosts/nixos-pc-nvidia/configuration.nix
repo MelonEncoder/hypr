@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  unstablePkgs,
   ...
 }:
 {
@@ -48,9 +49,10 @@
   };
 
   environment.systemPackages = [
-    pkgs.davinci-resolve
     pkgs.blender
+    pkgs.davinci-resolve
     pkgs.godotPackages_4_6.godot
+    unstablePkgs.kdePackages.kdenlive
   ];
 
   networking.hostName = "nixos-pc";

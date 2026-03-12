@@ -12,9 +12,9 @@
 
   environment.systemPackages = [
     pkgs.adwaita-icon-theme
+    pkgs.audacity
     pkgs.blueman
     pkgs.bluez
-    pkgs.mpv
     pkgs.celluloid
     pkgs.brightnessctl
     pkgs.kdePackages.breeze-icons
@@ -22,40 +22,18 @@
     pkgs.clipse
     pkgs.cmake
     pkgs.curl
+    pkgs.decibels
     pkgs.dnsmasq
-    pkgs.git
-    pkgs.go
+    pkgs.dconf-editor
+    pkgs.ffmpeg-full
     pkgs.ghostty
+    pkgs.gimp
+    pkgs.git
+    pkgs.glib
+    pkgs.go
     pkgs.gsettings-desktop-schemas
     pkgs.hicolor-icon-theme
     pkgs.htop
-    pkgs.inkscape
-    pkgs.iw
-    pkgs.iwd
-    pkgs.loupe
-    pkgs.man-db
-    pkgs.meson
-    pkgs.nautilus
-    pkgs.ninja
-    pkgs.nix
-    pkgs.nil
-    pkgs.nixd
-    pkgs.nodejs_24
-    pkgs.pavucontrol
-    pkgs.playerctl
-    pkgs.power-profiles-daemon
-    pkgs.pyright
-    pkgs.python3
-    pkgs.kdePackages.qt6ct
-    pkgs.quickshell
-    pkgs.rustup
-    pkgs.tmux
-    pkgs.usb-modeswitch
-    pkgs.vim
-    pkgs.wget
-    pkgs.which
-    pkgs.wl-clipboard
-    pkgs.zed-editor
     unstablePkgs.hyprcursor
     unstablePkgs.hypridle
     unstablePkgs.hyprlang
@@ -73,6 +51,35 @@
     unstablePkgs.hyprland-qt-support
     unstablePkgs.hyprland-qtutils
     unstablePkgs.hyprnotify
+    pkgs.inkscape
+    pkgs.iw
+    pkgs.iwd
+    pkgs.loupe
+    pkgs.man-db
+    pkgs.meson
+    pkgs.mpv
+    pkgs.nautilus
     unstablePkgs.neovim
+    pkgs.ninja
+    pkgs.nix
+    pkgs.nil
+    pkgs.nixd
+    pkgs.nodejs_24
+    pkgs.pavucontrol
+    pkgs.playerctl
+    pkgs.power-profiles-daemon
+    pkgs.pyright
+    pkgs.python3
+    pkgs.kdePackages.qt6ct
+    pkgs.quickshell
+    pkgs.rustup
+    pkgs.showtime
+    pkgs.tmux
+    pkgs.usb-modeswitch
+    pkgs.vim
+    pkgs.wget
+    pkgs.which
+    pkgs.wl-clipboard
+    pkgs.zed-editor
   ];
 }

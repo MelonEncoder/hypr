@@ -108,14 +108,14 @@ local pacman_pkgs = {
 local aur_pkgs = {
   "yay",
   "clipse",
-  "hyprlauncher",
 }
 
 local flatpak_pkgs = {
-  "app.zen_browser.zen",
-  "com.obsproject.Studio",
   "com.discordapp.Discord",
+  "org.prismlauncher.PrismLauncher",
+  "com.obsproject.Studio",
   "com.spotify.Client",
+  "app.zen_browser.zen",
 }
 
 return {

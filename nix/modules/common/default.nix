@@ -48,10 +48,16 @@
       }
     ];
     packages = [
-      "app.zen_browser.zen"
-      "com.obsproject.Studio"
       "com.discordapp.Discord"
+      "org.prismlauncher.PrismLauncher"
+      "com.obsproject.Studio"
+      "com.spotify.Client"
+      "app.zen_browser.zen"
     ];
+  };
+  services.flatpak.update.auto = {
+    enable = true;
+    onCalendar = "weekly";
   };
   services.gvfs.enable = true;
   services.power-profiles-daemon.enable = true;
@@ -75,6 +81,7 @@
   };
   programs.nm-applet.enable = true;
   programs.ssh.enableAskPassword = false;
+  programs.steam.enable = true;
 
   xdg.portal = {
     enable = true;

@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   xdg.configFile."fcitx5".source = ../../home/linux/.config/fcitx5;
   xdg.configFile."hypr".source = ../../home/linux/.config/hypr;
@@ -40,21 +45,23 @@
     publicShare = "${config.home.homeDirectory}/Public";
     templates = "${config.home.homeDirectory}/Templates";
     videos = "${config.home.homeDirectory}/Videos";
+
+    extraConfig = {
+      PROJECTS = "${config.home.homeDirectory}/Projects";
+    };
   };
 
-  home.activation.createScreenshotDirectory =
-    lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      mkdir -p "${config.home.homeDirectory}/Pictures/Screenshots"
-    '';
+  home.activation.createScreenshotDirectory = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    mkdir -p "${config.home.homeDirectory}/Pictures/Screenshots"
+  '';
 
-  home.activation.configureRustup =
-    lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-      if command -v rustup >/dev/null 2>&1; then
-        ${pkgs.rustup}/bin/rustup default stable
-        ${pkgs.rustup}/bin/rustup component add rust-analyzer
-        ${pkgs.rustup}/bin/rustup target add wasm32-wasip1
-      fi
-    '';
+  home.activation.configureRustup = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    if command -v rustup >/dev/null 2>&1; then
+      ${pkgs.rustup}/bin/rustup default stable
+      ${pkgs.rustup}/bin/rustup component add rust-analyzer
+      ${pkgs.rustup}/bin/rustup target add wasm32-wasip1
+    fi
+  '';
 
   xdg.dataFile."dbus-1/services/org.freedesktop.Notifications.service".text = ''
     [D-BUS Service]
