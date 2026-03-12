@@ -13,7 +13,7 @@ local function run(cmd)
   end
 end
 
-local theme = "Adwaita"
+local theme = "Adwaita-dark"
 local cursors = "Adwaita"
 local cursor_size = 22
 local icons = "Adwaita"

@@ -22,11 +22,6 @@
     let
       system = "x86_64-linux";
 
-      pkgs = import nixpkgs {
-        inherit system;
-        config.allowUnfree = true;
-      };
-
       unstablePkgs = import nixpkgs-unstable {
         inherit system;
         config.allowUnfree = true;
@@ -36,7 +31,6 @@
       nixosConfigurations.nixos-latitude = nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = {
-          inherit pkgs;
           inherit unstablePkgs;
         };
 
@@ -59,7 +53,6 @@
       nixosConfigurations.nixos-pc-nvidia = nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = {
-          inherit pkgs;
           inherit unstablePkgs;
         };
 

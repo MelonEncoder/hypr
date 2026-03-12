@@ -18,6 +18,7 @@
     pkgs.celluloid
     pkgs.brightnessctl
     pkgs.kdePackages.breeze-icons
+    pkgs.kdePackages.breeze
     pkgs.clang
     pkgs.clipse
     pkgs.cmake
@@ -30,7 +31,6 @@
     pkgs.git
     pkgs.glib
     pkgs.go
-    pkgs.gsettings-desktop-schemas
     pkgs.hicolor-icon-theme
     pkgs.htop
     unstablePkgs.hyprcursor

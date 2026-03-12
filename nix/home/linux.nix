@@ -15,7 +15,7 @@
   gtk = {
     enable = true;
     theme = {
-      name = "Adwaita";
+      name = "Adwaita-dark";
       package = pkgs.gnome-themes-extra;
     };
     iconTheme = {
@@ -29,7 +29,7 @@
       color-scheme = "prefer-dark";
       cursor-theme = "Adwaita";
       cursor-size = 22;
-      gtk-theme = "Adwaita";
+      gtk-theme = "Adwaita-dark";
       icon-theme = "Adwaita";
     };
   };
