@@ -51,23 +51,28 @@
     unstablePkgs.hyprland-qt-support
     unstablePkgs.hyprland-qtutils
     unstablePkgs.hyprnotify
+    pkgs.iftop
     pkgs.inkscape
     pkgs.iw
     pkgs.iwd
+    pkgs.lsof
     pkgs.loupe
     pkgs.man-db
     pkgs.meson
     pkgs.mpv
     pkgs.nautilus
     unstablePkgs.neovim
+    pkgs.netstat
     pkgs.ninja
     pkgs.nix
     pkgs.nil
     pkgs.nixd
+    pkgs.nmap
     pkgs.nodejs_24
     pkgs.pavucontrol
     pkgs.playerctl
     pkgs.power-profiles-daemon
+    pkgs.psmisc
     pkgs.pyright
     pkgs.python3
     pkgs.kdePackages.qt6ct
@@ -75,6 +80,7 @@
     pkgs.rustup
     pkgs.showtime
     pkgs.tmux
+    pkgs.util-linux
     pkgs.usb-modeswitch
     pkgs.vim
     pkgs.wget
