@@ -2,3 +2,4 @@ BarRoot 1.0 bar/BarRoot.qml
 LockRoot 1.0 lock/LockRoot.qml
 WallpaperRoot 1.0 wallpaper/WallpaperRoot.qml
 NotificationsRoot 1.0 notifications/NotificationsRoot.qml
+LauncherRoot 1.0 launcher/LauncherRoot.qml

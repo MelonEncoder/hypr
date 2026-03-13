@@ -78,7 +78,7 @@ Rectangle {
 		else if (action === "reboot") cmd = "systemctl reboot"
 		else if (action === "suspend") cmd = "systemctl suspend"
 		else if (action === "logout") cmd = "hyprctl dispatch exit"
-		else if (action === "lock") cmd = "hyprlock"
+		else if (action === "lock") cmd = "quickshell ipc -p \"$HOME/.config/quickshell\" call lock lock"
 		if (cmd.length === 0) return
 
 		root.expanded = false
