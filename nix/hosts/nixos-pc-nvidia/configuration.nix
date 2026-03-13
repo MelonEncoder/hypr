@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   unstablePkgs,
   ...
@@ -9,6 +10,10 @@
     ../../modules/common/default.nix
     ./hardware-configuration.nix
   ];
+
+  # Keep this host on the regular kernel track; latest is currently ahead of
+  # the packaged proprietary NVIDIA driver.
+  boot.kernelPackages = lib.mkForce pkgs.linuxPackages;
 
   # Enable OpenGL
   hardware.graphics = {

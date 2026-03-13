@@ -7,15 +7,15 @@
   programs.home-manager.enable = true;
   programs.git = {
     enable = true;
-    userName = "MelonEncoder";
-    userEmail = "iangillette@proton.me";
 
     signing = {
       key = "~/.ssh/id_ed25519.pub";
       signByDefault = true;
     };
 
-    extraConfig = {
+    settings = {
+      user.name = "MelonEncoder";
+      user.email = "iangillette@proton.me";
       core.editor = "zeditor";
       init.defaultBranch = "main";
       gpg.format = "ssh";

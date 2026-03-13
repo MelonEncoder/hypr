@@ -74,7 +74,6 @@
     pkgs.psmisc
     pkgs.pyright
     pkgs.python3
-    pkgs.kdePackages.qt6ct
     pkgs.quickshell
     pkgs.rustup
     pkgs.showtime

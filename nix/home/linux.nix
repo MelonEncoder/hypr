@@ -7,10 +7,28 @@
 {
   xdg.configFile."fcitx5".source = ../../home/linux/.config/fcitx5;
   xdg.configFile."hypr".source = ../../home/linux/.config/hypr;
-  xdg.configFile."qt6ct".source = ../../home/linux/.config/qt6ct;
   xdg.configFile."quickshell".source = ../../home/linux/.config/quickshell;
   xdg.configFile."nixpkgs".source = ../../home/linux/.config/nixpkgs;
   home.file.".local/share/wallpapers".source = ../../home/linux/.local/share/wallpapers;
+
+  qt = {
+    enable = true;
+    platformTheme.name = "kde";
+    style.name = "breeze";
+    kde.settings = {
+      kdeglobals = {
+        General = {
+          ColorScheme = "BreezeDark";
+        };
+        Icons = {
+          Theme = "breeze-dark";
+        };
+        KDE = {
+          widgetStyle = "Breeze";
+        };
+      };
+    };
+  };
 
   gtk = {
     enable = true;
