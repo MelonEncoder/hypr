@@ -73,16 +73,16 @@ Rectangle {
 	}
 
 	function runPowerAction(action: string): void {
-		var cmd = ""
-		if (action === "poweroff") cmd = "systemctl poweroff"
-		else if (action === "reboot") cmd = "systemctl reboot"
-		else if (action === "suspend") cmd = "systemctl suspend"
-		else if (action === "logout") cmd = "hyprctl dispatch exit"
-		else if (action === "lock") cmd = "quickshell ipc -p \"$HOME/.config/quickshell\" call lock lock"
-		if (cmd.length === 0) return
+		var args = []
+		if (action === "poweroff") args = ["systemctl", "poweroff"]
+		else if (action === "reboot") args = ["systemctl", "reboot"]
+		else if (action === "suspend") args = ["systemctl", "suspend"]
+		else if (action === "logout") args = ["hyprctl", "dispatch", "exit"]
+		else if (action === "lock") args = ["qs", "ipc", "call", "lock", "lock"]
+		if (args.length === 0) return
 
 		root.expanded = false
-		powerControl.exec(["sh", "-c", cmd + " >/dev/null 2>&1 || true"])
+		powerControl.exec(args)
 	}
 
 	implicitWidth: osIcon.implicitWidth + (BarTheme.widget_padding * 2)

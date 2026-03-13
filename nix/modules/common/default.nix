@@ -38,6 +38,7 @@
 
   security.polkit.enable = true;
 
+  services.upower.enable = true;
   services.blueman.enable = true;
   services.flatpak = {
     enable = true;

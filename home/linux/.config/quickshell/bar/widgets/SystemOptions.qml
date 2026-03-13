@@ -64,17 +64,17 @@ Rectangle {
 		}
 	}
 
-	PopupWindow {
-		id: dropdown
-		anchor.item: root
-		visible: root.expanded
+		PopupWindow {
+			id: dropdown
+			anchor.item: root
+			visible: root.expanded
 
 		anchor.rect.x: -(root.popupWidth - root.width)
 		anchor.rect.y: root.height + Bar.BarTheme.popup_offset_y
 
-		width: root.popupWidth + (Bar.BarTheme.widget_padding * 2)
-		height: popupContent.implicitHeight + (Bar.BarTheme.widget_padding * 2)
-		color: "transparent"
+			implicitWidth: root.popupWidth + (Bar.BarTheme.widget_padding * 2)
+			implicitHeight: popupContent.implicitHeight + (Bar.BarTheme.widget_padding * 2)
+			color: "transparent"
 
 		Rectangle {
 			anchors.fill: parent

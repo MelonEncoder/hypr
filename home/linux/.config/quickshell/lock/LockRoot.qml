@@ -5,6 +5,7 @@ import Quickshell.Io
 import Quickshell.Wayland
 import Quickshell.Services.Pam
 import Quickshell.Hyprland._GlobalShortcuts
+import QtCore
 import QtQuick
 import QtQuick.Effects
 import QtQuick.Layouts
