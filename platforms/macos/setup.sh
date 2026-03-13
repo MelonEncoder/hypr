@@ -25,7 +25,7 @@ ensure_homebrew() {
 
 link_config() {
   local name="$1"
-  local src="$repo_root/home/common/.config/$name"
+  local src="$repo_root/home/.config/$name"
   local dst="$config_dir/$name"
 
   mkdir -p "$config_dir"

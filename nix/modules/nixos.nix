@@ -1,12 +1,7 @@
-{
-  pkgs,
-  unstablePkgs,
-  ...
-}:
+{ pkgs, unstablePkgs, ... }:
 {
   imports = [
     ./packages.nix
-    ./i18n.nix
   ];
 
   nixpkgs.config.allowUnfree = true;
@@ -22,6 +17,23 @@
   networking.networkmanager.enable = true;
 
   time.timeZone = "US/Eastern";
+
+  i18n.defaultLocale = "en_US.UTF-8";
+  i18n.supportedLocales = [
+    "en_US.UTF-8/UTF-8"
+    "ja_JP.UTF-8/UTF-8"
+  ];
+  i18n.inputMethod = {
+    enable = true;
+    type = "fcitx5";
+    fcitx5.addons = [
+      pkgs.kdePackages.fcitx5-configtool
+      pkgs.fcitx5-gtk
+      pkgs.fcitx5-mozc
+      pkgs.kdePackages.fcitx5-qt
+    ];
+    fcitx5.waylandFrontend = true;
+  };
 
   users.users.ian = {
     isNormalUser = true;
@@ -83,32 +95,6 @@
   programs.nm-applet.enable = true;
   programs.ssh.enableAskPassword = false;
   programs.steam.enable = true;
-
-  xdg.portal = {
-    enable = true;
-    xdgOpenUsePortal = true;
-    extraPortals = [
-      pkgs.xdg-desktop-portal-gtk
-      unstablePkgs.xdg-desktop-portal-hyprland
-    ];
-    config = {
-      common = {
-        default = [ "gtk" ];
-        "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
-        "org.freedesktop.impl.portal.OpenURI" = [ "gtk" ];
-      };
-      hyprland = {
-        default = [
-          "hyprland"
-          "gtk"
-        ];
-        "org.freedesktop.impl.portal.ScreenCast" = [ "hyprland" ];
-        "org.freedesktop.impl.portal.Screenshot" = [ "hyprland" ];
-        "org.freedesktop.impl.portal.FileChooser" = [ "gtk" ];
-        "org.freedesktop.impl.portal.OpenURI" = [ "gtk" ];
-      };
-    };
-  };
 
   system.stateVersion = "25.11";
 }

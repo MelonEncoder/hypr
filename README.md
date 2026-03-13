@@ -13,14 +13,12 @@ cd ~/.local/share/dotfiles
 
 ## Layout
 
-- `home/common/.config`: shared user config (`nvim`, etc.)
-- `home/linux/.config`: Linux-only config (`hypr`, `quickshell`, etc.)
-- `home/linux/.local/share`: Linux local data (`wallpapers`, etc.)
-- `platforms/arch`: Arch bootstrap (`setup.lua`, package + configure scripts)
+- `home/.config`: user config (`nvim`, `hypr`, `quickshell`, etc.)
+- `home/.local/share`: user local data (`wallpapers`, etc.)
+- `platforms/archlinux`: Arch bootstrap (`setup.lua`, package + configure scripts)
 - `platforms/macos`: macOS bootstrap (`setup.sh`)
 - `nix/hosts`: machine definitions for NixOS configuations
-- `nix/home`: Home Manager modules (`common`, `linux`)
-- `nix/modules`: reusable Nix modules
+- `nix/modules`: shared NixOS and Home Manager modules
 
 ## Usage
 

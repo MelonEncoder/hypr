@@ -12,6 +12,7 @@
 
   environment.systemPackages = [
     pkgs.adwaita-icon-theme
+    pkgs.apostrophe
     pkgs.audacity
     pkgs.blueman
     pkgs.bluez
@@ -26,6 +27,7 @@
     pkgs.decibels
     pkgs.dnsmasq
     pkgs.ffmpeg-full
+    pkgs.file-roller
     pkgs.ghostty
     pkgs.gimp
     pkgs.git
@@ -66,11 +68,12 @@
     pkgs.nil
     pkgs.nixd
     pkgs.nmap
-    pkgs.nodejs_24
+    pkgs.papers
     pkgs.pavucontrol
     pkgs.playerctl
     pkgs.power-profiles-daemon
     pkgs.psmisc
+    pkgs.pureref
     pkgs.pyright
     pkgs.python3
     pkgs.quickshell
