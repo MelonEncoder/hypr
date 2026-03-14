@@ -18,7 +18,7 @@ QtObject {
 	readonly property string font_family: "JetBrainsMono"
 	readonly property string font_family_icon: "Symbols Nerd Font"
 	readonly property int font_size: 12
-		
+
 	readonly property int radius_background: 2
 	readonly property int radius_normal: 4
 	readonly property int border_width: 0

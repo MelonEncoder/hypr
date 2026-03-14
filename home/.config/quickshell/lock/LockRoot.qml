@@ -162,8 +162,6 @@ Scope {
 					blurEnabled: true
 					blur: LockTheme.background_blur_strength
 					blurMax: LockTheme.background_blur_max
-					brightness: LockTheme.background_brightness
-					saturation: LockTheme.background_saturation
 				}
 
 				Rectangle {
@@ -186,89 +184,144 @@ Scope {
 						id: lockColumn
 						anchors.horizontalCenter: parent.horizontalCenter
 						anchors.verticalCenter: parent.verticalCenter
-						anchors.verticalCenterOffset: LockTheme.column_offset
+						anchors.verticalCenterOffset: 0
 						width: Math.min(parent.width - (LockTheme.screen_margin * 2), LockTheme.column_width)
 						spacing: LockTheme.column_spacing
 
-						Text {
+						Column {
 							width: parent.width
-							text: DateTime.time
-							horizontalAlignment: Text.AlignHCenter
-							color: Theme.color_text
-							font.family: LockTheme.time_font_family
-							font.pixelSize: LockTheme.time_font_size
-							font.bold: true
-						}
+							spacing: LockTheme.header_spacing
 
-						Text {
-							width: parent.width
-							text: DateTime.fullDate
-							horizontalAlignment: Text.AlignHCenter
-							color: LockTheme.date_color
-							font.family: LockTheme.body_font_family
-							font.pixelSize: LockTheme.date_font_size
-						}
+							Item {
+								width: parent.width
+								height: timeText.implicitHeight
 
-						Rectangle {
-							property color frameBorderColor: root.failedAttempt
-								? LockTheme.input_fail_border_color
-								: (passwordInput.activeFocus ? LockTheme.input_focus_border_color : LockTheme.input_border_color)
+								Text {
+									id: timeText
+									anchors.horizontalCenter: parent.horizontalCenter
+									text: DateTime.time
+									horizontalAlignment: Text.AlignHCenter
+									color: Theme.color_text
+									font.family: LockTheme.time_font_family
+									font.pixelSize: LockTheme.time_font_size
+									font.bold: true
+								}
 
-							width: parent.width
-							height: LockTheme.input_height
-							radius: LockTheme.input_radius
-							color: LockTheme.input_fill_color
-							border.width: LockTheme.input_border_width
-							border.color: frameBorderColor
-
-							Behavior on frameBorderColor {
-								ColorAnimation {
-									duration: Animations.duration_normal
-									easing.type: Animations.easing_standard
+								MultiEffect {
+									anchors.fill: timeText
+									source: timeText
+									autoPaddingEnabled: true
+									shadowEnabled: true
+									shadowColor: LockTheme.text_shadow_color
+									shadowBlur: LockTheme.text_shadow_blur
+									shadowHorizontalOffset: LockTheme.text_shadow_horizontal_offset
+									shadowVerticalOffset: LockTheme.text_shadow_vertical_offset
 								}
 							}
 
-							TextInput {
-								id: passwordInput
-								anchors.fill: parent
-								anchors.leftMargin: LockTheme.input_padding
-								anchors.rightMargin: LockTheme.input_padding
-								verticalAlignment: TextInput.AlignVCenter
-								color: LockTheme.input_text_color
-								font.family: LockTheme.body_font_family
-								font.pixelSize: LockTheme.input_font_size
-								echoMode: TextInput.Password
-								passwordCharacter: "•"
-								selectByMouse: false
-								focus: true
-								enabled: root.locked && !root.authenticating
-								inputMethodHints: Qt.ImhSensitiveData | Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase
+							Item {
+								width: parent.width
+								height: dateText.implicitHeight
 
-								onAccepted: root.submitSecret(text)
-								onTextEdited: {
-									if (root.failedAttempt) root.failedAttempt = false
-									if (root.statusText === "Incorrect password" || root.statusText === "Too many failed attempts" || root.statusText === "Enter your password") {
+								Text {
+									id: dateText
+									anchors.horizontalCenter: parent.horizontalCenter
+									text: DateTime.fullDate
+									horizontalAlignment: Text.AlignHCenter
+									color: LockTheme.date_color
+									font.family: LockTheme.body_font_family
+									font.pixelSize: LockTheme.date_font_size
+								}
+
+								MultiEffect {
+									anchors.fill: dateText
+									source: dateText
+									autoPaddingEnabled: true
+									shadowEnabled: true
+									shadowColor: LockTheme.text_shadow_color
+									shadowBlur: LockTheme.text_shadow_blur
+									shadowHorizontalOffset: LockTheme.text_shadow_horizontal_offset
+									shadowVerticalOffset: LockTheme.text_shadow_vertical_offset
+								}
+							}
+						}
+
+						Item {
+							width: parent.width
+							height: LockTheme.input_height
+
+							Rectangle {
+								id: inputFrame
+								property color frameBorderColor: root.failedAttempt
+									? LockTheme.input_fail_border_color
+									: (passwordInput.activeFocus ? LockTheme.input_focus_border_color : LockTheme.input_border_color)
+
+								anchors.fill: parent
+								radius: LockTheme.input_radius
+								color: LockTheme.input_fill_color
+								border.width: LockTheme.input_border_width
+								border.color: frameBorderColor
+
+								Behavior on frameBorderColor {
+									ColorAnimation {
+										duration: Animations.duration_normal
+										easing.type: Animations.easing_standard
+									}
+								}
+
+								TextInput {
+									id: passwordInput
+									anchors.fill: parent
+									anchors.leftMargin: LockTheme.input_padding
+									anchors.rightMargin: LockTheme.input_padding
+									verticalAlignment: TextInput.AlignVCenter
+									color: LockTheme.input_text_color
+									font.family: LockTheme.body_font_family
+									font.pixelSize: LockTheme.input_font_size
+									echoMode: TextInput.Password
+									passwordCharacter: "•"
+									selectByMouse: false
+									focus: true
+									enabled: root.locked && !root.authenticating
+									inputMethodHints: Qt.ImhSensitiveData | Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase
+
+									onAccepted: root.submitSecret(text)
+									onTextEdited: {
+										if (root.failedAttempt) root.failedAttempt = false
+										if (root.statusText === "Incorrect password" || root.statusText === "Too many failed attempts" || root.statusText === "Enter your password") {
+											root.statusText = ""
+										}
+									}
+
+									Keys.onEscapePressed: {
+										text = ""
+										root.failedAttempt = false
 										root.statusText = ""
 									}
 								}
 
-								Keys.onEscapePressed: {
-									text = ""
-									root.failedAttempt = false
-									root.statusText = ""
+								Text {
+									anchors.fill: parent
+									anchors.leftMargin: LockTheme.input_padding
+									anchors.rightMargin: LockTheme.input_padding
+									verticalAlignment: Text.AlignVCenter
+									text: passwordInput.text.length === 0 ? "Input Password..." : ""
+									color: LockTheme.placeholder_color
+									font.family: LockTheme.body_font_family
+									font.pixelSize: LockTheme.input_font_size
+									font.italic: true
 								}
 							}
 
-							Text {
-								anchors.fill: parent
-								anchors.leftMargin: LockTheme.input_padding
-								anchors.rightMargin: LockTheme.input_padding
-								verticalAlignment: Text.AlignVCenter
-								text: passwordInput.text.length === 0 ? "Input Password..." : ""
-								color: LockTheme.placeholder_color
-								font.family: LockTheme.body_font_family
-								font.pixelSize: LockTheme.input_font_size
-								font.italic: true
+							MultiEffect {
+								anchors.fill: inputFrame
+								source: inputFrame
+								autoPaddingEnabled: true
+								shadowEnabled: true
+								shadowColor: LockTheme.input_shadow_color
+								shadowBlur: LockTheme.input_shadow_blur
+								shadowHorizontalOffset: LockTheme.input_shadow_horizontal_offset
+								shadowVerticalOffset: LockTheme.input_shadow_vertical_offset
 							}
 						}
 
