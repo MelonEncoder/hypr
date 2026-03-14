@@ -3,7 +3,6 @@
   config,
   pkgs,
   unstablePkgs,
-  homePath,
   ...
 }:
 {
@@ -19,13 +18,6 @@
     NIXOS_OZONE_WL = "1";
     ELECTRON_OZONE_PLATFORM_HINT = "auto";
   };
-
-  xdg.configFile."fcitx5".source = homePath + "/.config/fcitx5";
-  xdg.configFile."hypr".source = homePath + "/.config/hypr";
-  xdg.configFile."quickshell".source = homePath + "/.config/quickshell";
-  xdg.configFile."nixpkgs".source = homePath + "/.config/nixpkgs";
-  xdg.configFile."nvim".source = homePath + "/.config/nvim";
-  xdg.configFile."zed".source = homePath + "/.config/zed";
 
   xdg.userDirs = {
     enable = true;
@@ -43,8 +35,6 @@
       PROJECTS = "${config.home.homeDirectory}/Projects";
     };
   };
-
-  home.file.".local/share/wallpapers".source = homePath + "/.local/share/wallpapers";
 
   home.activation.createScreenshotDirectory = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     mkdir -p "${config.home.homeDirectory}/Pictures/Screenshots"

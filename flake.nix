@@ -22,7 +22,6 @@
     let
       system = "x86_64-linux";
       homeModule = ./nix/modules/home.nix;
-      homePath = ./home;
 
       unstablePkgs = import nixpkgs-unstable {
         inherit system;
@@ -46,7 +45,6 @@
             home-manager.backupFileExtension = "backup";
             home-manager.extraSpecialArgs = {
               inherit unstablePkgs;
-              inherit homePath;
             };
             home-manager.users.ian = {
               imports = [ homeModule ];
@@ -71,7 +69,6 @@
             home-manager.backupFileExtension = "backup";
             home-manager.extraSpecialArgs = {
               inherit unstablePkgs;
-              inherit homePath;
             };
             home-manager.users.ian = {
               imports = [ homeModule ];
