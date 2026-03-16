@@ -12,6 +12,5 @@ ShellRoot {
 	BarRoot {}
 	LauncherRoot {}
 	NotificationsRoot {}
-	ScreenshotRoot {}
 	LockRoot {}
 }
