@@ -49,6 +49,7 @@
     unstablePkgs.hyprland-qtutils
     unstablePkgs.hyprnotify
     pkgs.iftop
+    pkgs.imagemagick
     pkgs.inkscape
     pkgs.iw
     pkgs.iwd

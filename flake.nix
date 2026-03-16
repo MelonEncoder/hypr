@@ -34,7 +34,7 @@
     in
     {
       devShells.${system} = {
-        quickshell = pkgs.mkShell {
+        default = pkgs.mkShell {
           packages = with pkgs; [
             quickshell
             kdePackages.qtdeclarative
@@ -42,16 +42,12 @@
             pipewire
             libnotify
             imagemagick
-          ];
-        };
-
-        lua = pkgs.mkShell {
-          packages = with pkgs; [
             lua
             lua-language-server
             stylua
             luajitPackages.luacheck
             neovim
+            codex
           ];
         };
       };
