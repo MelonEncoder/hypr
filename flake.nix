@@ -41,7 +41,6 @@
             libqalculate
             pipewire
             libnotify
-            imagemagick
             lua
             lua-language-server
             stylua

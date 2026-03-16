@@ -3,3 +3,4 @@ LockRoot 1.0 lock/LockRoot.qml
 WallpaperRoot 1.0 wallpaper/WallpaperRoot.qml
 NotificationsRoot 1.0 notifications/NotificationsRoot.qml
 LauncherRoot 1.0 launcher/LauncherRoot.qml
+ScreenshotRoot 1.0 screenshot/ScreenshotRoot.qml

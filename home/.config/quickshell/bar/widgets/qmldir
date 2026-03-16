@@ -5,6 +5,7 @@ Date 1.0 Date.qml
 IdleInhibitor 1.0 IdleInhibitor.qml
 Media 1.0 Media.qml
 PrivacyIndicator 1.0 PrivacyIndicator.qml
+Screenshot 1.0 Screenshot.qml
 SystemInfo 1.0 SystemInfo.qml
 SystemOptions 1.0 SystemOptions.qml
 SystemTray 1.0 SystemTray.qml

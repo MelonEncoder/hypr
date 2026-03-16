@@ -79,6 +79,7 @@ Scope {
 						spacing: BarTheme.widget_spacing
 						PrivacyIndicator { Layout.alignment: Qt.AlignVCenter }
 						IdleInhibitor { Layout.alignment: Qt.AlignVCenter }
+						Screenshot { Layout.alignment: Qt.AlignVCenter }
 						SystemTray { Layout.alignment: Qt.AlignVCenter }
 						Audio { Layout.alignment: Qt.AlignVCenter }
 						BatteryStatus { Layout.alignment: Qt.AlignVCenter }

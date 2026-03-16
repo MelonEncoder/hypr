@@ -73,6 +73,7 @@
     pkgs.pureref
     pkgs.quickshell
     pkgs.showtime
+    pkgs.slurp
     pkgs.tmux
     pkgs.util-linux
     pkgs.usb-modeswitch
