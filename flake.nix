@@ -33,25 +33,27 @@
       };
     in
     {
-      devShells.${system}.quickshell = pkgs.mkShell {
-        packages = with pkgs; [
-          quickshell
-          kdePackages.qtdeclarative
-          libqalculate
-          pipewire
-          libnotify
-          imagemagick
-        ];
-      };
+      devShells.${system} = {
+        quickshell = pkgs.mkShell {
+          packages = with pkgs; [
+            quickshell
+            kdePackages.qtdeclarative
+            libqalculate
+            pipewire
+            libnotify
+            imagemagick
+          ];
+        };
 
-      devShells.${system}.lua = pkgs.mkShell {
-        packages = with pkgs; [
-          lua
-          lua-language-server
-          stylua
-          luajitPackages.luacheck
-          neovim
-        ];
+        lua = pkgs.mkShell {
+          packages = with pkgs; [
+            lua
+            lua-language-server
+            stylua
+            luajitPackages.luacheck
+            neovim
+          ];
+        };
       };
 
       nixosConfigurations.nixos-latitude = nixpkgs.lib.nixosSystem {
