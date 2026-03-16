@@ -22,6 +22,10 @@
     let
       system = "x86_64-linux";
       homeModule = ./nix/modules/home.nix;
+      pkgs = import nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+      };
 
       unstablePkgs = import nixpkgs-unstable {
         inherit system;
@@ -29,6 +33,27 @@
       };
     in
     {
+      devShells.${system}.quickshell = pkgs.mkShell {
+        packages = with pkgs; [
+          quickshell
+          kdePackages.qtdeclarative
+          libqalculate
+          pipewire
+          libnotify
+          imagemagick
+        ];
+      };
+
+      devShells.${system}.lua = pkgs.mkShell {
+        packages = with pkgs; [
+          lua
+          lua-language-server
+          stylua
+          luajitPackages.luacheck
+          neovim
+        ];
+      };
+
       nixosConfigurations.nixos-latitude = nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = {

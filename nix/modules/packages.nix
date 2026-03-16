@@ -20,9 +20,7 @@
     pkgs.brightnessctl
     pkgs.kdePackages.breeze-icons
     pkgs.kdePackages.breeze
-    pkgs.clang
     pkgs.clipse
-    pkgs.cmake
     pkgs.curl
     pkgs.decibels
     pkgs.dnsmasq
@@ -32,7 +30,7 @@
     pkgs.gimp
     pkgs.git
     pkgs.glib
-    pkgs.go
+    pkgs.grim
     pkgs.hicolor-icon-theme
     pkgs.htop
     unstablePkgs.hyprcursor
@@ -41,7 +39,6 @@
     unstablePkgs.hyprpaper
     unstablePkgs.hyprpicker
     unstablePkgs.hyprpolkitagent
-    unstablePkgs.hyprshot
     unstablePkgs.hyprsunset
     unstablePkgs.hyprsysteminfo
     unstablePkgs.hyprutils
@@ -58,13 +55,11 @@
     pkgs.libnotify
     pkgs.lsof
     pkgs.loupe
-    pkgs.lua
     pkgs.man-db
     pkgs.meson
     pkgs.mpv
     pkgs.nautilus
-    unstablePkgs.neovim
-    pkgs.ninja
+    pkgs.neovim
     pkgs.nix
     pkgs.nil
     pkgs.nixd
@@ -75,10 +70,7 @@
     pkgs.power-profiles-daemon
     pkgs.psmisc
     pkgs.pureref
-    pkgs.pyright
-    pkgs.python3
     pkgs.quickshell
-    pkgs.rustup
     pkgs.showtime
     pkgs.tmux
     pkgs.util-linux
