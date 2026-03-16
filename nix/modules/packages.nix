@@ -39,6 +39,7 @@
     unstablePkgs.hyprpaper
     unstablePkgs.hyprpicker
     unstablePkgs.hyprpolkitagent
+    unstablePkgs.hyprshot
     unstablePkgs.hyprsunset
     unstablePkgs.hyprsysteminfo
     unstablePkgs.hyprutils
