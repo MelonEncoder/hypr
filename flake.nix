@@ -35,18 +35,15 @@
     {
       devShells.${system} = {
         default = pkgs.mkShell {
-          packages = with pkgs; [
-            quickshell
-            kdePackages.qtdeclarative
-            libqalculate
-            pipewire
-            libnotify
-            lua
-            lua-language-server
-            stylua
-            luajitPackages.luacheck
-            neovim
-            codex
+          packages = [
+            pkgs.kdePackages.qtdeclarative
+            pkgs.libqalculate
+            pkgs.libnotify
+            pkgs.lua
+            pkgs.lua-language-server
+            pkgs.stylua
+            pkgs.luajitPackages.luacheck
+            unstablePkgs.codex
           ];
         };
       };
