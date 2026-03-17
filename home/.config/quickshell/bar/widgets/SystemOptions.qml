@@ -20,6 +20,7 @@ Rectangle {
 	readonly property int popupWidth: 280
 	readonly property int popupMaxHeight: 420
 	readonly property var optionComponents: [
+		screenshotComponent,
 		brightnessComponent,
 		wifiComponent,
 		bluetoothComponent,
@@ -108,6 +109,14 @@ Rectangle {
 					}
 				}
 			}
+		}
+	}
+
+	Component {
+		id: screenshotComponent
+
+		Screenshot {
+			width: popupContent.width
 		}
 	}
 
