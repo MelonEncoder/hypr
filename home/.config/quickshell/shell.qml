@@ -5,7 +5,6 @@ import "launcher"
 import "lock"
 import "wallpaper"
 import "notifications"
-import "screenshot"
 
 ShellRoot {
 	WallpaperRoot {}

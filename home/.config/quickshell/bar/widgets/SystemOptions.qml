@@ -41,7 +41,6 @@ Rectangle {
 		}
 	}
 
-
 	Item {
 		id: icon
 		anchors.fill: parent
@@ -56,34 +55,45 @@ Rectangle {
 	}
 
 	MouseArea {
-		id: clickArea
+	    id: clickArea
 		anchors.fill: parent
 		hoverEnabled: true
 		cursorShape: Qt.PointingHandCursor
-		onClicked: {
-			root.expanded = !root.expanded
-		}
+		onClicked: root.expanded = !root.expanded
 	}
 
-		PopupWindow {
-			id: dropdown
-			anchor.item: root
-			visible: root.expanded
-
-		anchor.rect.x: root.width - (root.popupWidth + Bar.BarTheme.widget_padding * 2)
-		anchor.rect.y: root.height + Bar.BarTheme.popup_offset_y
-
-			implicitWidth: root.popupWidth + (Bar.BarTheme.widget_padding * 2)
-			implicitHeight: popupContent.implicitHeight + (Bar.BarTheme.widget_padding * 2)
-			color: "transparent"
+	PopupWindow {
+		id: dropdown
+		anchor.item: root
+		visible: root.expanded
+		anchor.rect.x: 0
+		anchor.rect.y: Bar.BarTheme.popup_offset_y
+		implicitHeight: dropdown.screen.height
+		implicitWidth: dropdown.screen.width
+		color: "transparent"
 
 		Rectangle {
-			anchors.fill: parent
+		    id: backdrop
+            anchors.fill: parent
+            color: "transparent"
+
+    		MouseArea {
+    			anchors.fill: parent
+    			enabled: root.expanded
+    			onClicked: root.expanded = false
+    		}
+    	}
+
+		Rectangle {
+		    id: popupContainer
+			x: dropdown.width - root.popupWidth - 30
+			y: Bar.BarTheme.popup_offset_y
+			width: root.popupWidth + (Bar.BarTheme.widget_padding * 2)
+			height: popupContent.implicitHeight + (Bar.BarTheme.widget_padding * 2)
 			radius: Constants.Theme.radius_background
 			color: Constants.Theme.color_background
 			border.width: Constants.Theme.border_width
 			border.color: Constants.Theme.color_border
-			clip: true
 
 			Item {
 				id: popupContent
@@ -97,60 +107,25 @@ Rectangle {
 					width: parent.width
 					spacing: Bar.BarTheme.inner_spacing
 
-					Repeater {
-						model: root.optionComponents
-
-						Loader {
-							required property var modelData
-							width: optionsColumn.width
-							height: item ? item.implicitHeight : 0
-							sourceComponent: modelData
-						}
+					Screenshot {
+						width: popupContent.width
+					}
+					Brightness {
+						width: popupContent.width
+						panelScreenName: root.panelScreenName
+						ddcDisplay: root.ddcDisplay
+					}
+					Wifi {
+						width: popupContent.width
+					}
+					Bluetooth {
+						width: popupContent.width
+					}
+					PowerProfiles {
+						width: popupContent.width
 					}
 				}
 			}
-		}
-	}
-
-	Component {
-		id: screenshotComponent
-
-		Screenshot {
-			width: popupContent.width
-		}
-	}
-
-	Component {
-		id: brightnessComponent
-
-		Brightness {
-			width: popupContent.width
-			panelScreenName: root.panelScreenName
-			ddcDisplay: root.ddcDisplay
-		}
-	}
-
-	Component {
-		id: wifiComponent
-
-		Wifi {
-			width: popupContent.width
-		}
-	}
-
-	Component {
-		id: bluetoothComponent
-
-		Bluetooth {
-			width: popupContent.width
-		}
-	}
-
-	Component {
-		id: powerProfilesComponent
-
-		PowerProfiles {
-			width: popupContent.width
 		}
 	}
 }

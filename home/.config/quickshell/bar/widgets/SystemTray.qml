@@ -5,8 +5,8 @@ import QtQuick.Layouts
 import Quickshell
 import Quickshell.Widgets
 import Quickshell.Services.SystemTray
-import ".."
-import "../../constants"
+import ".." as Bar
+import "../../constants" as Constants
 
 Rectangle {
 	id: root
@@ -14,14 +14,14 @@ Rectangle {
 	property bool hovered: clickArea.containsMouse
 	property bool pressed: clickArea.pressed
 
-	implicitWidth: label.implicitWidth + (BarTheme.widget_padding * 2)
-	implicitHeight: BarTheme.widget_height
-	radius: Theme.radius_normal
+	implicitWidth: label.implicitWidth + (Bar.BarTheme.widget_padding * 2)
+	implicitHeight: Bar.BarTheme.widget_height
+	radius: Constants.Theme.radius_normal
 	color: root.pressed
-		? Theme.color_surface_pressed
-		: (root.hovered ? Theme.color_surface_hover : Theme.color_surface)
-	border.width: Theme.border_width
-	border.color: Theme.color_border
+		? Constants.Theme.color_surface_pressed
+		: (root.hovered ? Constants.Theme.color_surface_hover : Constants.Theme.color_surface)
+	border.width: Constants.Theme.border_width
+	border.color: Constants.Theme.color_border
 
 	Behavior on color {
 		ColorAnimation {
@@ -34,9 +34,9 @@ Rectangle {
 		id: label
 		anchors.centerIn: parent
 		text: root.expanded ?  "" : ""
-		color: Theme.color_text
-		font.pixelSize: Theme.font_size
-		font.family: Theme.font_family_icon
+		color: Constants.Theme.color_text
+		font.pixelSize: Constants.Theme.font_size
+		font.family: Constants.Theme.font_family_icon
 	}
 
 	MouseArea {
@@ -50,27 +50,33 @@ Rectangle {
 	PopupWindow {
 		id: dropdown
 		anchor.item: root
-		visible: root.expanded || dropdownBackground.opacity > 0.01
-
-		anchor.rect.x: -1 * (trayRow.width / 2) 
-		anchor.rect.y: root.height + BarTheme.popup_offset_y
-
-		implicitWidth: trayRow.implicitWidth + (BarTheme.widget_padding * 2)
-		implicitHeight: trayRow.implicitHeight + (BarTheme.widget_padding * 2)
+		visible: root.expanded
+		implicitWidth: dropdown.screen.width
+		implicitHeight: dropdown.screen.height
 		color: "transparent"
 
 		Rectangle {
-			id: dropdownBackground
-			anchors.fill: parent
-			radius: Theme.radius_background
-			color: Theme.color_background
-			border.width: Theme.border_width
-			border.color: Theme.color_border
-			clip: true
+		    width: parent.width
+			height: parent.height
+			color: "transparent"
+			MouseArea {
+			    anchors.fill: parent
+				enabled: root.expanded
+				onClicked: root.expanded = false
+			}
+		}
+
+		Rectangle {
+			x: dropdown.width - 350
+			y: Bar.BarTheme.popup_offset_y
+			width: trayRow.implicitWidth + (Bar.BarTheme.widget_padding * 2)
+			height: trayRow.implicitHeight + (Bar.BarTheme.widget_padding * 2)
+			radius: Constants.Theme.radius_background
+			color: Constants.Theme.color_background
+			border.width: Constants.Theme.border_width
+			border.color: Constants.Theme.color_border
 			opacity: root.expanded ? 1 : 0
 			scale: root.expanded ? 1 : Animations.dropdown_scale_closed
-			y: root.expanded ? 0 : -Animations.dropdown_offset
-			transformOrigin: Item.Top
 
 			Behavior on opacity {
 				NumberAnimation {
@@ -96,7 +102,7 @@ Rectangle {
 			RowLayout {
 				id: trayRow
 				anchors.centerIn: parent
-				spacing: BarTheme.inner_spacing
+				spacing: Bar.BarTheme.inner_spacing
 
 				Repeater {
 					model: SystemTray.items
@@ -111,10 +117,10 @@ Rectangle {
 							var text = (modelData.tooltipTitle || modelData.title || modelData.id || "?") + ""
 							return text.length > 0 ? text.charAt(0).toUpperCase() : "?"
 						}
-						radius: Theme.radius_normal
-						color: pressed ? Theme.color_surface_pressed : (hovered ? Theme.color_surface_hover : Theme.color_surface)
-						implicitWidth: BarTheme.tray_item_size + (BarTheme.widget_padding)
-						implicitHeight: BarTheme.tray_item_size + (BarTheme.widget_padding)
+						radius: Constants.Theme.radius_normal
+						color: pressed ? Constants.Theme.color_surface_pressed : (hovered ? Constants.Theme.color_surface_hover : Constants.Theme.color_surface)
+						implicitWidth: Bar.BarTheme.tray_item_size + (Bar.BarTheme.widget_padding)
+						implicitHeight: Bar.BarTheme.tray_item_size + (Bar.BarTheme.widget_padding)
 
 						IconImage {
 							id: trayIcon
@@ -125,7 +131,7 @@ Rectangle {
 									return s + "?fallback=application-x-executable"
 								return s
 							}
-							implicitSize: BarTheme.tray_icon_size
+							implicitSize: Bar.BarTheme.tray_icon_size
 							visible: source.toString() !== "" && status === Image.Ready
 							asynchronous: true
 						}
@@ -134,9 +140,9 @@ Rectangle {
 							anchors.centerIn: parent
 							visible: !trayIcon.visible
 							text: trayItem.itemLabel
-							color: Theme.color_text
-							font.pixelSize: Math.max(9, Theme.font_size - 1)
-							font.family: Theme.font_family
+							color: Constants.Theme.color_text
+							font.pixelSize: Math.max(9, Constants.Theme.font_size - 1)
+							font.family: Constants.Theme.font_family
 							font.bold: true
 						}
 

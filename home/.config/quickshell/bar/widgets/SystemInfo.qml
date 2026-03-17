@@ -3,8 +3,8 @@ import QtQuick.Layouts
 import Quickshell.Io
 import Quickshell
 import Quickshell.Widgets
-import ".."
-import "../../constants"
+import ".." as Bar
+import "../../constants" as Constants
 
 Rectangle {
 	id: root
@@ -85,14 +85,14 @@ Rectangle {
 		powerControl.exec(args)
 	}
 
-	implicitWidth: osIcon.implicitWidth + (BarTheme.widget_padding * 2)
-	implicitHeight: BarTheme.widget_height
-	radius: Theme.radius_normal
+	implicitWidth: osIcon.implicitWidth + (Bar.BarTheme.widget_padding * 2)
+	implicitHeight: Bar.BarTheme.widget_height
+	radius: Constants.Theme.radius_normal
 	color: root.pressed
-		? Theme.color_surface_pressed
-		: (root.hovered ? Theme.color_surface_hover : Theme.color_surface)
-	border.width: Theme.border_width
-	border.color: Theme.color_border
+		? Constants.Theme.color_surface_pressed
+		: (root.hovered ? Constants.Theme.color_surface_hover : Constants.Theme.color_surface)
+	border.width: Constants.Theme.border_width
+	border.color: Constants.Theme.color_border
 
 	Behavior on color {
 		ColorAnimation {
@@ -105,9 +105,9 @@ Rectangle {
 		id: osIcon
 		anchors.centerIn: parent
 		text: root.distroIcon
-		color: Theme.color_text
-		font.pixelSize: Theme.font_size + 2
-		font.family: Theme.font_family_icon
+		color: Constants.Theme.color_text
+		font.pixelSize: Constants.Theme.font_size + 2
+		font.family: Constants.Theme.font_family_icon
 	}
 
 	MouseArea {
@@ -121,24 +121,33 @@ Rectangle {
 	PopupWindow {
 		id: dropdown
 		anchor.item: root
-		visible: root.expanded || dropdownPanel.opacity > 0.01
-		anchor.rect.x: 0
-		anchor.rect.y: root.height + BarTheme.popup_offset_y
-		implicitWidth: root.popupWidth + (BarTheme.widget_padding * 2)
-		implicitHeight: popupContent.implicitHeight + (BarTheme.widget_padding * 2)
+		visible: root.expanded
+		implicitWidth: dropdown.screen.width
+		implicitHeight: dropdown.screen.height
 		color: "transparent"
 
 		Rectangle {
-			id: dropdownPanel
 			anchors.fill: parent
-			radius: Theme.radius_background
-			color: Theme.color_background
-			border.width: Theme.border_width
-			border.color: Theme.color_border
+			color: "transparent"
+			MouseArea {
+				anchors.fill: parent
+				enabled: root.expanded
+				onClicked: root.expanded = false
+			}
+		}
+
+		Rectangle {
+			id: dropdownPanel
+			y: Bar.BarTheme.popup_offset_y
+			width: root.popupWidth + (Bar.BarTheme.widget_padding * 2)
+			height: popupContent.implicitHeight + (Bar.BarTheme.widget_padding * 2)
+			radius: Constants.Theme.radius_background
+			color: Constants.Theme.color_background
+			border.width: Constants.Theme.border_width
+			border.color: Constants.Theme.color_border
 			clip: true
 			opacity: root.expanded ? 1 : 0
 			scale: root.expanded ? 1 : Animations.dropdown_scale_closed
-			y: root.expanded ? 0 : -Animations.dropdown_offset
 			transformOrigin: Item.Top
 
 			Behavior on opacity {
@@ -162,24 +171,26 @@ Rectangle {
 				}
 			}
 
+			MouseArea { anchors.fill: parent }
+
 			ColumnLayout {
 				id: popupContent
 				anchors.fill: parent
-				anchors.margins: BarTheme.widget_padding
-				spacing: BarTheme.inner_spacing
+				anchors.margins: Bar.BarTheme.widget_padding
+				spacing: Bar.BarTheme.inner_spacing
 				width: root.popupWidth
 
 				Rectangle {
 					id: aboutItem
 					Layout.fillWidth: true
-					Layout.preferredHeight: aboutContent.implicitHeight + (BarTheme.widget_padding * 2)
-					radius: Theme.radius_normal
-					color: Theme.color_surface
+					Layout.preferredHeight: aboutContent.implicitHeight + (Bar.BarTheme.widget_padding * 2)
+					radius: Constants.Theme.radius_normal
+					color: Constants.Theme.color_surface
 
 					ColumnLayout {
 						id: aboutContent
 						anchors.fill: parent
-						anchors.margins: BarTheme.widget_padding
+						anchors.margins: Bar.BarTheme.widget_padding
 						spacing: 2
 
 						RowLayout {
@@ -194,35 +205,35 @@ Rectangle {
 									Layout.fillWidth: true
 									text: root.distroDisplay
 									elide: Text.ElideRight
-									color: Theme.color_text
-									font.pixelSize: Theme.font_size
-									font.family: Theme.font_family
+									color: Constants.Theme.color_text
+									font.pixelSize: Constants.Theme.font_size
+									font.family: Constants.Theme.font_family
 								}
 
 								Text {
 									Layout.fillWidth: true
 									text: root.kernelDisplay.length > 0 ? ("Kernel " + root.kernelDisplay) : ""
 									visible: text.length > 0
-									color: Theme.color_text_subtle
-									font.pixelSize: Theme.font_size - 1
-									font.family: Theme.font_family
+									color: Constants.Theme.color_text_subtle
+									font.pixelSize: Constants.Theme.font_size - 1
+									font.family: Constants.Theme.font_family
 								}
 
 								Text {
 									Layout.fillWidth: true
 									text: root.versionDisplay.length > 0 ? ("Version " + root.versionDisplay) : ""
 									visible: text.length > 0
-									color: Theme.color_text_subtle
-									font.pixelSize: Theme.font_size - 1
-									font.family: Theme.font_family
+									color: Constants.Theme.color_text_subtle
+									font.pixelSize: Constants.Theme.font_size - 1
+									font.family: Constants.Theme.font_family
 								}
 							}
 
 								Text {
 									text: root.distroIcon
-									color: Theme.color_text
-									font.pixelSize: Theme.font_size + 4
-									font.family: Theme.font_family_icon
+									color: Constants.Theme.color_text
+									font.pixelSize: Constants.Theme.font_size + 4
+									font.family: Constants.Theme.font_family_icon
 							}
 						}
 					}
@@ -231,7 +242,7 @@ Rectangle {
 				Rectangle {
 					Layout.fillWidth: true
 					Layout.preferredHeight: 1
-					color: Theme.color_border
+					color: Constants.Theme.color_border
 					opacity: 0.5
 				}
 
@@ -244,29 +255,29 @@ Rectangle {
 						property bool hovered: optionArea.containsMouse
 						property bool pressed: optionArea.pressed
 						Layout.fillWidth: true
-						Layout.preferredHeight: BarTheme.widget_height
-						radius: Theme.radius_normal
-						color: pressed ? Theme.color_surface_pressed : (hovered ? Theme.color_surface_hover : "transparent")
+						Layout.preferredHeight: Bar.BarTheme.widget_height
+						radius: Constants.Theme.radius_normal
+						color: pressed ? Constants.Theme.color_surface_pressed : (hovered ? Constants.Theme.color_surface_hover : "transparent")
 
 						RowLayout {
 							anchors.fill: parent
-							anchors.leftMargin: BarTheme.widget_padding
-							anchors.rightMargin: BarTheme.widget_padding
+							anchors.leftMargin: Bar.BarTheme.widget_padding
+							anchors.rightMargin: Bar.BarTheme.widget_padding
 							spacing: 8
 
 							Text {
 								text: option.modelData.icon
-								color: Theme.color_text
-								font.pixelSize: Theme.font_size + 2
-								font.family: Theme.font_family_icon
+								color: Constants.Theme.color_text
+								font.pixelSize: Constants.Theme.font_size + 2
+								font.family: Constants.Theme.font_family_icon
 							}
 
 							Text {
 								Layout.fillWidth: true
 								text: option.modelData.label
-								color: Theme.color_text
-								font.pixelSize: Theme.font_size
-								font.family: Theme.font_family
+								color: Constants.Theme.color_text
+								font.pixelSize: Constants.Theme.font_size
+								font.family: Constants.Theme.font_family
 							}
 						}
 
