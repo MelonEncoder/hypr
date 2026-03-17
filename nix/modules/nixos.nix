@@ -95,7 +95,18 @@
   };
   programs.nm-applet.enable = true;
   programs.ssh.enableAskPassword = false;
-  programs.steam.enable = true;
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true;
+    dedicatedServer.openFirewall = true;
+    localNetworkGameTransfers.openFirewall = true;
+    gamescopeSession.enable = true;
+  };
+  programs.java.enable = true;
+  programs.appimage = {
+    enable = true;
+    binfmt = true;
+  };
 
   system.stateVersion = "25.11";
 }
