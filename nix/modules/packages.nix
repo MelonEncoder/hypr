@@ -17,13 +17,14 @@
     pkgs.audacity
     pkgs.blueman
     pkgs.bluez
+    pkgs.brightnessctl
     pkgs.celluloid
     unstablePkgs.claude-code
-    pkgs.brightnessctl
     pkgs.kdePackages.breeze-icons
     pkgs.kdePackages.breeze
     pkgs.clipse
     pkgs.curl
+    pkgs.ddcutil
     pkgs.decibels
     pkgs.dnsmasq
     pkgs.ffmpeg-full

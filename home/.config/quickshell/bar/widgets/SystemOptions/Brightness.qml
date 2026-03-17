@@ -15,6 +15,9 @@ Rectangle {
 	property string brightnessBackend: "ddcutil"
 	property string brightnessCtlDevice: ""
 
+	readonly property int trackHeight: 14
+	readonly property int thumbDiameter: 22
+
 	function clampPercent(value: int): int {
 		return Math.max(0, Math.min(100, value))
 	}
@@ -75,7 +78,7 @@ Rectangle {
 	}
 
 	implicitWidth: 280
-	implicitHeight: brightnessFrame.implicitHeight + (Bar.BarTheme.widget_padding * 2)
+	implicitHeight: sliderRow.implicitHeight + (Bar.BarTheme.widget_height)
 	width: implicitWidth
 	height: implicitHeight
 	Layout.fillWidth: true
@@ -84,50 +87,94 @@ Rectangle {
 	radius: Constants.Theme.radius_normal
 	color: Constants.Theme.color_surface
 
-	Item {
-		id: brightnessFrame
-		x: Bar.BarTheme.widget_padding
-		y: Bar.BarTheme.widget_padding
-		width: parent.width - (Bar.BarTheme.widget_padding * 2)
-		implicitHeight: brightnessContent.implicitHeight
+	RowLayout {
+		id: sliderRow
+		anchors {
+			left: parent.left
+			right: parent.right
+			verticalCenter: parent.verticalCenter
+			leftMargin: Bar.BarTheme.widget_height
+			rightMargin: Bar.BarTheme.widget_height
+		}
+		spacing: 10
 
-		ColumnLayout {
-			id: brightnessContent
-			width: parent.width
-			spacing: Bar.BarTheme.inner_spacing
+		Text {
+			text: "󰃠"
+			color: Constants.Theme.color_text
+			font.pixelSize: Constants.Theme.font_size + 4
+			font.family: Constants.Theme.font_family_icon
+			Layout.alignment: Qt.AlignVCenter
+		}
 
-			Text {
-				text: "Brightness " + root.brightnessPercent + "%"
-				color: Constants.Theme.color_text
-				font.pixelSize: Constants.Theme.font_size
-				font.family: Constants.Theme.font_family
-				Layout.fillWidth: true
-			}
+		Item {
+			id: sliderContainer
+			Layout.fillWidth: true
+			implicitHeight: root.thumbDiameter
+			Layout.alignment: Qt.AlignVCenter
 
 			Rectangle {
-				id: brightnessTrack
-				Layout.fillWidth: true
-				Layout.preferredHeight: 8
-				radius: 4
+				id: sliderTrack
+				anchors.verticalCenter: parent.verticalCenter
+				width: parent.width
+				height: root.trackHeight
+				radius: root.trackHeight / 2
 				color: Constants.Theme.color_surface_hover
 
 				Rectangle {
-					width: Math.round((brightnessTrack.width * root.brightnessPercent) / 100)
+					id: sliderFill
+					width: Math.max(radius * 2, Math.round(sliderTrack.width * root.brightnessPercent / 100))
 					height: parent.height
 					radius: parent.radius
 					color: Constants.Theme.color_text
+
+					Behavior on width {
+						enabled: !sliderMouse.pressed
+						NumberAnimation {
+							duration: 140
+							easing.type: Easing.InOutCubic
+						}
+					}
+				}
+			}
+
+			Rectangle {
+				id: sliderThumb
+				width: root.thumbDiameter
+				height: root.thumbDiameter
+				radius: root.thumbDiameter / 2
+				color: Constants.Theme.color_text
+				anchors.verticalCenter: sliderTrack.verticalCenter
+				x: Math.max(0, Math.min(sliderTrack.width - width, Math.round(sliderTrack.width * root.brightnessPercent / 100) - width / 2))
+
+				Behavior on x {
+					enabled: !sliderMouse.pressed
+					NumberAnimation {
+						duration: 140
+						easing.type: Easing.InOutCubic
+					}
 				}
 
-				MouseArea {
-					anchors.fill: parent
-					hoverEnabled: true
-					onPressed: function(mouse) {
-						root.updateBrightnessFromTrack(mouse.x, brightnessTrack.width)
-					}
-					onPositionChanged: function(mouse) {
-						if (!pressed) return
-						root.updateBrightnessFromTrack(mouse.x, brightnessTrack.width)
-					}
+				Rectangle {
+					anchors.centerIn: parent
+					width: parent.width * 0.38
+					height: parent.width * 0.38
+					radius: width / 2
+					color: Constants.Theme.color_surface
+					opacity: 0.5
+				}
+			}
+
+			MouseArea {
+				id: sliderMouse
+				anchors.fill: parent
+				hoverEnabled: true
+				cursorShape: Qt.PointingHandCursor
+				onPressed: function(mouse) {
+					root.updateBrightnessFromTrack(mouse.x, sliderTrack.width)
+				}
+				onPositionChanged: function(mouse) {
+					if (!pressed) return
+					root.updateBrightnessFromTrack(mouse.x, sliderTrack.width)
 				}
 			}
 		}
