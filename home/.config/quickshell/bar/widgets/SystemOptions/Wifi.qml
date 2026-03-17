@@ -94,45 +94,71 @@ Rectangle {
 
 			Rectangle {
 				id: wifiHeader
+				property bool hovered: wifiHeaderMouse.containsMouse
+				property bool pressed: wifiHeaderMouse.pressed
 				Layout.fillWidth: true
-				Layout.preferredHeight: Bar.BarTheme.widget_height + 10
+				Layout.preferredHeight: Bar.BarTheme.widget_height * 1.5
 				radius: Constants.Theme.radius_normal
-				color: Constants.Theme.color_surface_hover
+				color: pressed ? Constants.Theme.color_surface_pressed : Constants.Theme.color_surface_hover
 
-				Column {
-					anchors.left: parent.left
-					anchors.leftMargin: 8
-					anchors.verticalCenter: parent.verticalCenter
-					spacing: 0
-
-					Text {
-						text: "Wi-Fi"
-						color: Constants.Theme.color_text
-						font.pixelSize: Constants.Theme.font_size
-						font.family: Constants.Theme.font_family
-					}
-
-					Text {
-						text: root.currentWifiSubtitle()
-						color: Constants.Theme.color_text_subtle
-						font.pixelSize: Constants.Theme.font_size - 1
-						font.family: Constants.Theme.font_family
-						elide: Text.ElideRight
-						width: Math.max(0, wifiHeader.width - 32)
+				Behavior on color {
+					ColorAnimation {
+						duration: Constants.Animations.duration_hover
+						easing.type: Constants.Animations.easing_standard
 					}
 				}
 
-				Text {
-					anchors.right: parent.right
-					anchors.rightMargin: 8
-					anchors.verticalCenter: parent.verticalCenter
-					text: root.expanded ? "" : ""
-					color: Constants.Theme.color_text
-					font.pixelSize: Constants.Theme.font_size
-					font.family: Constants.Theme.font_family_icon
+				RowLayout {
+					anchors {
+						left: parent.left
+						right: parent.right
+						verticalCenter: parent.verticalCenter
+						leftMargin: 10
+						rightMargin: 10
+					}
+					spacing: 12
+
+					Text {
+						text: "󰖩"
+						color: Constants.Theme.color_text
+						font.pixelSize: Constants.Theme.font_size + 2
+						font.family: Constants.Theme.font_family_icon
+						Layout.alignment: Qt.AlignVCenter
+					}
+
+					Column {
+						Layout.fillWidth: true
+						Layout.alignment: Qt.AlignVCenter
+						spacing: 1
+
+						Text {
+							text: "Wi-Fi"
+							color: Constants.Theme.color_text
+							font.pixelSize: Constants.Theme.font_size
+							font.family: Constants.Theme.font_family
+						}
+
+						Text {
+							text: root.currentWifiSubtitle()
+							color: Constants.Theme.color_text_subtle
+							font.pixelSize: Constants.Theme.font_size
+							font.family: Constants.Theme.font_family
+							elide: Text.ElideRight
+							width: Math.max(0, wifiHeader.width - 60)
+						}
+					}
+
+					Text {
+						text: root.expanded ? "" : ""
+						color: Constants.Theme.color_text_subtle
+						font.pixelSize: Constants.Theme.font_size - 2
+						font.family: Constants.Theme.font_family_icon
+						Layout.alignment: Qt.AlignVCenter
+					}
 				}
 
 				MouseArea {
+					id: wifiHeaderMouse
 					anchors.fill: parent
 					hoverEnabled: true
 					cursorShape: Qt.PointingHandCursor
@@ -151,6 +177,13 @@ Rectangle {
 				opacity: root.expanded ? 1 : 0
 				clip: true
 
+				Behavior on Layout.preferredHeight {
+					NumberAnimation {
+						duration: Constants.Animations.duration_dropdown_section
+						easing.type: Constants.Animations.easing_emphasized
+					}
+				}
+
 				Behavior on opacity {
 					NumberAnimation {
 						duration: Constants.Animations.duration_dropdown_section
@@ -165,11 +198,81 @@ Rectangle {
 					spacing: 3
 
 					Text {
-						text: "Available"
+						text: "Connected"
 						color: Constants.Theme.color_text_subtle
-						font.pixelSize: Constants.Theme.font_size - 1
+						font.pixelSize: Constants.Theme.font_size
 						font.family: Constants.Theme.font_family
 						Layout.fillWidth: true
+						Layout.topMargin: 4
+					}
+
+					Repeater {
+						model: root.connectedNetworks
+
+						Rectangle {
+							id: connectedWifiItem
+							required property var modelData
+							property bool hovered: connectedWifiMouse.containsMouse
+							property bool pressed: connectedWifiMouse.pressed
+							Layout.fillWidth: true
+							Layout.preferredHeight: Bar.BarTheme.widget_height
+							radius: Constants.Theme.radius_normal
+							color: pressed ? Constants.Theme.color_surface_pressed : (hovered ? Constants.Theme.color_surface_hover : "transparent")
+
+							Behavior on color {
+								ColorAnimation {
+									duration: Constants.Animations.duration_hover
+									easing.type: Constants.Animations.easing_standard
+								}
+							}
+
+							Text {
+								anchors.left: parent.left
+								anchors.leftMargin: 10
+								anchors.verticalCenter: parent.verticalCenter
+								text: root.wifiName(connectedWifiItem.modelData)
+								color: Constants.Theme.color_text
+								font.pixelSize: Constants.Theme.font_size
+								font.family: Constants.Theme.font_family
+								elide: Text.ElideRight
+								width: parent.width - 20
+							}
+
+							MouseArea {
+								id: connectedWifiMouse
+								anchors.fill: parent
+								hoverEnabled: true
+								cursorShape: Qt.PointingHandCursor
+								onClicked: root.disconnectWifi()
+							}
+						}
+					}
+
+					Rectangle {
+						Layout.fillWidth: true
+						Layout.preferredHeight: Bar.BarTheme.widget_height
+						radius: Constants.Theme.radius_normal
+						color: "transparent"
+						visible: root.connectedNetworks.length === 0
+
+						Text {
+							anchors.left: parent.left
+							anchors.leftMargin: 10
+							anchors.verticalCenter: parent.verticalCenter
+							text: root.loading ? "Loading..." : "None connected"
+							color: Constants.Theme.color_text_subtle
+							font.pixelSize: Constants.Theme.font_size
+							font.family: Constants.Theme.font_family
+						}
+					}
+
+					Text {
+						text: "Available"
+						color: Constants.Theme.color_text_subtle
+						font.pixelSize: Constants.Theme.font_size
+						font.family: Constants.Theme.font_family
+						Layout.fillWidth: true
+						Layout.topMargin: 4
 					}
 
 					Repeater {
@@ -181,20 +284,27 @@ Rectangle {
 							property bool hovered: availableWifiMouse.containsMouse
 							property bool pressed: availableWifiMouse.pressed
 							Layout.fillWidth: true
-							Layout.preferredHeight: 24
+							Layout.preferredHeight: Bar.BarTheme.widget_height
 							radius: Constants.Theme.radius_normal
 							color: pressed ? Constants.Theme.color_surface_pressed : (hovered ? Constants.Theme.color_surface_hover : "transparent")
 
+							Behavior on color {
+								ColorAnimation {
+									duration: Constants.Animations.duration_hover
+									easing.type: Constants.Animations.easing_standard
+								}
+							}
+
 							Text {
 								anchors.left: parent.left
-								anchors.leftMargin: 8
+								anchors.leftMargin: 10
 								anchors.verticalCenter: parent.verticalCenter
 								text: root.wifiName(availableWifiItem.modelData)
 								color: Constants.Theme.color_text
 								font.pixelSize: Constants.Theme.font_size
 								font.family: Constants.Theme.font_family
 								elide: Text.ElideRight
-								width: parent.width - 16
+								width: parent.width - 20
 							}
 
 							MouseArea {
@@ -209,18 +319,18 @@ Rectangle {
 
 					Rectangle {
 						Layout.fillWidth: true
-						Layout.preferredHeight: 24
+						Layout.preferredHeight: Bar.BarTheme.widget_height
 						radius: Constants.Theme.radius_normal
 						color: "transparent"
 						visible: root.loading || root.availableNetworks.length === 0
 
 						Text {
 							anchors.left: parent.left
-							anchors.leftMargin: 8
+							anchors.leftMargin: 10
 							anchors.verticalCenter: parent.verticalCenter
 							text: root.loading ? "Loading..." : "None available"
 							color: Constants.Theme.color_text_subtle
-							font.pixelSize: Constants.Theme.font_size - 1
+							font.pixelSize: Constants.Theme.font_size
 							font.family: Constants.Theme.font_family
 						}
 					}
@@ -280,5 +390,4 @@ Rectangle {
 		onTriggered: root.refreshWifi()
 	}
 
-	Component.onCompleted: root.refreshWifi()
 }

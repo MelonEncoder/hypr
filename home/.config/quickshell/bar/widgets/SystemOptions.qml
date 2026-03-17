@@ -70,7 +70,7 @@ Rectangle {
 			anchor.item: root
 			visible: root.expanded
 
-		anchor.rect.x: -(root.popupWidth - root.width)
+		anchor.rect.x: root.width - (root.popupWidth + Bar.BarTheme.widget_padding * 2)
 		anchor.rect.y: root.height + Bar.BarTheme.popup_offset_y
 
 			implicitWidth: root.popupWidth + (Bar.BarTheme.widget_padding * 2)

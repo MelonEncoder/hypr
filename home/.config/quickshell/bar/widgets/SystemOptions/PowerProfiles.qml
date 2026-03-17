@@ -1,83 +1,28 @@
 import QtQuick
 import QtQuick.Layouts
-import Quickshell.Services.UPower as UPower
-import Quickshell.Io
+import Quickshell.Services.UPower
 import "../../../constants" as Constants
 import "../../" as Bar
 
 Rectangle {
 	id: root
 	property bool expanded: false
-	property bool daemonKnown: false
-	property bool daemonRunning: false
-	property bool profilesKnown: false
-	property string currentProfileId: ""
-	property var supportedProfileIds: []
 	readonly property int sectionMargin: Math.round(Bar.BarTheme.widget_padding / 2)
 	readonly property int expandedContentHeight: powerProfilesExpandedContent.implicitHeight
-	readonly property var availableProfiles: getAvailableProfiles()
 
-	function hasProfile(profileId: string): bool {
-		return root.supportedProfileIds.indexOf(profileId) !== -1
-	}
+	readonly property var profiles: [
+		{ label: "Power Saver", profile: PowerProfile.PowerSaver, available: true },
+		{ label: "Balanced",    profile: PowerProfile.Balanced,   available: true },
+		{ label: "Performance", profile: PowerProfile.Performance, available: PowerProfiles.hasPerformanceProfile }
+	]
 
-	function getAvailableProfiles(): var {
-		return [
-			{
-				value: UPower.PowerProfile.PowerSaver,
-				id: "power-saver",
-				label: root.daemonRunning && !root.hasProfile("power-saver")
-					? "Power Saver - unavailable"
-					: "Power Saver",
-				enabled: root.hasProfile("power-saver")
-			},
-			{
-				value: UPower.PowerProfile.Balanced,
-				id: "balanced",
-				label: root.daemonRunning && !root.hasProfile("balanced")
-					? "Balanced - unavailable"
-					: "Balanced",
-				enabled: root.hasProfile("balanced")
-			},
-			{
-				value: UPower.PowerProfile.Performance,
-				label: root.daemonRunning && !root.hasProfile("performance")
-					? "Performance - unavailable"
-					: "Performance",
-				id: "performance",
-				enabled: root.hasProfile("performance")
-			}
-		]
-	}
-
-	function profileLabel(profileId: string): string {
-		switch (profileId) {
-		case "power-saver":
-			return "Power Saver"
-		case "performance":
-			return "Performance"
-		case "balanced":
-			return "Balanced"
-		default:
-			return "Balanced"
+	function profileLabel(profile): string {
+		switch (profile) {
+		case PowerProfile.PowerSaver:   return "Power Saver"
+		case PowerProfile.Balanced:     return "Balanced"
+		case PowerProfile.Performance:  return "Performance"
+		default:                        return "Unknown"
 		}
-	}
-
-	function subtitleText(): string {
-		if (!root.daemonKnown) return "Checking..."
-		if (!root.daemonRunning) return "Enable power-profiles-daemon"
-		if (!root.profilesKnown) return "Checking profiles..."
-		if (root.supportedProfileIds.length <= 1) return "No power profiles available"
-		if (root.currentProfileId.length > 0) return root.profileLabel(root.currentProfileId)
-		return "Balanced"
-	}
-
-	function setProfile(profileId: string): void {
-		if (!root.daemonRunning) return
-		if (root.supportedProfileIds.indexOf(profileId) === -1) return
-		if (root.currentProfileId === profileId) return
-		profileSet.exec(["powerprofilesctl", "set", profileId])
-		profilesRefresh.restart()
 	}
 
 	implicitWidth: 280
@@ -103,45 +48,70 @@ Rectangle {
 			spacing: 4
 
 			Rectangle {
-				id: powerProfilesDropdown
+				id: powerProfilesHeader
+				property bool hovered: powerProfilesHeaderMouse.containsMouse
+				property bool pressed: powerProfilesHeaderMouse.pressed
 				Layout.fillWidth: true
-				Layout.preferredHeight: Bar.BarTheme.widget_height + 10
+				Layout.preferredHeight: Bar.BarTheme.widget_height * 1.5
 				radius: Constants.Theme.radius_normal
-				color: Constants.Theme.color_surface_hover
+				color: pressed ? Constants.Theme.color_surface_pressed : Constants.Theme.color_surface_hover
 
-				Column {
-					anchors.left: parent.left
-					anchors.leftMargin: 8
-					anchors.verticalCenter: parent.verticalCenter
-					spacing: 0
-
-					Text {
-						text: "Power Profiles"
-						color: Constants.Theme.color_text
-						font.pixelSize: Constants.Theme.font_size
-						font.family: Constants.Theme.font_family
-					}
-
-					Text {
-						id: currentProfile
-						text: root.subtitleText()
-						color: Constants.Theme.color_text_subtle
-						font.pixelSize: Constants.Theme.font_size - 1
-						font.family: Constants.Theme.font_family
+				Behavior on color {
+					ColorAnimation {
+						duration: Constants.Animations.duration_hover
+						easing.type: Constants.Animations.easing_standard
 					}
 				}
 
-				Text {
-					anchors.right: parent.right
-					anchors.rightMargin: 8
-					anchors.verticalCenter: parent.verticalCenter
-					text: root.expanded ? "" : ""
-					color: Constants.Theme.color_text
-					font.pixelSize: Constants.Theme.font_size
-					font.family: Constants.Theme.font_family_icon
+				RowLayout {
+					anchors {
+						left: parent.left
+						right: parent.right
+						verticalCenter: parent.verticalCenter
+						leftMargin: 10
+						rightMargin: 10
+					}
+					spacing: 12
+
+					Text {
+						text: "󰔐"
+						color: Constants.Theme.color_text
+						font.pixelSize: Constants.Theme.font_size + 2
+						font.family: Constants.Theme.font_family_icon
+						Layout.alignment: Qt.AlignVCenter
+					}
+
+					Column {
+						Layout.fillWidth: true
+						Layout.alignment: Qt.AlignVCenter
+						spacing: 1
+
+						Text {
+							text: "Power Profiles"
+							color: Constants.Theme.color_text
+							font.pixelSize: Constants.Theme.font_size
+							font.family: Constants.Theme.font_family
+						}
+
+						Text {
+							text: root.profileLabel(PowerProfiles.profile)
+							color: Constants.Theme.color_text_subtle
+							font.pixelSize: Constants.Theme.font_size
+							font.family: Constants.Theme.font_family
+						}
+					}
+
+					Text {
+						text: root.expanded ? "" : ""
+						color: Constants.Theme.color_text_subtle
+						font.pixelSize: Constants.Theme.font_size - 2
+						font.family: Constants.Theme.font_family_icon
+						Layout.alignment: Qt.AlignVCenter
+					}
 				}
 
 				MouseArea {
+					id: powerProfilesHeaderMouse
 					anchors.fill: parent
 					hoverEnabled: true
 					cursorShape: Qt.PointingHandCursor
@@ -157,6 +127,13 @@ Rectangle {
 				opacity: root.expanded ? 1 : 0
 				clip: true
 
+				Behavior on Layout.preferredHeight {
+					NumberAnimation {
+						duration: Constants.Animations.duration_dropdown_section
+						easing.type: Constants.Animations.easing_emphasized
+					}
+				}
+
 				Behavior on opacity {
 					NumberAnimation {
 						duration: Constants.Animations.duration_dropdown_section
@@ -171,41 +148,49 @@ Rectangle {
 					spacing: 3
 
 					Repeater {
-						model: root.availableProfiles
+						model: root.profiles
 
 						Rectangle {
-							id: profileItem
 							required property var modelData
+							required property int index
 							property bool hovered: profileMouse.containsMouse
 							property bool pressed: profileMouse.pressed
-							readonly property bool selectable: root.daemonRunning && modelData.enabled !== false
+							readonly property bool active: PowerProfiles.profile === modelData.profile
 							Layout.fillWidth: true
-							Layout.preferredHeight: 24
+							Layout.preferredHeight: Bar.BarTheme.widget_height
+							Layout.topMargin: index === 0 ? 4 : 0
 							radius: Constants.Theme.radius_normal
-							color: profileItem.selectable && root.currentProfileId === modelData.id
+							color: active
 								? Constants.Theme.color_surface_hover
 								: (pressed ? Constants.Theme.color_surface_pressed : (hovered ? Constants.Theme.color_surface_hover : "transparent"))
 
+							Behavior on color {
+								ColorAnimation {
+									duration: Constants.Animations.duration_hover
+									easing.type: Constants.Animations.easing_standard
+								}
+							}
+
 							Text {
 								anchors.left: parent.left
-								anchors.leftMargin: 8
+								anchors.leftMargin: 10
 								anchors.verticalCenter: parent.verticalCenter
-								text: profileItem.modelData.label
-								color: profileItem.selectable ? Constants.Theme.color_text : Constants.Theme.color_text_subtle
+								text: modelData.available ? modelData.label : modelData.label + " - unavailable"
+								color: modelData.available ? Constants.Theme.color_text : Constants.Theme.color_text_subtle
 								font.pixelSize: Constants.Theme.font_size
 								font.family: Constants.Theme.font_family
 								elide: Text.ElideRight
-								width: parent.width - 32
+								width: parent.width - 36
 							}
 
 							Text {
 								anchors.right: parent.right
-								anchors.rightMargin: 8
+								anchors.rightMargin: 10
 								anchors.verticalCenter: parent.verticalCenter
-								visible: profileItem.selectable && root.currentProfileId === profileItem.modelData.id
+								visible: active
 								text: "󰄬"
 								color: Constants.Theme.color_text
-								font.pixelSize: Constants.Theme.font_size - 1
+								font.pixelSize: Constants.Theme.font_size
 								font.family: Constants.Theme.font_family_icon
 							}
 
@@ -213,88 +198,14 @@ Rectangle {
 								id: profileMouse
 								anchors.fill: parent
 								hoverEnabled: true
-								cursorShape: profileItem.selectable ? Qt.PointingHandCursor : Qt.ArrowCursor
-								enabled: profileItem.selectable
-								onClicked: root.setProfile(profileItem.modelData.id)
+								cursorShape: modelData.available ? Qt.PointingHandCursor : Qt.ArrowCursor
+								enabled: modelData.available
+								onClicked: PowerProfiles.profile = modelData.profile
 							}
 						}
 					}
 				}
 			}
 		}
-	}
-
-	StdioCollector {
-		id: daemonProbeOut
-		waitForEnd: true
-		onStreamFinished: {
-			root.daemonKnown = true
-			root.daemonRunning = text.trim() === "1"
-			if (root.daemonRunning) {
-				root.profilesKnown = false
-				profilesProbe.exec(["powerprofilesctl", "list"])
-			} else {
-				root.profilesKnown = true
-				root.currentProfileId = ""
-				root.supportedProfileIds = []
-			}
-		}
-	}
-
-	Process {
-		id: daemonProbe
-		stdout: daemonProbeOut
-	}
-
-	StdioCollector {
-		id: profilesProbeOut
-		waitForEnd: true
-		onStreamFinished: {
-			var ids = []
-			var current = ""
-			var lines = text.split("\n")
-
-			for (var i = 0; i < lines.length; i++) {
-				var match = lines[i].match(/^(\*?\s*)(power-saver|balanced|performance):\s*$/)
-				if (!match) continue
-				var id = match[2]
-				if (ids.indexOf(id) === -1) ids.push(id)
-				if (match[1].indexOf("*") !== -1) current = id
-			}
-
-			root.supportedProfileIds = ids
-			root.currentProfileId = current
-			root.profilesKnown = true
-		}
-	}
-
-	Process {
-		id: profilesProbe
-		stdout: profilesProbeOut
-	}
-
-	Process {
-		id: profileSet
-	}
-
-	Timer {
-		id: profilesRefresh
-		interval: 400
-		running: false
-		repeat: false
-		onTriggered: {
-			if (root.daemonRunning) {
-				root.profilesKnown = false
-				profilesProbe.exec(["powerprofilesctl", "list"])
-			}
-		}
-	}
-
-	Component.onCompleted: {
-		daemonProbe.exec([
-			"sh",
-			"-c",
-			"if pgrep -f '/power-profiles-daemon( |$)' >/dev/null 2>&1; then printf '1\\n'; else printf '0\\n'; fi"
-		])
 	}
 }

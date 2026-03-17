@@ -122,6 +122,7 @@ Rectangle {
 		id: dropdown
 		anchor.item: root
 		visible: root.expanded || dropdownPanel.opacity > 0.01
+		anchor.rect.x: 0
 		anchor.rect.y: root.height + BarTheme.popup_offset_y
 		implicitWidth: root.popupWidth + (BarTheme.widget_padding * 2)
 		implicitHeight: popupContent.implicitHeight + (BarTheme.widget_padding * 2)

@@ -1,18 +1,15 @@
 import QtQuick
 import QtQuick.Layouts
 import Quickshell.Bluetooth
-import Quickshell.Io
 import "../../../constants" as Constants
 import "../../" as Bar
 
 Rectangle {
 	id: root
 	property bool expanded: false
-	property bool serviceKnown: false
-	property bool serviceRunning: false
 	readonly property int sectionMargin: Math.round(Bar.BarTheme.widget_padding / 2)
 	readonly property var btAdapter: Bluetooth.defaultAdapter
-	readonly property var btDevices: btAdapter && btAdapter.devices && btAdapter.devices.values ? btAdapter.devices.values : []
+	readonly property var btDevices: btAdapter && btAdapter.devices ? btAdapter.devices.values : []
 	readonly property bool enabled: !!btAdapter && btAdapter.enabled
 	readonly property bool discovering: !!btAdapter && btAdapter.discovering
 	readonly property var connectedDevices: getConnectedBtDevices()
@@ -21,17 +18,16 @@ Rectangle {
 
 	function btName(device: var): string {
 		if (!device) return ""
-		if (device.deviceName && isUsefulBtName(device.deviceName)) return device.deviceName
 		if (device.name && isUsefulBtName(device.name)) return device.name
+		if (device.deviceName && isUsefulBtName(device.deviceName)) return device.deviceName
 		return ""
 	}
 
 	function currentBluetoothSubtitle(): string {
-		if (!root.serviceKnown) return "Checking..."
-		if (!root.serviceRunning) return "Enable bluetooth service"
-		if (!root.enabled) return "bluetooth disabled"
+		if (!btAdapter) return "Bluetooth unavailable"
+		if (!root.enabled) return "Bluetooth disabled"
 		if (root.connectedDevices.length > 0) return root.btName(root.connectedDevices[0])
-		return "none connected"
+		return "None connected"
 	}
 
 	function isUsefulBtName(value: string): bool {
@@ -60,19 +56,9 @@ Rectangle {
 		return available
 	}
 
-	function connectDevice(device: var): void {
-		if (!device || !root.enabled) return
-		device.connect()
-	}
-
-	function disconnectDevice(device: var): void {
-		if (!device) return
-		device.disconnect()
-	}
-
 	function refreshBluetooth(): void {
-		if (!root.btAdapter || !root.btAdapter.enabled || root.btAdapter.discovering) return
-		root.btAdapter.discovering = true
+		if (!btAdapter || !btAdapter.enabled || btAdapter.discovering) return
+		btAdapter.discovering = true
 	}
 
 	implicitWidth: 280
@@ -99,45 +85,71 @@ Rectangle {
 
 			Rectangle {
 				id: bluetoothHeader
+				property bool hovered: bluetoothHeaderMouse.containsMouse
+				property bool pressed: bluetoothHeaderMouse.pressed
 				Layout.fillWidth: true
-				Layout.preferredHeight: Bar.BarTheme.widget_height + 10
+				Layout.preferredHeight: Bar.BarTheme.widget_height * 1.5
 				radius: Constants.Theme.radius_normal
-				color: Constants.Theme.color_surface_hover
+				color: pressed ? Constants.Theme.color_surface_pressed : Constants.Theme.color_surface_hover
 
-				Column {
-					anchors.left: parent.left
-					anchors.leftMargin: 8
-					anchors.verticalCenter: parent.verticalCenter
-					spacing: 0
-
-					Text {
-						text: root.enabled ? "Bluetooth" : "Bluetooth Off"
-						color: Constants.Theme.color_text
-						font.pixelSize: Constants.Theme.font_size
-						font.family: Constants.Theme.font_family
-					}
-
-					Text {
-						text: root.currentBluetoothSubtitle()
-						color: Constants.Theme.color_text_subtle
-						font.pixelSize: Constants.Theme.font_size - 1
-						font.family: Constants.Theme.font_family
-						elide: Text.ElideRight
-						width: Math.max(0, bluetoothHeader.width - 32)
+				Behavior on color {
+					ColorAnimation {
+						duration: Constants.Animations.duration_hover
+						easing.type: Constants.Animations.easing_standard
 					}
 				}
 
-				Text {
-					anchors.right: parent.right
-					anchors.rightMargin: 8
-					anchors.verticalCenter: parent.verticalCenter
-					text: root.expanded ? "" : ""
-					color: Constants.Theme.color_text
-					font.pixelSize: Constants.Theme.font_size
-					font.family: Constants.Theme.font_family_icon
+				RowLayout {
+					anchors {
+						left: parent.left
+						right: parent.right
+						verticalCenter: parent.verticalCenter
+						leftMargin: 10
+						rightMargin: 10
+					}
+					spacing: 12
+
+					Text {
+						text: root.enabled ? "󰂱" : "󰂲"
+						color: Constants.Theme.color_text
+						font.pixelSize: Constants.Theme.font_size + 2
+						font.family: Constants.Theme.font_family_icon
+						Layout.alignment: Qt.AlignVCenter
+					}
+
+					Column {
+						Layout.fillWidth: true
+						Layout.alignment: Qt.AlignVCenter
+						spacing: 1
+
+						Text {
+							text: root.enabled ? "Bluetooth" : "Bluetooth Off"
+							color: Constants.Theme.color_text
+							font.pixelSize: Constants.Theme.font_size
+							font.family: Constants.Theme.font_family
+						}
+
+						Text {
+							text: root.currentBluetoothSubtitle()
+							color: Constants.Theme.color_text_subtle
+							font.pixelSize: Constants.Theme.font_size
+							font.family: Constants.Theme.font_family
+							elide: Text.ElideRight
+							width: Math.max(0, bluetoothHeader.width - 60)
+						}
+					}
+
+					Text {
+						text: root.expanded ? "" : ""
+						color: Constants.Theme.color_text_subtle
+						font.pixelSize: Constants.Theme.font_size - 2
+						font.family: Constants.Theme.font_family_icon
+						Layout.alignment: Qt.AlignVCenter
+					}
 				}
 
 				MouseArea {
+					id: bluetoothHeaderMouse
 					anchors.fill: parent
 					hoverEnabled: true
 					cursorShape: Qt.PointingHandCursor
@@ -156,6 +168,13 @@ Rectangle {
 				opacity: root.expanded ? 1 : 0
 				clip: true
 
+				Behavior on Layout.preferredHeight {
+					NumberAnimation {
+						duration: Constants.Animations.duration_dropdown_section
+						easing.type: Constants.Animations.easing_emphasized
+					}
+				}
+
 				Behavior on opacity {
 					NumberAnimation {
 						duration: Constants.Animations.duration_dropdown_section
@@ -170,11 +189,12 @@ Rectangle {
 					spacing: 3
 
 					Text {
-						text: "Connected Devices"
+						text: "Connected"
 						color: Constants.Theme.color_text_subtle
-						font.pixelSize: Constants.Theme.font_size - 1
+						font.pixelSize: Constants.Theme.font_size
 						font.family: Constants.Theme.font_family
 						Layout.fillWidth: true
+						Layout.topMargin: 4
 					}
 
 					Repeater {
@@ -186,20 +206,27 @@ Rectangle {
 							property bool hovered: connectedDeviceMouse.containsMouse
 							property bool pressed: connectedDeviceMouse.pressed
 							Layout.fillWidth: true
-							Layout.preferredHeight: 24
+							Layout.preferredHeight: Bar.BarTheme.widget_height
 							radius: Constants.Theme.radius_normal
 							color: pressed ? Constants.Theme.color_surface_pressed : (hovered ? Constants.Theme.color_surface_hover : "transparent")
 
+							Behavior on color {
+								ColorAnimation {
+									duration: Constants.Animations.duration_hover
+									easing.type: Constants.Animations.easing_standard
+								}
+							}
+
 							Text {
 								anchors.left: parent.left
-								anchors.leftMargin: 8
+								anchors.leftMargin: 10
 								anchors.verticalCenter: parent.verticalCenter
 								text: root.btName(connectedBtDevice.modelData)
 								color: Constants.Theme.color_text
 								font.pixelSize: Constants.Theme.font_size
 								font.family: Constants.Theme.font_family
 								elide: Text.ElideRight
-								width: parent.width - 16
+								width: parent.width - 20
 							}
 
 							MouseArea {
@@ -207,27 +234,27 @@ Rectangle {
 								anchors.fill: parent
 								hoverEnabled: true
 								cursorShape: Qt.PointingHandCursor
-								onClicked: root.disconnectDevice(connectedBtDevice.modelData)
+								onClicked: connectedBtDevice.modelData.disconnect()
 							}
 						}
 					}
 
 					Rectangle {
 						Layout.fillWidth: true
-						Layout.preferredHeight: 24
+						Layout.preferredHeight: Bar.BarTheme.widget_height
 						radius: Constants.Theme.radius_normal
 						color: "transparent"
 						visible: root.connectedDevices.length === 0
 
 						Text {
 							anchors.left: parent.left
-							anchors.leftMargin: 8
+							anchors.leftMargin: 10
 							anchors.verticalCenter: parent.verticalCenter
-							text: root.serviceRunning
-								? (root.enabled ? "None connected" : "Bluetooth disabled")
-								: "Bluetooth needs to be installed / enabled"
+							text: !btAdapter
+								? "Bluetooth unavailable"
+								: (root.enabled ? "None connected" : "Bluetooth disabled")
 							color: Constants.Theme.color_text_subtle
-							font.pixelSize: Constants.Theme.font_size - 1
+							font.pixelSize: Constants.Theme.font_size
 							font.family: Constants.Theme.font_family
 						}
 					}
@@ -235,9 +262,10 @@ Rectangle {
 					Text {
 						text: "Available"
 						color: Constants.Theme.color_text_subtle
-						font.pixelSize: Constants.Theme.font_size - 1
+						font.pixelSize: Constants.Theme.font_size
 						font.family: Constants.Theme.font_family
 						Layout.fillWidth: true
+						Layout.topMargin: 4
 					}
 
 					Repeater {
@@ -249,20 +277,27 @@ Rectangle {
 							property bool hovered: availableDeviceMouse.containsMouse
 							property bool pressed: availableDeviceMouse.pressed
 							Layout.fillWidth: true
-							Layout.preferredHeight: 24
+							Layout.preferredHeight: Bar.BarTheme.widget_height
 							radius: Constants.Theme.radius_normal
 							color: pressed ? Constants.Theme.color_surface_pressed : (hovered ? Constants.Theme.color_surface_hover : "transparent")
 
+							Behavior on color {
+								ColorAnimation {
+									duration: Constants.Animations.duration_hover
+									easing.type: Constants.Animations.easing_standard
+								}
+							}
+
 							Text {
 								anchors.left: parent.left
-								anchors.leftMargin: 8
+								anchors.leftMargin: 10
 								anchors.verticalCenter: parent.verticalCenter
 								text: root.btName(availableBtDevice.modelData)
 								color: Constants.Theme.color_text
 								font.pixelSize: Constants.Theme.font_size
 								font.family: Constants.Theme.font_family
 								elide: Text.ElideRight
-								width: parent.width - 16
+								width: parent.width - 20
 							}
 
 							MouseArea {
@@ -270,29 +305,29 @@ Rectangle {
 								anchors.fill: parent
 								hoverEnabled: true
 								cursorShape: Qt.PointingHandCursor
-								onClicked: root.connectDevice(availableBtDevice.modelData)
+								onClicked: availableBtDevice.modelData.connect()
 							}
 						}
 					}
 
 					Rectangle {
 						Layout.fillWidth: true
-						Layout.preferredHeight: 24
+						Layout.preferredHeight: Bar.BarTheme.widget_height
 						radius: Constants.Theme.radius_normal
 						color: "transparent"
 						visible: root.availableDevices.length === 0
 
 						Text {
 							anchors.left: parent.left
-							anchors.leftMargin: 8
+							anchors.leftMargin: 10
 							anchors.verticalCenter: parent.verticalCenter
-							text: !root.serviceRunning
-								? "Bluetooth needs to be installed / enabled"
+							text: !btAdapter
+								? "Bluetooth unavailable"
 								: (root.enabled
 									? (root.discovering ? "Scanning..." : "None available")
 									: "Bluetooth disabled")
 							color: Constants.Theme.color_text_subtle
-							font.pixelSize: Constants.Theme.font_size - 1
+							font.pixelSize: Constants.Theme.font_size
 							font.family: Constants.Theme.font_family
 						}
 					}
@@ -301,35 +336,13 @@ Rectangle {
 		}
 	}
 
-	StdioCollector {
-		id: bluetoothServiceProbeOut
-		waitForEnd: true
-		onStreamFinished: {
-			root.serviceKnown = true
-			root.serviceRunning = text.trim() === "1"
-		}
-	}
-
-	Process {
-		id: bluetoothServiceProbe
-		stdout: bluetoothServiceProbeOut
-	}
-
 	Timer {
 		id: bluetoothDiscoveryStop
 		interval: 10000
 		running: root.expanded && root.discovering
 		repeat: false
 		onTriggered: {
-			if (root.btAdapter && root.btAdapter.discovering) root.btAdapter.discovering = false
+			if (btAdapter && btAdapter.discovering) btAdapter.discovering = false
 		}
-	}
-
-	Component.onCompleted: {
-		bluetoothServiceProbe.exec([
-			"sh",
-			"-c",
-			"if pgrep -x bluetoothd >/dev/null 2>&1; then printf '1\\n'; else printf '0\\n'; fi"
-		])
 	}
 }
