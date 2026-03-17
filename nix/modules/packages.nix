@@ -17,6 +17,7 @@
     pkgs.blueman
     pkgs.bluez
     pkgs.celluloid
+    unstablePkgs.claude-code
     pkgs.brightnessctl
     pkgs.kdePackages.breeze-icons
     pkgs.kdePackages.breeze
