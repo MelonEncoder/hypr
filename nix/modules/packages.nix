@@ -13,6 +13,7 @@
   environment.systemPackages = [
     pkgs.adwaita-icon-theme
     pkgs.apostrophe
+    pkgs.arduino-ide
     pkgs.audacity
     pkgs.blueman
     pkgs.bluez
