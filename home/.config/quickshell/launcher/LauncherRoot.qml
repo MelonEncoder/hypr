@@ -4,7 +4,6 @@ import Quickshell
 import Quickshell.Wayland
 import Quickshell.Hyprland
 import Quickshell.Hyprland._GlobalShortcuts
-import Quickshell.Io
 import Quickshell.Widgets
 import QtQuick
 import QtQuick.Controls
@@ -17,157 +16,18 @@ Scope {
 
 	property bool visible: false
 	property string query: ""
-	property string pendingExec: ""
 	property string launchStatus: ""
 	property int selectedIndex: 0
 	property var searchInputRef: null
 	property var listViewRef: null
-	property bool appsLoading: false
-	property string appLoadMessage: "Loading applications..."
-
-	function refreshApplications(): void {
-		appsLoading = true
-		appLoadMessage = "Loading applications..."
-		appScan.exec([
-			"bash",
-			"-lc",
-				"python3 - <<'PY'\n"
-				+ "import configparser\n"
-				+ "import os\n"
-				+ "from pathlib import Path\n"
-				+ "\n"
-				+ "home = Path.home()\n"
-				+ "dirs = []\n"
-				+ "icon_roots = []\n"
-				+ "seen_dirs = set()\n"
-				+ "seen_icon_roots = set()\n"
-				+ "\n"
-				+ "def append_unique(target: list[Path], seen: set[str], path: Path, suffix: str = '') -> None:\n"
-				+ "    resolved = path / suffix if suffix else path\n"
-				+ "    key = str(resolved)\n"
-				+ "    if key in seen:\n"
-				+ "        return\n"
-				+ "    seen.add(key)\n"
-				+ "    target.append(resolved)\n"
-				+ "\n"
-				+ "xdg_data_home = Path(os.environ.get('XDG_DATA_HOME') or (home / '.local/share'))\n"
-				+ "append_unique(dirs, seen_dirs, xdg_data_home, 'applications')\n"
-				+ "append_unique(icon_roots, seen_icon_roots, xdg_data_home, 'icons/hicolor')\n"
-				+ "\n"
-				+ "xdg_data_dirs = os.environ.get('XDG_DATA_DIRS', '/usr/local/share:/usr/share').split(':')\n"
-				+ "for entry in xdg_data_dirs:\n"
-				+ "    if not entry:\n"
-				+ "        continue\n"
-				+ "    base = Path(entry)\n"
-				+ "    append_unique(dirs, seen_dirs, base, 'applications')\n"
-				+ "    append_unique(icon_roots, seen_icon_roots, base, 'icons/hicolor')\n"
-				+ "    if base.name == 'share' and base.parent.exists():\n"
-				+ "        for child in sorted(base.parent.glob('*/share')):\n"
-				+ "            append_unique(dirs, seen_dirs, child, 'applications')\n"
-				+ "            append_unique(icon_roots, seen_icon_roots, child, 'icons/hicolor')\n"
-				+ "\n"
-				+ "append_unique(dirs, seen_dirs, Path('/var/lib/flatpak/exports/share'), 'applications')\n"
-				+ "append_unique(dirs, seen_dirs, home / '.local/share/flatpak/exports/share', 'applications')\n"
-				+ "append_unique(icon_roots, seen_icon_roots, Path('/var/lib/flatpak/exports/share'), 'icons/hicolor')\n"
-				+ "append_unique(icon_roots, seen_icon_roots, home / '.local/share/flatpak/exports/share', 'icons/hicolor')\n"
-				+ "\n"
-				+ "seen = set()\n"
-				+ "entries = []\n"
-				+ "\n"
-				+ "def clean_exec(value: str) -> str:\n"
-				+ "    value = value or ''\n"
-				+ "    parts = []\n"
-				+ "    for token in value.split():\n"
-				+ "        if token.startswith('%'):\n"
-				+ "            continue\n"
-				+ "        if token.startswith('@@'):\n"
-				+ "            continue\n"
-				+ "        parts.append(token)\n"
-				+ "    return ' '.join(parts).strip()\n"
-				+ "\n"
-				+ "def clean_text(value: str) -> str:\n"
-				+ "    return (value or '').replace('\\t', ' ').replace('\\n', ' ').strip()\n"
-				+ "\n"
-				+ "def resolve_icon(value: str) -> str:\n"
-				+ "    value = clean_text(value)\n"
-				+ "    if not value:\n"
-				+ "        return ''\n"
-				+ "    if value.startswith('/'):\n"
-				+ "        return value if Path(value).exists() else ''\n"
-				+ "    if '://' in value:\n"
-				+ "        return value\n"
-				+ "    candidates = []\n"
-				+ "    for root in icon_roots:\n"
-				+ "        if not root.exists():\n"
-				+ "            continue\n"
-				+ "        candidates.extend(root.glob(f'**/{value}.png'))\n"
-				+ "        candidates.extend(root.glob(f'**/{value}.svg'))\n"
-				+ "        candidates.extend(root.glob(f'**/{value}.xpm'))\n"
-				+ "    if not candidates:\n"
-				+ "        return ''\n"
-				+ "    def rank(path: Path):\n"
-				+ "        path_str = str(path)\n"
-				+ "        scalable = 1 if '/scalable/' in path_str else 0\n"
-				+ "        apps = 1 if '/apps/' in path_str else 0\n"
-				+ "        size = 0\n"
-				+ "        for part in path.parts:\n"
-				+ "            if 'x' in part:\n"
-				+ "                try:\n"
-				+ "                    size = max(size, int(part.split('x', 1)[0]))\n"
-				+ "                except Exception:\n"
-				+ "                    pass\n"
-				+ "        return (apps, scalable, size)\n"
-				+ "    candidates.sort(key=rank, reverse=True)\n"
-				+ "    return str(candidates[0])\n"
-				+ "\n"
-				+ "for directory in dirs:\n"
-				+ "    if not directory.exists() or not directory.is_dir():\n"
-				+ "        continue\n"
-				+ "    for path in sorted(directory.glob('*.desktop')):\n"
-				+ "        desktop_id = path.name\n"
-				+ "        if desktop_id in seen:\n"
-				+ "            continue\n"
-				+ "        parser = configparser.ConfigParser(interpolation=None, strict=False)\n"
-				+ "        try:\n"
-				+ "            parser.read(path, encoding='utf-8')\n"
-				+ "        except Exception:\n"
-				+ "            continue\n"
-				+ "        if not parser.has_section('Desktop Entry'):\n"
-				+ "            continue\n"
-				+ "        section = parser['Desktop Entry']\n"
-				+ "        if section.get('Type', 'Application') != 'Application':\n"
-				+ "            continue\n"
-				+ "        if section.get('NoDisplay', '').lower() == 'true':\n"
-				+ "            continue\n"
-				+ "        if section.get('Hidden', '').lower() == 'true':\n"
-				+ "            continue\n"
-				+ "        name = section.get('Name', '').strip()\n"
-				+ "        exec_value = clean_exec(section.get('Exec', ''))\n"
-				+ "        if not name or not exec_value:\n"
-				+ "            continue\n"
-				+ "        seen.add(desktop_id)\n"
-				+ "        entries.append((\n"
-				+ "            clean_text(name),\n"
-				+ "            resolve_icon(section.get('Icon', '').strip()),\n"
-				+ "            clean_text(exec_value),\n"
-				+ "            clean_text(desktop_id),\n"
-				+ "            clean_text(section.get('GenericName', '').strip()),\n"
-				+ "            clean_text(section.get('Comment', '').strip()),\n"
-				+ "        ))\n"
-				+ "\n"
-				+ "entries.sort(key=lambda item: item[0].casefold())\n"
-				+ "for item in entries:\n"
-				+ "    print('\\t'.join(item))\n"
-				+ "PY"
-		])
-	}
 
 	function updateFilteredModel(): void {
 		var trimmedQuery = root.query.trim().toLowerCase()
 		filteredApps.clear()
 
-		for (var i = 0; i < allApps.count; ++i) {
-			var app = allApps.get(i)
+		var apps = DesktopEntries.applications.values
+		for (var i = 0; i < apps.length; ++i) {
+			var app = apps[i]
 			if (!app) continue
 
 			var haystack = ((app.name || "") + " " + (app.genericName || "") + " " + (app.comment || "")).toLowerCase()
@@ -176,8 +36,8 @@ Scope {
 			filteredApps.append({
 				name: app.name || "",
 				icon: app.icon || "",
-				exec: app.exec || "",
-				desktopId: app.desktopId || "",
+				execString: app.execString || "",
+				desktopId: app.id || "",
 				genericName: app.genericName || "",
 				comment: app.comment || ""
 			})
@@ -199,7 +59,6 @@ Scope {
 	function toggle(): void {
 		visible = !visible
 		if (visible) {
-			refreshApplications()
 			clearSearch()
 			selectedIndex = 0
 			launchStatus = ""
@@ -226,16 +85,19 @@ Scope {
 	function launchSelected(): void {
 		if (filteredApps.count <= 0) return
 		var app = filteredApps.get(selectedIndex)
-		if (!app || !app.exec) return
-
-		pendingExec = app.exec
+		if (!app || !app.desktopId) return
+		var entry = DesktopEntries.byId(app.desktopId)
+		if (!entry) return
 		launchStatus = "Launching " + app.name
-		appLaunch.exec([
-			"sh",
-			"-c",
-			"(" + root.pendingExec + ") >/dev/null 2>&1 &"
-		])
+		entry.execute()
 		closeLauncher()
+	}
+
+	Connections {
+		target: DesktopEntries
+		function onApplicationsChanged(): void {
+			root.updateFilteredModel()
+		}
 	}
 
 	GlobalShortcut {
@@ -247,70 +109,7 @@ Scope {
 	}
 
 	ListModel {
-		id: allApps
-	}
-
-	ListModel {
 		id: filteredApps
-	}
-
-	StdioCollector {
-		id: appScanOut
-		waitForEnd: true
-
-		onStreamFinished: {
-			allApps.clear()
-			root.appsLoading = false
-
-			var raw = text.trim()
-			if (raw.length === 0) {
-				root.appLoadMessage = "No applications found"
-				root.updateFilteredModel()
-				return
-			}
-
-			var lines = raw.split("\n")
-			for (var i = 0; i < lines.length; ++i) {
-				var line = lines[i].trim()
-				if (line.length === 0) continue
-				var parts = line.split("\t")
-				if (parts.length < 6) continue
-				allApps.append({
-					name: parts[0] || "",
-					icon: parts[1] || "",
-					exec: parts[2] || "",
-					desktopId: parts[3] || "",
-					genericName: parts[4] || "",
-					comment: parts.slice(5).join("\t") || ""
-				})
-			}
-
-			if (allApps.count === 0) {
-				root.appLoadMessage = "No applications found"
-			}
-
-			root.updateFilteredModel()
-		}
-	}
-
-	Process {
-		id: appScan
-		stdout: appScanOut
-		onExited: function(exitCode, exitStatus) {
-			if (exitCode !== 0) {
-				root.appsLoading = false
-				root.appLoadMessage = "Application scan failed"
-			}
-		}
-	}
-
-	Process {
-		id: appLaunch
-		onExited: function(exitCode, exitStatus) {
-			if (exitCode !== 0) {
-				root.launchStatus = "Launch failed"
-			}
-		}
 	}
 
 	HyprlandFocusGrab {
@@ -329,7 +128,6 @@ Scope {
 	}
 
 	Component.onCompleted: {
-		refreshApplications()
 		updateFilteredModel()
 	}
 
@@ -431,7 +229,7 @@ Scope {
 							spacing: 12
 
 							Text {
-								text: ""
+								text: ""
 								color: Theme.color_text_subtle
 								font.pixelSize: Theme.font_size + 6
 								font.family: Theme.font_family_icon
@@ -527,14 +325,66 @@ Scope {
 								required property int index
 								required property string name
 								required property string icon
-								required property string exec
+								required property string execString
+								required property string desktopId
 								required property string genericName
 								required property string comment
-								readonly property bool hasImageSource: icon.indexOf("/") === 0
-									|| icon.indexOf("file://") === 0
-									|| icon.indexOf("qrc:/") === 0
-									|| icon.indexOf("image://") === 0
-								
+
+								// Icon name to look up: explicit if set, otherwise try
+								// the desktop ID (strip .desktop) then name as kebab-case.
+								readonly property string effectiveIconName: {
+									if (icon.length > 0) return icon
+									var idBase = desktopId.replace(/\.desktop$/i, "")
+									if (idBase.length > 0) return idBase
+									return name.toLowerCase().replace(/\s+/g, "-")
+								}
+
+								// Full image:// URL. Only explicit icons get the
+								// application-x-executable fallback; derived ones do not
+								// so that the canvas probe can detect a failed lookup.
+								readonly property string iconSource: effectiveIconName.length > 0
+									? ("image://icon/" + effectiveIconName
+										+ (icon.length > 0 ? "?fallback=application-x-executable" : ""))
+									: ""
+
+								// Whether the resolved icon is valid (not the checkerboard).
+								// Explicit icons are always valid (fallback guarantees a result).
+								// Derived icons start false and are confirmed by the canvas probe.
+								property bool iconValid: icon.length > 0
+
+								// Hidden 8×8 probe image — only active for derived icon lookups
+								Image {
+									id: iconProbe
+									visible: false
+									width: 8; height: 8
+									source: row.icon.length === 0 && row.iconSource.length > 0
+										? row.iconSource : ""
+									onStatusChanged: if (status === Image.Ready) probeCanvas.requestPaint()
+								}
+
+								// Sample the four quadrant-centre pixels to detect the
+								// purple (#d900d8) / black checkerboard drawn by Quickshell
+								// when QIcon::fromTheme() returns a null icon.
+								Canvas {
+									id: probeCanvas
+									visible: false
+									width: 8; height: 8
+									onPaint: {
+										var ctx = getContext("2d")
+										ctx.drawImage(row.iconSource, 0, 0, 8, 8)
+										function isBlack(d)  { return d[0] < 10  && d[1] < 10 && d[2] < 10  }
+										function isPurple(d) { return d[0] > 200 && d[1] < 10 && d[2] > 200 }
+										var tl = ctx.getImageData(1, 1, 1, 1).data
+										var tr = ctx.getImageData(5, 1, 1, 1).data
+										var bl = ctx.getImageData(1, 5, 1, 1).data
+										var br = ctx.getImageData(5, 5, 1, 1).data
+										var isCheckerboard =
+											(isBlack(tl) && isPurple(tr) && isPurple(bl) && isBlack(br)) ||
+											(isPurple(tl) && isBlack(tr) && isBlack(bl) && isPurple(br))
+										row.iconValid = !isCheckerboard
+									}
+								}
+
 								width: listView.width
 								height: LauncherTheme.row_height
 								radius: LauncherTheme.row_radius
@@ -562,23 +412,18 @@ Scope {
 										radius: 12
 										color: LauncherTheme.icon_background_color
 
-										Image {
+										IconImage {
 											anchors.centerIn: parent
 											width: LauncherTheme.icon_size
 											height: LauncherTheme.icon_size
-											visible: row.hasImageSource
-											source: row.hasImageSource
-												? (row.icon.indexOf("/") === 0 ? ("file://" + row.icon) : row.icon)
-												: ""
-											fillMode: Image.PreserveAspectFit
+											visible: row.iconValid
+											source: row.iconSource
 											asynchronous: true
-											sourceSize.width: LauncherTheme.icon_size
-											sourceSize.height: LauncherTheme.icon_size
 										}
 
 										Text {
 											anchors.centerIn: parent
-											visible: !row.hasImageSource
+											visible: !row.iconValid
 											text: row.name.length > 0 ? row.name.charAt(0).toUpperCase() : "?"
 											color: Theme.color_text
 											font.pixelSize: Theme.font_size + 5
@@ -613,7 +458,7 @@ Scope {
 									}
 
 									Text {
-										text: row.exec
+										text: row.execString
 										color: LauncherTheme.muted_color
 										font.pixelSize: Theme.font_size - 1
 										font.family: Theme.font_family
@@ -644,9 +489,9 @@ Scope {
 						Text {
 							anchors.centerIn: parent
 							visible: filteredApps.count === 0
-							text: root.appsLoading
-								? root.appLoadMessage
-								: (allApps.count === 0 ? root.appLoadMessage : "No matching applications")
+							text: DesktopEntries.applications.values.length === 0
+								? "Loading applications..."
+								: "No matching applications"
 							color: LauncherTheme.hint_color
 							font.pixelSize: Theme.font_size + 2
 							font.family: Theme.font_family

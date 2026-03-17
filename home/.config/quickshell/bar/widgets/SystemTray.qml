@@ -119,7 +119,12 @@ Rectangle {
 						IconImage {
 							id: trayIcon
 							anchors.centerIn: parent
-							source: trayItem.modelData.icon
+							source: {
+								var s = (trayItem.modelData.icon || "").toString()
+								if (s.startsWith("image://icon/") && s.indexOf("?fallback=") === -1)
+									return s + "?fallback=application-x-executable"
+								return s
+							}
 							implicitSize: BarTheme.tray_icon_size
 							visible: source.toString() !== "" && status === Image.Ready
 							asynchronous: true
