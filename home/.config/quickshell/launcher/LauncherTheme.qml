@@ -18,16 +18,16 @@ QtObject {
 	readonly property int icon_wrap_size: 40
 	readonly property int border_width: 2
 
-	readonly property color overlay_color: "#66000000"
+	readonly property color overlay_color: Qt.rgba(0, 0, 0, 0.4)
 	readonly property color panel_color: Theme.background
-	readonly property color panel_border_color: "#33ffffff"
+	readonly property color panel_border_color: Qt.rgba(1, 1, 1, 0.2)
 	readonly property color search_color: Theme.color_surface
-	readonly property color search_border_color: "#44ffffff"
-	readonly property color search_active_border_color: "#88ffffff"
-	readonly property color row_color: "#1affffff"
-	readonly property color row_hover_color: "#22ffffff"
-	readonly property color row_selected_color: "#30ffffff"
-	readonly property color icon_background_color: "#18ffffff"
+	readonly property color search_border_color: Qt.rgba(1, 1, 1, 0.267)
+	readonly property color search_active_border_color: Qt.rgba(1, 1, 1, 0.533)
+	readonly property color row_color: Qt.rgba(1, 1, 1, 0.102)
+	readonly property color row_hover_color: Qt.rgba(1, 1, 1, 0.133)
+	readonly property color row_selected_color: Qt.rgba(1, 1, 1, 0.188)
+	readonly property color icon_background_color: Qt.rgba(1, 1, 1, 0.094)
 	readonly property color hint_color: Theme.color_text_subtle
 	readonly property color muted_color: Theme.color_text_muted
 }

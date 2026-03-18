@@ -4,16 +4,16 @@ import QtQuick
 import "."
 
 QtObject {
-	readonly property color color_background: "#ff000000"
-	readonly property color color_surface: "#2f2f2f"
-	readonly property color color_surface_hover: "#444444"
-	readonly property color color_surface_pressed: "#3a3a3a"
-	readonly property color color_privacy: "#ef7943"
-	readonly property color color_border: "#66ffffff"
-	readonly property color color_text: "#ffffff"
-	readonly property color color_text_muted: "#d9d9d9"
-	readonly property color color_text_subtle: "#bfbfbf"
-	readonly property color color_text_on_active: "#ffffff"
+	readonly property color color_background: Qt.rgba(0, 0, 0, 1)
+	readonly property color color_surface: Qt.rgba(0.184, 0.184, 0.184, 1)
+	readonly property color color_surface_hover: Qt.rgba(0.267, 0.267, 0.267, 1)
+	readonly property color color_surface_pressed: Qt.rgba(0.227, 0.227, 0.227, 1)
+	readonly property color color_privacy: Qt.rgba(0.937, 0.475, 0.263, 1)
+	readonly property color color_border: Qt.rgba(1, 1, 1, 0.4)
+	readonly property color color_text: Qt.rgba(1, 1, 1, 1)
+	readonly property color color_text_muted: Qt.rgba(0.851, 0.851, 0.851, 1)
+	readonly property color color_text_subtle: Qt.rgba(0.749, 0.749, 0.749, 1)
+	readonly property color color_text_on_active: Qt.rgba(1, 1, 1, 1)
 
 	readonly property string font_family: "JetBrainsMono"
 	readonly property string font_family_icon: "Symbols Nerd Font"

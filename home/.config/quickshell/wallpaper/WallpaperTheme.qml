@@ -28,10 +28,10 @@ QtObject {
 	readonly property int selected_border_width: 2
 	readonly property int default_border_width: 0
 	readonly property color window_color: Theme.color_background
-	readonly property color window_border_color: "#55ffffff"
-	readonly property color preview_selected_color: "#33ffffff"
-	readonly property color preview_default_color: "#14000000"
-	readonly property color preview_selected_border_color: "#ffffffff"
-	readonly property color preview_default_border_color: "#44ffffff"
-	readonly property color caption_color: "#bb000000"
+	readonly property color window_border_color: Qt.rgba(1, 1, 1, 0.333)
+	readonly property color preview_selected_color: Qt.rgba(1, 1, 1, 0.2)
+	readonly property color preview_default_color: Qt.rgba(0, 0, 0, 0.078)
+	readonly property color preview_selected_border_color: Qt.rgba(1, 1, 1, 1)
+	readonly property color preview_default_border_color: Qt.rgba(1, 1, 1, 0.267)
+	readonly property color caption_color: Qt.rgba(0, 0, 0, 0.733)
 }

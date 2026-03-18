@@ -57,6 +57,7 @@
     pkgs.inkscape
     pkgs.iw
     pkgs.iwd
+    pkgs.jq
     pkgs.libnotify
     pkgs.lsof
     pkgs.loupe

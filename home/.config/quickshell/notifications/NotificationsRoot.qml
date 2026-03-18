@@ -97,7 +97,10 @@ Scope {
 								return notification.expireTimeout;
 							}
 							implicitWidth: NotificationTheme.width
-							implicitHeight: Math.max(NotificationTheme.min_height, content.implicitHeight + (NotificationTheme.padding * 2))
+							implicitHeight: Math.max(
+								NotificationTheme.min_height,
+								content.implicitHeight + (NotificationTheme.padding * 2) + NotificationTheme.top_accent_height
+							)
 							width: implicitWidth
 							height: implicitHeight
 
@@ -130,27 +133,31 @@ Scope {
 							Rectangle {
 								id: card
 								property bool entered: false
+								readonly property color accentColor: notificationItem.notification.urgency === NotificationUrgency.Critical
+									? NotificationTheme.accent_critical
+									: (notificationItem.notification.urgency === NotificationUrgency.Low
+										? NotificationTheme.accent_low
+										: NotificationTheme.accent_normal)
 
 								width: parent.width
 								height: parent.height
 								radius: NotificationTheme.radius
+								clip: true
 								color: NotificationTheme.background_color
 								border.width: NotificationTheme.border_width
 								border.color: NotificationTheme.border_color
 								opacity: entered ? 1 : 0
 								x: entered ? 0 : width + NotificationTheme.slide_offset
+								scale: entered ? 1.0 : 0.97
+								transformOrigin: Item.TopRight
 
+								// Top accent stripe
 								Rectangle {
-									width: NotificationTheme.accent_width
-									radius: NotificationTheme.radius
-									color: notificationItem.notification.urgency === NotificationUrgency.Critical
-										? NotificationTheme.accent_critical
-										: (notificationItem.notification.urgency === NotificationUrgency.Low
-											? NotificationTheme.accent_low
-											: NotificationTheme.accent_normal)
-									anchors.left: parent.left
 									anchors.top: parent.top
-									anchors.bottom: parent.bottom
+									anchors.left: parent.left
+									anchors.right: parent.right
+									height: NotificationTheme.top_accent_height
+									color: card.accentColor
 								}
 
 								Behavior on x {
@@ -164,6 +171,13 @@ Scope {
 									NumberAnimation {
 										duration: Animations.duration_normal
 										easing.type: Animations.easing_standard
+									}
+								}
+
+								Behavior on scale {
+									NumberAnimation {
+										duration: Animations.duration_slow
+										easing.type: Animations.easing_emphasized
 									}
 								}
 
@@ -186,9 +200,9 @@ Scope {
 								ColumnLayout {
 									id: content
 									anchors.fill: parent
-									anchors.leftMargin: NotificationTheme.padding + NotificationTheme.accent_width + 2
+									anchors.topMargin: NotificationTheme.padding + NotificationTheme.top_accent_height
+									anchors.leftMargin: NotificationTheme.padding
 									anchors.rightMargin: NotificationTheme.padding
-									anchors.topMargin: NotificationTheme.padding
 									anchors.bottomMargin: NotificationTheme.padding
 									spacing: NotificationTheme.inner_spacing
 
@@ -196,22 +210,34 @@ Scope {
 										Layout.fillWidth: true
 										spacing: NotificationTheme.inner_spacing
 
-										Image {
-											visible: source.toString() !== ""
-											source: notificationItem.notification.appIcon || ""
-											sourceSize.width: NotificationTheme.image_size
-											sourceSize.height: NotificationTheme.image_size
-											fillMode: Image.PreserveAspectFit
-											asynchronous: true
-											smooth: true
-											Layout.alignment: Qt.AlignTop
+										Item {
+											id: iconContainer
+											readonly property string iconSource: notificationItem.notification.appIcon || ""
+											visible: iconSource !== ""
 											Layout.preferredWidth: visible ? NotificationTheme.image_size : 0
 											Layout.preferredHeight: visible ? NotificationTheme.image_size : 0
+											Layout.alignment: Qt.AlignTop
+
+											Rectangle {
+												anchors.fill: parent
+												radius: NotificationTheme.radius
+												color: NotificationTheme.icon_background_color
+												clip: true
+
+												Image {
+													anchors.fill: parent
+													anchors.margins: 3
+													source: iconContainer.iconSource
+													fillMode: Image.PreserveAspectFit
+													asynchronous: true
+													smooth: true
+												}
+											}
 										}
 
 										ColumnLayout {
 											Layout.fillWidth: true
-											spacing: 4
+											spacing: 2
 
 											Text {
 												visible: text.length > 0
@@ -263,8 +289,6 @@ Scope {
 											: NotificationTheme.image_max_height
 										radius: NotificationTheme.image_radius
 										color: NotificationTheme.image_background_color
-										border.width: 1
-										border.color: Theme.color_border
 										clip: true
 
 										Image {
@@ -299,8 +323,6 @@ Scope {
 												color: actionMouse.pressed
 													? NotificationTheme.action_pressed_color
 													: (actionMouse.containsMouse ? NotificationTheme.action_hover_color : NotificationTheme.action_color)
-												border.width: 1
-												border.color: Theme.color_border
 
 												Behavior on color {
 													ColorAnimation {

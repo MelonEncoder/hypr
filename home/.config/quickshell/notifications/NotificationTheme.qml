@@ -4,31 +4,32 @@ import QtQuick
 import "../constants"
 
 QtObject {
-	readonly property int margin: 24
-	readonly property int width: 360
-	readonly property int min_height: 104
+	readonly property int margin: 20
+	readonly property int width: 380
+	readonly property int min_height: 72
 	readonly property int max_body_lines: 4
-	readonly property int stack_gap_below_bar: 12
-	readonly property int spacing: 10
-	readonly property int padding: 10
-	readonly property int inner_spacing: 8
-	readonly property int action_spacing: 6
-	readonly property int image_size: 32
-	readonly property int action_height: Theme.font_size + 12
-	readonly property int radius: 8
-	readonly property int border_width: 2
-	readonly property int slide_offset: 40
-	readonly property int accent_width: 4
+	readonly property int stack_gap_below_bar: 8
+	readonly property int spacing: 6
+	readonly property int padding: 12
+	readonly property int inner_spacing: 6
+	readonly property int action_spacing: 4
+	readonly property int image_size: 28
+	readonly property int action_height: Theme.font_size + 10
+	readonly property int radius: Theme.radius_normal
+	readonly property int border_width: Theme.border_width
+	readonly property int slide_offset: 28
+	readonly property int top_accent_height: 2
 	readonly property int image_max_height: 120
-	readonly property int image_radius: 6
+	readonly property int image_radius: Theme.radius_normal
 
-	readonly property color background_color: Theme.color_background
+	readonly property color background_color: Theme.color_surface
 	readonly property color border_color: Theme.color_border
-	readonly property color action_color: Theme.color_surface
-	readonly property color action_hover_color: Theme.color_surface_hover
-	readonly property color action_pressed_color: Theme.color_surface_pressed
-	readonly property color image_background_color: "#14000000"
-	readonly property color accent_low: "#7fdc8a"
-	readonly property color accent_normal: "#f0b35a"
-	readonly property color accent_critical: "#ef6b6b"
+	readonly property color icon_background_color: Qt.rgba(1, 1, 1, 0.06)
+	readonly property color action_color: Qt.rgba(1, 1, 1, 0.08)
+	readonly property color action_hover_color: Qt.rgba(1, 1, 1, 0.16)
+	readonly property color action_pressed_color: Qt.rgba(1, 1, 1, 0.05)
+	readonly property color image_background_color: Qt.rgba(0, 0, 0, 0.078)
+	readonly property color accent_low: Qt.rgba(0.498, 0.863, 0.541, 1)
+	readonly property color accent_normal: Qt.rgba(0.941, 0.702, 0.353, 1)
+	readonly property color accent_critical: Qt.rgba(0.937, 0.420, 0.420, 1)
 }

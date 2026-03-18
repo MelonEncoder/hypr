@@ -6,7 +6,7 @@ set -euo pipefail
 
 usage() {
 	printf 'Usage: %s [monitor-name]\n' "${0##*/}"
-	printf 'Verifies the Quickshell notification layer exists on the right edge and reacts to a test notification.\n'
+	printf 'Sends a text-only notification and verifies the notification region changes.\n'
 }
 
 if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
@@ -31,6 +31,6 @@ notify-send \
 	-t 2500 \
 	-u normal \
 	"Silly little test" \
-	"Notification region should change on ${NOTIFICATION_TEST_MONITOR_NAME}"
+	"Text-only notification should render on ${NOTIFICATION_TEST_MONITOR_NAME}"
 
-notifications_assert_changed "PASS: text notification rendered"
+notifications_assert_changed "text-only notification rendered"
