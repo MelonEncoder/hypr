@@ -77,6 +77,7 @@
   services.power-profiles-daemon.enable = true;
   services.printing.enable = true;
   services.xserver.desktopManager.runXdgAutostartIfNone = true;
+  services.accounts-daemon.enable = true;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
