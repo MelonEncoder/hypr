@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  unstablePkgs,
   ...
 }:
 {
@@ -55,7 +54,6 @@
 
   environment.systemPackages = [
     pkgs.blender
-    pkgs.davinci-resolve
     pkgs.godotPackages_4_6.godot
     pkgs.kdePackages.kdenlive
   ];
