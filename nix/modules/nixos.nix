@@ -35,21 +35,36 @@
     fcitx5.waylandFrontend = true;
   };
 
-  users.users.ian = {
-    isNormalUser = true;
-    extraGroups = [
-      "wheel"
-      "networkmanager"
-      "dialout"
-    ];
-  };
-
   hardware.bluetooth = {
     enable = true;
     powerOnBoot = true;
   };
 
   security.polkit.enable = true;
+
+  users.users.ian = {
+    isNormalUser = true;
+    extraGroups = [
+      "wheel"
+      "networkmanager"
+      "dialout"
+      # "docker"
+    ];
+  };
+
+  virtualisation.docker = {
+    enable = true;
+    daemon.settings = {
+      log-driver = "journald"; # integrates with NixOS logging
+      storage-driver = "overlay2"; # best performance on most filesystems
+      default-address-pools = [
+        {
+          base = "172.30.0.0/16"; # avoids conflicts with common home networks
+          size = 24;
+        }
+      ];
+    };
+  };
 
   services.upower.enable = true;
   services.blueman.enable = true;
