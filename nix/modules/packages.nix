@@ -66,10 +66,13 @@
     pkgs.mpv
     pkgs.nautilus
     pkgs.neovim
+    pkgs.netcat
     pkgs.nix
     pkgs.nil
     pkgs.nixd
     pkgs.nmap
+    pkgs.openssh
+    pkgs.openssl
     pkgs.papers
     pkgs.pavucontrol
     pkgs.playerctl
