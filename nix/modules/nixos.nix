@@ -66,6 +66,10 @@
     };
   };
 
+  environment.variables = {
+    GST_PLUGIN_PATH = "/run/current-system/sw/lib/gstreamer-1.0/";
+  };
+
   services.upower.enable = true;
   services.blueman.enable = true;
   services.flatpak = {
