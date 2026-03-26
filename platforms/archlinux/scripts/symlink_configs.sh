@@ -2,7 +2,6 @@
 set -euo pipefail
 
 repo="$HOME/.local/share/dotfiles"
-dry_run=false
 
 while [ $# -gt 0 ]; do
   case "$1" in
@@ -24,13 +23,6 @@ done
 config="$HOME/.config"
 local_share="$HOME/.local/share"
 
-run() {
-  echo "$*"
-  if [ "$dry_run" = false ]; then
-    "$@"
-  fi
-}
-
 echo "repo: $repo"
 echo "config: $config"
 
@@ -48,7 +40,7 @@ for mapping in "${mappings[@]}"; do
   src="${mapping%%|*}"
   dst="${mapping##*|}"
   parent="$(dirname "$dst")"
-  run mkdir -p "$parent"
-  run rm -rf "$dst"
-  run ln -s "$src" "$dst"
+  mkdir -p "$parent"
+  rm -rf "$dst"
+  ln -s "$src" "$dst"
 done

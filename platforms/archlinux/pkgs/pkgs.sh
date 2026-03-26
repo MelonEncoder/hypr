@@ -1,6 +1,7 @@
 # pkgs.sh — package lists, meant to be sourced
 
 pacman_system=(
+  accountsservice
   blueman
   bluez
   bluez-utils
@@ -9,11 +10,13 @@ pacman_system=(
   cmake
   cups
   curl
+  docker
   dnsmasq
   flatpak
   ghostty
   git
   go
+  gvfs
   htop
   hyprcursor
   hyprgraphics
@@ -36,6 +39,8 @@ pacman_system=(
   inkscape
   iw
   iwd
+  jdk-openjdk
+  kdenlive
   loupe
   man-db
   meson
@@ -57,6 +62,7 @@ pacman_system=(
   qt6ct
   quickshell
   rustup
+  steam
   tmux
   usb_modeswitch
   vim
@@ -64,6 +70,7 @@ pacman_system=(
   wayland-docs
   wayland-protocols
   wayland-utils
+  upower
   wcurl
   websocat
   wget
