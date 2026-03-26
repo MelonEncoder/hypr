@@ -1,0 +1,114 @@
+# pkgs.sh — package lists, meant to be sourced
+
+pacman_system=(
+  blueman
+  bluez
+  bluez-utils
+  brightnessctl
+  clang
+  cmake
+  cups
+  curl
+  dnsmasq
+  flatpak
+  ghostty
+  git
+  go
+  htop
+  hyprcursor
+  hyprgraphics
+  hypridle
+  hyprland
+  hyprland-guiutils
+  hyprland-protocols
+  hyprland-qt-support
+  hyprlang
+  hyprlock
+  hyprpaper
+  hyprpicker
+  hyprpolkitagent
+  hyprshot
+  hyprshutdown
+  hyprsunset
+  hyprtoolkit
+  hyprutils
+  hyprwayland-scanner
+  inkscape
+  iw
+  iwd
+  loupe
+  man-db
+  meson
+  modemmanager
+  nautilus
+  neovim
+  ninja
+  nix
+  networkmanager
+  nm-connection-editor
+  nodejs
+  npm
+  pavucontrol
+  pipewire
+  playerctl
+  power-profiles-daemon
+  pyright
+  python
+  qt6ct
+  quickshell
+  rustup
+  tmux
+  usb_modeswitch
+  vim
+  wayland
+  wayland-docs
+  wayland-protocols
+  wayland-utils
+  wcurl
+  websocat
+  wget
+  which
+  wireplumber
+  wl-clipboard
+  xdg-desktop-portal-gtk
+  xdg-desktop-portal-hyprland
+  zed
+)
+
+pacman_fonts=(
+  adwaita-fonts
+  noto-fonts
+  noto-fonts-cjk
+  noto-fonts-emoji
+  otf-font-awesome
+  ttf-jetbrains-mono-nerd
+  ttf-nerd-fonts-symbols
+)
+
+pacman_im=(
+  fcitx5
+  fcitx5-configtool
+  fcitx5-gtk
+  fcitx5-mozc
+  fcitx5-qt
+)
+
+pacman_themes=(
+  adwaita-cursors
+  adwaita-icon-theme
+  breeze-cursors
+  breeze-icons
+  hicolor-icon-theme
+)
+
+aur_pkgs=(
+  clipse
+)
+
+flatpak_pkgs=(
+  com.discordapp.Discord
+  org.prismlauncher.PrismLauncher
+  com.obsproject.Studio
+  com.spotify.Client
+  app.zen_browser.zen
+)
