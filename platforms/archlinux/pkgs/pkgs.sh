@@ -64,13 +64,13 @@ pacman_system=(
   rustup
   steam
   tmux
+  upower
   usb_modeswitch
   vim
   wayland
   wayland-docs
   wayland-protocols
   wayland-utils
-  upower
   wcurl
   websocat
   wget

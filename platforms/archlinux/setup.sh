@@ -12,6 +12,7 @@ echo "Package installation finished."
 
 echo "Now configuring environment..."
 bash "$SCRIPTS_DIR/enable_system_services.sh"
+bash "$SCRIPTS_DIR/configure/groups.sh"
 bash "$SCRIPTS_DIR/configure/locales.sh"
 bash "$SCRIPTS_DIR/configure/pacman.sh"
 bash "$SCRIPTS_DIR/configure/directories.sh"
