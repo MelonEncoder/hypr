@@ -35,11 +35,9 @@ Scope {
 	readonly property int background_blur_max: 40
 	readonly property real background_blur_strength: 0.6
 	// shadow
-	readonly property color text_shadow_color: Qt.rgba(0, 0, 0, 0.6)
 	readonly property real text_shadow_blur: 0.5
 	readonly property real text_shadow_horizontal_offset: 0
 	readonly property real text_shadow_vertical_offset: 0
-	readonly property color input_shadow_color: Qt.rgba(0, 0, 0, 0.6)
 	readonly property real input_shadow_blur: 0.6
 	readonly property real input_shadow_horizontal_offset: 0
 	readonly property real input_shadow_vertical_offset: 0
@@ -47,17 +45,6 @@ Scope {
 	readonly property string time_font_family: "JetBrains Mono"
 	readonly property string body_font_family: "JetBrains Mono"
 
-	readonly property color base_color: Qt.rgba(0.098, 0.078, 0.078, 1)
-	readonly property color scrim_color: Qt.rgba(0.098, 0.078, 0.078, 0.302)
-	readonly property color date_color: Qt.rgba(1, 1, 1, 1)
-	readonly property color input_fill_color: Qt.rgba(1, 1, 1, 1)
-	readonly property color input_text_color: Qt.rgba(0, 0, 0, 1)
-	readonly property color input_border_color: Qt.rgba(0, 0, 0, 1)
-	readonly property color input_focus_border_color: Qt.rgba(0, 0, 0, 1)
-	readonly property color input_fail_border_color: Qt.rgba(0.8, 0.133, 0.133, 1)
-	readonly property color placeholder_color: Qt.rgba(0, 0, 0, 0.651)
-	readonly property color status_color: Qt.rgba(1, 1, 1, 1)
-	readonly property color error_color: Qt.rgba(0.8, 0.133, 0.133, 1)
 
 	property bool locked: false
 	property bool authenticating: false
@@ -185,7 +172,7 @@ Scope {
 
 			Rectangle {
 				anchors.fill: parent
-				color: root.base_color
+				color: Theme.lock_base
 
 				Image {
 					id: wallpaper
@@ -209,7 +196,7 @@ Scope {
 
 				Rectangle {
 					anchors.fill: parent
-					color: root.scrim_color
+					color: Theme.lock_scrim
 				}
 
 				FocusScope {
@@ -255,7 +242,7 @@ Scope {
 									source: timeText
 									autoPaddingEnabled: true
 									shadowEnabled: true
-									shadowColor: root.text_shadow_color
+									shadowColor: Theme.lock_shadow
 									shadowBlur: root.text_shadow_blur
 									shadowHorizontalOffset: root.text_shadow_horizontal_offset
 									shadowVerticalOffset: root.text_shadow_vertical_offset
@@ -271,7 +258,7 @@ Scope {
 									anchors.horizontalCenter: parent.horizontalCenter
 									text: DateTime.fullDate
 									horizontalAlignment: Text.AlignHCenter
-									color: root.date_color
+									color: Theme.color_text
 									font.family: root.body_font_family
 									font.pixelSize: root.date_font_size
 								}
@@ -281,7 +268,7 @@ Scope {
 									source: dateText
 									autoPaddingEnabled: true
 									shadowEnabled: true
-									shadowColor: root.text_shadow_color
+									shadowColor: Theme.lock_shadow
 									shadowBlur: root.text_shadow_blur
 									shadowHorizontalOffset: root.text_shadow_horizontal_offset
 									shadowVerticalOffset: root.text_shadow_vertical_offset
@@ -296,12 +283,12 @@ Scope {
 							Rectangle {
 								id: inputFrame
 								property color frameBorderColor: root.failedAttempt
-									? root.input_fail_border_color
-									: (passwordInput.activeFocus ? root.input_focus_border_color : root.input_border_color)
+									? Theme.lock_error
+									: Theme.color_background
 
 								anchors.fill: parent
 								radius: root.input_radius
-								color: root.input_fill_color
+								color: Theme.color_text
 								border.width: root.input_border_width
 								border.color: frameBorderColor
 
@@ -318,7 +305,7 @@ Scope {
 									anchors.leftMargin: root.input_padding
 									anchors.rightMargin: root.input_padding
 									verticalAlignment: TextInput.AlignVCenter
-									color: root.input_text_color
+									color: Theme.color_background
 									font.family: root.body_font_family
 									font.pixelSize: root.input_font_size
 									echoMode: TextInput.Password
@@ -349,7 +336,7 @@ Scope {
 									anchors.rightMargin: root.input_padding
 									verticalAlignment: Text.AlignVCenter
 									text: passwordInput.text.length === 0 ? "Input Password..." : ""
-									color: root.placeholder_color
+									color: Theme.lock_placeholder
 									font.family: root.body_font_family
 									font.pixelSize: root.input_font_size
 									font.italic: true
@@ -361,7 +348,7 @@ Scope {
 								source: inputFrame
 								autoPaddingEnabled: true
 								shadowEnabled: true
-								shadowColor: root.input_shadow_color
+								shadowColor: Theme.lock_shadow
 								shadowBlur: root.input_shadow_blur
 								shadowHorizontalOffset: root.input_shadow_horizontal_offset
 								shadowVerticalOffset: root.input_shadow_vertical_offset
@@ -374,7 +361,7 @@ Scope {
 							text: root.authenticating ? "Checking password..." : root.statusText
 							visible: text.length > 0
 							horizontalAlignment: Text.AlignHCenter
-							color: root.failedAttempt ? root.error_color : root.status_color
+							color: root.failedAttempt ? Theme.lock_error : Theme.color_text
 							font.family: root.body_font_family
 							font.pixelSize: root.status_font_size
 						}

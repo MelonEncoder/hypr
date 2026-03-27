@@ -27,18 +27,6 @@ Scope {
 	readonly property int icon_wrap_size: 40
 	readonly property int border_width: 2
 
-	readonly property color overlay_color: Qt.rgba(0, 0, 0, 0.4)
-	readonly property color panel_color: Theme.background
-	readonly property color panel_border_color: Qt.rgba(1, 1, 1, 0.2)
-	readonly property color search_color: Theme.color_surface
-	readonly property color search_border_color: Qt.rgba(1, 1, 1, 0.267)
-	readonly property color search_active_border_color: Qt.rgba(1, 1, 1, 0.533)
-	readonly property color row_color: Qt.rgba(1, 1, 1, 0.102)
-	readonly property color row_hover_color: Qt.rgba(1, 1, 1, 0.133)
-	readonly property color row_selected_color: Qt.rgba(1, 1, 1, 0.188)
-	readonly property color icon_background_color: Qt.rgba(1, 1, 1, 0.094)
-	readonly property color hint_color: Theme.color_text_subtle
-	readonly property color muted_color: Theme.color_text_muted
 
 	property bool visible: false
 	property string query: ""
@@ -185,7 +173,7 @@ Scope {
 
 			Rectangle {
 				anchors.fill: parent
-				color: root.overlay_color
+				color: Theme.launcher_overlay
 				opacity: root.visible ? 1 : 0
 
 				Behavior on opacity {
@@ -204,7 +192,7 @@ Scope {
 				radius: 18
 				color: Theme.background
 				border.width: root.border_width
-				border.color: root.panel_border_color
+				border.color: Theme.color_overlay_light
 				opacity: root.visible ? 1 : 0
 				scale: root.visible ? 1 : Animations.dropdown_scale_closed
 				y: root.visible ? 0 : Animations.dropdown_offset
@@ -242,11 +230,11 @@ Scope {
 						Layout.fillWidth: true
 						Layout.preferredHeight: root.search_height
 						radius: root.row_radius
-						color: root.search_color
+						color: Theme.color_surface
 						border.width: root.border_width
 						border.color: searchInput.activeFocus
-							? root.search_active_border_color
-							: root.search_border_color
+							? Theme.launcher_search_active_border
+							: Theme.color_border_subtle
 
 						RowLayout {
 							anchors.fill: parent
@@ -277,7 +265,7 @@ Scope {
 										font.pixelSize: Theme.font_size + 5
 										font.family: Theme.font_family
 									selectedTextColor: Theme.color_text
-									selectionColor: "#33ffffff"
+									selectionColor: Theme.color_overlay_light
 									clip: true
 									selectByMouse: true
 									text: root.query
@@ -310,7 +298,7 @@ Scope {
 									anchors.verticalCenter: parent.verticalCenter
 									visible: searchInput.text.length === 0
 									text: "Search apps"
-									color: root.hint_color
+									color: Theme.color_text_subtle
 									font.pixelSize: Theme.font_size + 5
 									font.family: Theme.font_family
 								}
@@ -321,7 +309,7 @@ Scope {
 					Text {
 						visible: root.launchStatus.length > 0
 						text: root.launchStatus
-						color: root.muted_color
+						color: Theme.color_text_muted
 						font.pixelSize: Theme.font_size
 						font.family: Theme.font_family
 						Layout.fillWidth: true
@@ -415,8 +403,8 @@ Scope {
 								height: root.row_height
 								radius: root.row_radius
 								color: root.selectedIndex === index
-									? root.row_selected_color
-									: (rowMouse.containsMouse ? root.row_hover_color : root.row_color)
+									? Theme.launcher_row_selected
+									: (rowMouse.containsMouse ? Theme.launcher_row_hover : Theme.launcher_row)
 
 								Behavior on color {
 									ColorAnimation {
@@ -436,7 +424,7 @@ Scope {
 										Layout.preferredWidth: root.icon_wrap_size
 										Layout.preferredHeight: root.icon_wrap_size
 										radius: 12
-										color: root.icon_background_color
+										color: Theme.launcher_icon_background
 
 										IconImage {
 											anchors.centerIn: parent
@@ -485,7 +473,7 @@ Scope {
 
 									Text {
 										text: row.execString
-										color: root.muted_color
+										color: Theme.color_text_muted
 										font.pixelSize: Theme.font_size - 1
 										font.family: Theme.font_family
 										elide: Text.ElideLeft
@@ -518,7 +506,7 @@ Scope {
 							text: DesktopEntries.applications.values.length === 0
 								? "Loading applications..."
 								: "No matching applications"
-							color: root.hint_color
+							color: Theme.color_text_subtle
 							font.pixelSize: Theme.font_size + 2
 							font.family: Theme.font_family
 						}

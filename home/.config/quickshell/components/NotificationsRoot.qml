@@ -33,17 +33,6 @@ Scope {
 	readonly property int image_max_height: 120
 	readonly property int image_radius: Theme.radius_normal
 
-	readonly property color background_color: Theme.color_surface
-	readonly property color border_color: Theme.color_border
-	readonly property color icon_background_color: Qt.rgba(1, 1, 1, 0.06)
-	readonly property color action_color: Qt.rgba(1, 1, 1, 0.08)
-	readonly property color action_hover_color: Qt.rgba(1, 1, 1, 0.16)
-	readonly property color action_pressed_color: Qt.rgba(1, 1, 1, 0.05)
-	readonly property color image_background_color: Qt.rgba(0, 0, 0, 0.078)
-	readonly property color accent_low: Qt.rgba(0.498, 0.863, 0.541, 1)
-	readonly property color accent_normal: Qt.rgba(0.941, 0.702, 0.353, 1)
-	readonly property color accent_critical: Qt.rgba(0.937, 0.420, 0.420, 1)
-
 	NotificationServer {
 		id: notificationServer
 
@@ -166,18 +155,18 @@ Scope {
 								id: card
 								property bool entered: false
 								readonly property color accentColor: notificationItem.notification.urgency === NotificationUrgency.Critical
-									? root.accent_critical
+									? Theme.notification_accent_critical
 									: (notificationItem.notification.urgency === NotificationUrgency.Low
-										? root.accent_low
-										: root.accent_normal)
+										? Theme.notification_accent_low
+										: Theme.notification_accent_normal)
 
 								width: parent.width
 								height: parent.height
 								radius: root.radius
 								clip: true
-								color: root.background_color
+								color: Theme.color_surface
 								border.width: root.border_width
-								border.color: root.border_color
+								border.color: Theme.color_border
 								opacity: entered ? 1 : 0
 								x: entered ? 0 : width + root.slide_offset
 								scale: entered ? 1.0 : 0.97
@@ -253,7 +242,7 @@ Scope {
 											Rectangle {
 												anchors.fill: parent
 												radius: root.radius
-												color: root.icon_background_color
+												color: Theme.notification_icon_background
 												clip: true
 
 												Image {
@@ -320,7 +309,7 @@ Scope {
 											)
 											: root.image_max_height
 										radius: root.image_radius
-										color: root.image_background_color
+										color: Theme.color_overlay_dark
 										clip: true
 
 										Image {
@@ -353,8 +342,8 @@ Scope {
 												implicitHeight: root.action_height
 												radius: Theme.radius_normal
 												color: actionMouse.pressed
-													? root.action_pressed_color
-													: (actionMouse.containsMouse ? root.action_hover_color : root.action_color)
+													? Theme.notification_action_pressed
+													: (actionMouse.containsMouse ? Theme.notification_action_hover : Theme.notification_action)
 
 												Behavior on color {
 													ColorAnimation {

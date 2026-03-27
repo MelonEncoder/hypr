@@ -49,13 +49,6 @@ Scope {
 	readonly property int window_border_width: 2
 	readonly property int selected_border_width: 2
 	readonly property int default_border_width: 0
-	readonly property color window_color: Theme.color_background
-	readonly property color window_border_color: Qt.rgba(1, 1, 1, 0.333)
-	readonly property color preview_selected_color: Qt.rgba(1, 1, 1, 0.2)
-	readonly property color preview_default_color: Qt.rgba(0, 0, 0, 0.078)
-	readonly property color preview_selected_border_color: Qt.rgba(1, 1, 1, 1)
-	readonly property color preview_default_border_color: Qt.rgba(1, 1, 1, 0.267)
-	readonly property color caption_color: Qt.rgba(0, 0, 0, 0.733)
 
 	function wrappedIndex(index: int): int {
 		if (wallpaperModel.count <= 0) return 0
@@ -254,7 +247,7 @@ Scope {
 				radius: root.window_radius
 				color: Theme.color_background
 				border.width: root.window_border_width
-				border.color: root.window_border_color
+				border.color: Theme.wallpaper_window_border
 
 				Rectangle {
 					id: listSurface
@@ -319,9 +312,9 @@ Scope {
 								width: root.selected_preview_width
 								height: root.selected_preview_height
 								radius: root.preview_radius
-								color: wallpaper.selected ? root.preview_selected_color : root.preview_default_color
+								color: wallpaper.selected ? Theme.color_overlay_light : Theme.color_overlay_dark
 								border.width: wallpaper.selected ? root.selected_border_width : root.default_border_width
-								border.color: wallpaper.selected ? root.preview_selected_border_color : root.preview_default_border_color
+								border.color: wallpaper.selected ? Theme.color_text : Theme.color_border_subtle
 								z: wallpaper.selected ? 1 : 0
 								scale: wallpaper.selected ? 1 : root.inactive_preview_scale
 								transformOrigin: Item.Bottom
@@ -351,7 +344,7 @@ Scope {
 									anchors.margins: root.preview_margin
 									height: root.caption_height
 									radius: root.caption_radius
-									color: root.caption_color
+									color: Theme.wallpaper_caption
 
 									Text {
 										anchors.fill: parent

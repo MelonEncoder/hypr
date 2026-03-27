@@ -68,7 +68,7 @@ Rectangle {
 					width: parent.indicatorWidth
 					height: parent.indicatorHeight
 					radius: parent.isActive ? root.radius : height / 4
-	 				color: parent.isActive ? "#ffffff" : (parent.hasWindows ? "#b0b0b0" : "#7a7a7a")
+	 				color: parent.isActive ? Theme.color_text : (parent.hasWindows ? Theme.workspace_dot_occupied : Theme.workspace_dot_empty)
 					opacity: 1
 
 					Behavior on width {
@@ -105,7 +105,7 @@ Rectangle {
 					text: root.toJapaneseNumber(parent.workspaceId)
 					visible: opacity > 0.01
 					opacity: parent.isActive ? 1 : 0
-					color: "#000000"
+					color: Theme.color_background
 					font.pixelSize: Theme.font_size
 					font.family: Theme.font_family
 
