@@ -53,7 +53,7 @@ Scope {
 						spacing: root.widget_spacing
 						SystemInfo { Layout.alignment: Qt.AlignVCenter }
 						Workspaces { Layout.alignment: Qt.AlignVCenter }
-						Media { Layout.alignment: Qt.AlignVCenter }
+						CurrentWindow { Layout.alignment: Qt.AlignVCenter }
 					}
 				}
 
@@ -68,7 +68,7 @@ Scope {
 						anchors.horizontalCenter: parent.horizontalCenter
 						anchors.verticalCenter: parent.verticalCenter
 						spacing: root.widget_spacing
-						CurrentWindow { Layout.alignment: Qt.AlignVCenter }
+						Clock { Layout.alignment: Qt.AlignVCenter }
 					}
 				}
 
@@ -83,13 +83,12 @@ Scope {
 						anchors.right: parent.right
 						anchors.verticalCenter: parent.verticalCenter
 						spacing: root.widget_spacing
+						Media { Layout.alignment: Qt.AlignVCenter }
 						PrivacyIndicator { Layout.alignment: Qt.AlignVCenter }
 						IdleInhibitor { Layout.alignment: Qt.AlignVCenter }
 						SystemTray { Layout.alignment: Qt.AlignVCenter }
 						Audio { Layout.alignment: Qt.AlignVCenter }
 						BatteryStatus { Layout.alignment: Qt.AlignVCenter }
-						Date { Layout.alignment: Qt.AlignVCenter }
-						Time { Layout.alignment: Qt.AlignVCenter }
 						SystemOptions {
 							Layout.alignment: Qt.AlignVCenter
 							panelScreenName: modelData && modelData.name ? modelData.name : ""
