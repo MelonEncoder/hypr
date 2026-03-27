@@ -33,6 +33,9 @@ QtObject {
 	// Aliases
 	readonly property color background: color_background
 
+	// Wallpaper
+	property string wallpaper: "random"
+
 	// Bar layout
 	readonly property int bar_padding: 6
 	readonly property int bar_widget_padding: 8

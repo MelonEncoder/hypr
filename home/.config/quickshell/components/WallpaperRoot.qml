@@ -5,7 +5,6 @@ import Quickshell.Hyprland._GlobalShortcuts
 import Quickshell.Io
 import QtQuick
 import QtQuick.Layouts
-import QtCore
 import "."
 
 pragma ComponentBehavior: Bound
@@ -13,18 +12,22 @@ pragma ComponentBehavior: Bound
 Scope {
 	id: root
 
-	readonly property string wallpaperDirectory: StandardPaths.writableLocation(StandardPaths.HomeLocation) + "/.local/share/wallpapers"
+	readonly property string wallpaperDirectory: Qt.resolvedUrl("../wallpapers").toString().replace(/^file:\/\//, "")
 	readonly property int windowContentWidth: (root.visible_preview_count * root.preview_slot_width)
 		+ ((root.visible_preview_count - 1) * root.preview_spacing)
 		+ (root.content_padding * 2)
 	readonly property int carouselLoopCount: 200
 	readonly property int virtualWallpaperCount: wallpaperModel.count > 0 ? wallpaperModel.count * carouselLoopCount : 0
+	property string currentWallpaper: Theme.wallpaper === "random" ? "" : Theme.wallpaper
+	property bool pendingRandom: Theme.wallpaper === "random"
 	property bool selectorVisible: false
 	property int selectedIndex: 0
 	property int carouselIndex: 0
 	property string statusText: ""
-	property string pendingWallpaperPath: ""
-	property string pendingWallpaperName: ""
+
+	Component.onCompleted: {
+		if (pendingRandom) refreshWallpapers()
+	}
 
 	readonly property int window_margin: 24
 	readonly property int content_padding: 8
@@ -75,7 +78,7 @@ Scope {
 		wallpaperScan.exec([
 			"bash",
 			"-lc",
-			"find -L \"$HOME/.local/share/wallpapers\" -maxdepth 1 -type f \\( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' -o -iname '*.bmp' \\) -printf '%f\\t%p\\n' | sort"
+			"find -L \"" + root.wallpaperDirectory + "\" -maxdepth 1 -type f \\( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' -o -iname '*.bmp' \\) -printf '%f\\n' | sort"
 		])
 	}
 
@@ -110,31 +113,21 @@ Scope {
 		statusText = ""
 	}
 
-	function selectedWallpaperPath(): string {
+	function selectedWallpaperName(): string {
 		if (wallpaperModel.count <= 0) return ""
 		var selectedWallpaper = wallpaperModel.get(selectedIndex)
-		return selectedWallpaper && selectedWallpaper.filePath ? selectedWallpaper.filePath : ""
+		return selectedWallpaper && selectedWallpaper.fileName ? selectedWallpaper.fileName : ""
 	}
 
 	function applySelectedWallpaper(): void {
-		var path = selectedWallpaperPath()
-		if (path.length === 0) {
+		var name = selectedWallpaperName()
+		if (name.length === 0) {
 			statusText = "No wallpaper selected"
 			return
 		}
 
-		pendingWallpaperPath = path
-		var selectedWallpaper = wallpaperModel.get(selectedIndex)
-		pendingWallpaperName = selectedWallpaper && selectedWallpaper.fileName ? selectedWallpaper.fileName : ""
-		statusText = "Applying " + pendingWallpaperName + " [" + pendingWallpaperPath + "]"
-		wallpaperApply.exec([
-			"bash",
-			"-lc",
-			"wallpaper_path='" + root.pendingWallpaperPath.replace(/'/g, "'\\''") + "'\n"
-				+ "printf 'wallpaper_path=%s\\n' \"$wallpaper_path\"\n"
-				+ "hyprctl hyprpaper preload \"$wallpaper_path\"\n"
-				+ "hyprctl hyprpaper wallpaper ,\"$wallpaper_path\""
-		])
+		root.currentWallpaper = name
+		statusText = "Applied " + name
 		selectorVisible = false
 	}
 
@@ -144,6 +137,33 @@ Scope {
 		description: "Open wallpaper selector"
 		triggerDescription: "SUPER+SHIFT+W"
 		onPressed: root.toggleSelector()
+	}
+
+	Variants {
+		model: Quickshell.screens
+
+		PanelWindow {
+			required property var modelData
+
+			screen: modelData
+			color: Theme.color_background
+			exclusionMode: ExclusionMode.Ignore
+			WlrLayershell.layer: WlrLayer.Background
+
+			anchors {
+				top: true
+				left: true
+				right: true
+				bottom: true
+			}
+
+			Image {
+				anchors.fill: parent
+				asynchronous: true
+				fillMode: Image.PreserveAspectCrop
+				source: root.currentWallpaper.length > 0 ? Qt.resolvedUrl("../wallpapers/" + root.currentWallpaper) : ""
+			}
+		}
 	}
 
 	ListModel {
@@ -165,16 +185,19 @@ Scope {
 
 			var lines = raw.split("\n")
 			for (var i = 0; i < lines.length; i++) {
-				var parts = lines[i].split("\t")
-				if (parts.length < 2) continue
-				wallpaperModel.append({
-					fileName: parts[0],
-					filePath: parts.slice(1).join("\t")
-				})
+				var fileName = lines[i].trim()
+				if (fileName.length === 0) continue
+				wallpaperModel.append({ fileName: fileName })
 			}
 
 			if (wallpaperModel.count > 0 && root.statusText.indexOf("No wallpapers found") === 0) {
 				root.statusText = ""
+			}
+
+			if (root.pendingRandom && wallpaperModel.count > 0) {
+				root.pendingRandom = false
+				root.currentWallpaper = wallpaperModel.get(Math.floor(Math.random() * wallpaperModel.count)).fileName
+				return
 			}
 
 			root.clampSelection()
@@ -185,26 +208,6 @@ Scope {
 	Process {
 		id: wallpaperScan
 		stdout: wallpaperScanOut
-	}
-
-	Process {
-		id: wallpaperApply
-		stdout: wallpaperCommandOutput
-		stderr: wallpaperCommandOutput
-		onExited: function(exitCode, exitStatus) {
-			if (exitCode !== 0) {
-				var details = wallpaperCommandOutput.text.trim()
-				root.statusText = details.length > 0 ? details : "hyprpaper apply failed"
-				return
-			}
-
-			root.statusText = "Applied " + root.pendingWallpaperName
-		}
-	}
-
-	StdioCollector {
-		id: wallpaperCommandOutput
-		waitForEnd: true
 	}
 
 	HyprlandFocusGrab {
@@ -300,7 +303,6 @@ Scope {
 							readonly property int wallpaperIndex: root.wrappedIndex(index)
 							readonly property var wallpaperItem: wallpaperModel.count > 0 ? wallpaperModel.get(wallpaperIndex) : null
 							readonly property string fileName: wallpaperItem && wallpaperItem.fileName ? wallpaperItem.fileName : ""
-							readonly property string filePath: wallpaperItem && wallpaperItem.filePath ? wallpaperItem.filePath : ""
 
 							readonly property bool selected: root.selectedIndex === wallpaperIndex
 
@@ -330,7 +332,7 @@ Scope {
 								Image {
 									anchors.fill: parent
 									anchors.margins: root.preview_margin
-									source: "file://" + wallpaper.filePath
+									source: Qt.resolvedUrl("../wallpapers/" + wallpaper.fileName)
 									fillMode: Image.PreserveAspectCrop
 									asynchronous: true
 									cache: false
