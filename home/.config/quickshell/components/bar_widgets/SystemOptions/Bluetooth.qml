@@ -23,10 +23,7 @@ Rectangle {
 	}
 
 	function currentBluetoothSubtitle(): string {
-		if (!btAdapter) return "Bluetooth unavailable"
-		if (!root.enabled) return "Bluetooth disabled"
-		if (root.connectedDevices.length > 0) return root.btName(root.connectedDevices[0])
-		return "None connected"
+		return root.enabled ? "On" : "Off"
 	}
 
 	function isUsefulBtName(value: string): bool {
