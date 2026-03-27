@@ -114,6 +114,9 @@ Rectangle {
 						panelScreenName: root.panelScreenName
 						ddcDisplay: root.ddcDisplay
 					}
+					Volume {
+						width: popupContent.width
+					}
 					Wifi {
 						width: popupContent.width
 					}
