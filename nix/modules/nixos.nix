@@ -10,10 +10,13 @@
     "flakes"
   ];
 
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
   boot.loader.grub = {
     enable = true;
     device = "nodev";
     efiSupport = true;
+    configurationLimit = 100;
   };
   boot.loader.efi.canTouchEfiVariables = true;
 
