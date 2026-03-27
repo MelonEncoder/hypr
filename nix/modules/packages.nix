@@ -46,7 +46,6 @@
     unstablePkgs.hyprcursor
     unstablePkgs.hypridle
     unstablePkgs.hyprlang
-    unstablePkgs.hyprpaper
     unstablePkgs.hyprpicker
     unstablePkgs.hyprpolkitagent
     unstablePkgs.hyprshot

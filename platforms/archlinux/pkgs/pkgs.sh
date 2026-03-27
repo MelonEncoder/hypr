@@ -26,8 +26,6 @@ pacman_system=(
   hyprland-protocols
   hyprland-qt-support
   hyprlang
-  hyprlock
-  hyprpaper
   hyprpicker
   hyprpolkitagent
   hyprshot
