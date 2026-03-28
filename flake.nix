@@ -21,7 +21,7 @@
     }:
     let
       system = "x86_64-linux";
-      homeModule = ./nix/modules/home.nix;
+      homeModule = ./platforms/nixos/nix/modules/home.nix;
       pkgs = import nixpkgs {
         inherit system;
         config.allowUnfree = true;
@@ -33,22 +33,7 @@
       };
     in
     {
-      devShells.${system} = {
-        default = pkgs.mkShell {
-          packages = [
-            pkgs.kdePackages.qtdeclarative
-            pkgs.libqalculate
-            pkgs.libnotify
-            pkgs.lua
-            pkgs.lua-language-server
-            pkgs.stylua
-            pkgs.luajitPackages.luacheck
-            unstablePkgs.codex
-          ];
-        };
-      };
-
-      nixosConfigurations.nixos-latitude = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.latitude = nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = {
           inherit unstablePkgs;
@@ -56,7 +41,7 @@
 
         modules = [
           nix-flatpak.nixosModules.nix-flatpak
-          ./nix/hosts/nixos-latitude/configuration.nix
+          ./platforms/nixos/nix/hosts/latitude/configuration.nix
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
@@ -72,7 +57,7 @@
         ];
       };
 
-      nixosConfigurations.nixos-pc-nvidia = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.desktop-nvidia = nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = {
           inherit unstablePkgs;
@@ -80,7 +65,7 @@
 
         modules = [
           nix-flatpak.nixosModules.nix-flatpak
-          ./nix/hosts/nixos-pc-nvidia/configuration.nix
+          ./platforms/nixos/nix/hosts/desktop-nvidia/configuration.nix
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;

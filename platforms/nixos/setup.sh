@@ -8,7 +8,7 @@ data_dir="${XDG_DATA_HOME:-$HOME/.local/share}"
 backup_suffix=".backup"
 
 list_hosts() {
-  find "$repo_root/nix/hosts" -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | sort
+  find "$repo_root/platforms/nixos/nix/hosts" -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | sort
 }
 
 host_exists() {

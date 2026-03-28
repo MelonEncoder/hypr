@@ -6,10 +6,10 @@
 - `platforms/archlinux/` holds Arch bootstrap logic: `setup.sh`, package installation in `pkgs/`, and helper scripts in `scripts/` (symlink configs, enable services, configure groups/locales/theming/rust).
 - `platforms/macos/setup.sh` bootstraps macOS and links shared config into `~/.config`.
 - `platforms/nixos/setup.sh` builds and switches to the NixOS configuration, then symlinks user configs.
-- `nix/hosts/` defines host-specific NixOS machines; `nix/modules/` contains reusable NixOS and Home Manager modules.
+- `platforms/nixos/nix/hosts/` defines host-specific NixOS machines; `platforms/nixos/nix/modules/` contains reusable NixOS and Home Manager modules.
 
 ## Build, Test, and Development Commands
-- `sudo nixos-rebuild switch --flake .#<host>` applies a host configuration from `nix/hosts/`.
+- `sudo nixos-rebuild switch --flake .#<host>` applies a host configuration from `platforms/nixos/nix/hosts/`.
 - `bash platforms/archlinux/setup.sh` runs the Arch Linux bootstrap flow.
 - `zsh platforms/macos/setup.sh` installs macOS dependencies and links configs.
 - `bash platforms/nixos/setup.sh <host>` builds and activates a NixOS host configuration.
@@ -19,7 +19,7 @@
 - Follow existing style per language: Nix, Shell, and Zsh all use the conventions already present in neighboring files.
 - Use 2-space indentation in Nix files and keep attribute sets ordered when practical.
 - Prefer descriptive lowercase file names such as `packages.nix`, `setup.sh`, and `symlink_configs.sh`.
-- Keep host definitions under `nix/hosts/<machine-name>/` and place shared logic in `nix/modules/` rather than duplicating it.
+- Keep host definitions under `platforms/nixos/nix/hosts/<machine-name>/` and place shared logic in `platforms/nixos/nix/modules/` rather than duplicating it.
 
 ## Testing Guidelines
 - There is no dedicated automated test suite yet; validate changes with the narrowest relevant command for the target platform.
