@@ -44,7 +44,16 @@ Rectangle {
 		root.expanded = false
 	}
 
-	Component.onCompleted: currentVolume = pipewireVolume
+	PwObjectTracker {
+		id: sinkTracker
+	}
+
+	onSinkChanged: sinkTracker.objects = root.sink ? [root.sink] : []
+
+	Component.onCompleted: {
+		currentVolume = pipewireVolume
+		if (root.sink) sinkTracker.objects = [root.sink]
+	}
 
 	implicitWidth: 280
 	implicitHeight: volumeFrame.implicitHeight + (root.sectionMargin * 2)
