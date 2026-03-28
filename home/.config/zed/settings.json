@@ -39,6 +39,9 @@
         "Nix": {
             "tab_size": 2,
         },
+        "Shell Script": {
+            "tab_size": 2,
+        },
     },
     "relative_line_numbers": "enabled",
 }
