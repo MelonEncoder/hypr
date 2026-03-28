@@ -21,7 +21,7 @@
     }:
     let
       system = "x86_64-linux";
-      homeModule = ./platforms/nixos/nix/modules/home.nix;
+      homeModule = ./os/nixos/nix/modules/home.nix;
       pkgs = import nixpkgs {
         inherit system;
         config.allowUnfree = true;
@@ -41,7 +41,7 @@
 
         modules = [
           nix-flatpak.nixosModules.nix-flatpak
-          ./platforms/nixos/nix/hosts/latitude/configuration.nix
+          ./os/nixos/nix/hosts/latitude/configuration.nix
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
@@ -65,7 +65,7 @@
 
         modules = [
           nix-flatpak.nixosModules.nix-flatpak
-          ./platforms/nixos/nix/hosts/desktop-nvidia/configuration.nix
+          ./os/nixos/nix/hosts/desktop-nvidia/configuration.nix
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;

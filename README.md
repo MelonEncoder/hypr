@@ -15,9 +15,9 @@ cd ~/.local/share/dotfiles
 
 - `home/.config/`: user config (`nvim`, `hypr`, `quickshell`, `zed`, `fcitx5`, etc.)
 - `home/.local/share/`: user local data (`wallpapers`, etc.)
-- `platforms/archlinux/`: Arch Linux bootstrap (`setup.sh`, package lists, configure scripts) 
-- `platforms/macos/`: macOS bootstrap (`setup.sh`)
-- `platforms/nixos/`: NixOS bootstrap (`setup.sh`, host configs, modules)
+- `os/arch/`: Arch Linux bootstrap (`setup.sh`, package lists, configure scripts) 
+- `os/macos/`: macOS bootstrap (`setup.sh`)
+- `os/nixos/`: NixOS bootstrap (`setup.sh`, host configs, modules)
 
 ## Usage
 
@@ -29,7 +29,7 @@ Run the NixOS setup script with a host name. It will build and switch to the Nix
 bash platforms/nixos/setup.sh <host>
 ```
 
-Available hosts are listed in `platforms/nixos/nix/hosts/`. To list them:
+Available hosts are listed in `os/nixos/nix/hosts/`. To list them:
 
 ```bash
 bash platforms/nixos/setup.sh
@@ -59,11 +59,11 @@ zsh platforms/macos/setup.sh
 
 ## Notes
 
-- Each host in `platforms/nixos/nix/hosts/` requires a `hardware-configuration.nix`. Generate one for your machine with:
+- Each host in `os/nixos/nix/hosts/` requires a `hardware-configuration.nix`. Generate one for your machine with:
 
 ```bash
 sudo nixos-generate-config --show-hardware-config > \
-  platforms/nixos/nix/hosts/<host>/hardware-configuration.nix
+  os/nixos/nix/hosts/<host>/hardware-configuration.nix
 ```
 
 - The Arch Linux bootstrap is idempotent: already-installed packages and already-linked configs are skipped.
