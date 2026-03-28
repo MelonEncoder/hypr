@@ -4,10 +4,11 @@ set -euo pipefail
 ARCH_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$ARCH_DIR/../.."
 SCRIPTS_DIR="$ARCH_DIR/scripts"
-PKGS_DIR="$ARCH_DIR/pkgs"
 
 echo "Installing packages..."
-bash "$PKGS_DIR/install.sh"
+bash "$SCRIPTS_DIR/install/pacman.sh"
+bash "$SCRIPTS_DIR/install/aur.sh"
+bash "$SCRIPTS_DIR/install/flatpak.sh"
 echo "Package installation finished."
 
 echo "Now configuring environment..."

@@ -1,27 +1,26 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-APPS_DIR="$HOME/Apps"
-SCREENSHOTS_DIR="$HOME/Pictures/Screenshots"
-PROJECTS_DIR="$HOME/Projects"
+declare -A DIRS=(
+  ["Desktop"]="$HOME/Desktop"
+  ["Downloads"]="$HOME/Downloads"
+  ["Documents"]="$HOME/Documents"
+  ["Music"]="$HOME/Music"
+  ["Pictures"]="$HOME/Pictures"
+  ["Videos"]="$HOME/Videos"
+  ["Templates"]="$HOME/Templates"
+  ["Public"]="$HOME/Public"
+  ["Screenshots"]="$HOME/Pictures/Screenshots"
+  ["Apps"]="$HOME/Apps"
+  ["Projects"]="$HOME/Projects"
+)
 
-if [ ! -d "$APPS_DIR" ]; then
-  mkdir -p "$APPS_DIR"
-  echo "Created Apps/ directory."
-else
-  echo "Apps/ directory already exists."
-fi
-
-if [ ! -d "$SCREENSHOTS_DIR" ]; then
-  mkdir -p "$SCREENSHOTS_DIR"
-  echo "Created Screenshots/ directory."
-else
-  echo "Screenshots/ directory already exists."
-fi
-
-if [ ! -d "$PROJECTS_DIR" ]; then
-  mkdir -p "$PROJECTS_DIR"
-  echo "Created Projects/ directory."
-else
-  echo "Projects/ directory already exists."
-fi
+for name in "${!DIRS[@]}"; do
+  dir="${DIRS[$name]}"
+  if [ ! -d "$dir" ]; then
+    mkdir -p "$dir"
+    echo "Created $name/ directory."
+  else
+    echo "$name/ directory already exists."
+  fi
+done

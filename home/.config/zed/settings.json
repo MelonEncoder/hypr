@@ -30,7 +30,7 @@
     "buffer_font_size": 16,
     "vertical_scroll_margin": 5,
     "theme": {
-        "mode": "system",
+        "mode": "dark",
         "light": "One Light",
         "dark": "Ayu Dark",
     },

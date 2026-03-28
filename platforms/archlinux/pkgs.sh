@@ -3,6 +3,7 @@
 pacman_system=(
   accountsservice
   audacity
+  base-devel
   blender
   blueman
   bluez
@@ -46,6 +47,7 @@ pacman_system=(
   ktorrent
   loupe
   man-db
+  mesa
   meson
   modemmanager
   mpv
@@ -57,6 +59,7 @@ pacman_system=(
   nm-connection-editor
   nodejs
   npm
+  nvidia-open
   papers
   pavucontrol
   pipewire
