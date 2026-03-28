@@ -112,6 +112,7 @@ pacman_im=(
 pacman_themes=(
   adwaita-cursors
   adwaita-icon-theme
+  breeze
   breeze-cursors
   breeze-icons
   hicolor-icon-theme

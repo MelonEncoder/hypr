@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-groups=("wheel" "networkmanager" "dialout" "docker")
+groups=("wheel" "dialout" "docker")
 
 for group in "${groups[@]}"; do
   if id -nG "$USER" | grep -qw "$group"; then
