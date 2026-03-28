@@ -26,13 +26,13 @@ cd ~/.local/share/dotfiles
 Run the NixOS setup script with a host name. It will build and switch to the NixOS configuration, then symlink all user configs into place (with `.backup` suffixes on any existing files):
 
 ```bash
-bash platforms/nixos/setup.sh <host>
+bash os/nixos/setup.sh <host>
 ```
 
 Available hosts are listed in `os/nixos/nix/hosts/`. To list them:
 
 ```bash
-bash platforms/nixos/setup.sh
+bash os/nixos/setup.sh
 ```
 
 To rebuild manually without symlinking configs:
@@ -46,7 +46,7 @@ sudo nixos-rebuild switch --flake .#<host>
 Installs packages (pacman + AUR via yay + Flatpak), enables system services, configures user groups, locales, GTK/Qt theming, Rust toolchain, and symlinks all user configs:
 
 ```bash
-bash platforms/archlinux/setup.sh
+bash os/archlinux/setup.sh
 ```
 
 ### macOS
@@ -54,7 +54,7 @@ bash platforms/archlinux/setup.sh
 Installs Homebrew if needed, then symlinks `nvim` and `zed` configs into `~/.config`. Existing directories are backed up to `~/.config/dotfiles-backups/<timestamp>/`:
 
 ```bash
-zsh platforms/macos/setup.sh
+zsh os/macos/setup.sh
 ```
 
 ## Notes

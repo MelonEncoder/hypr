@@ -28,7 +28,7 @@
 - Document any manual verification steps in the PR when automation is not possible.
 
 ## Commit & Pull Request Guidelines
-- Keep commit messages short and imperative; mention the affected platform or module when useful (e.g. `arch: add rust toolchain setup`).
+- Keep commit messages short and imperative; mention the affected platform or module when useful (e.g. `archlinux: add rust toolchain setup`).
 - Keep commits focused on one change area.
 - PRs should include: a concise summary, impacted paths, manual test notes, and screenshots only for visual UI changes.
 - You may read git history (e.g. `git log`, `git show`) for context, but must not create, amend, rebase, push, or otherwise modify commits or branches.
