@@ -2,6 +2,8 @@
 
 pacman_system=(
   accountsservice
+  audacity
+  blender
   blueman
   bluez
   bluez-utils
@@ -10,6 +12,7 @@ pacman_system=(
   cmake
   cups
   curl
+  decibels
   ddcutil
   docker
   dnsmasq
@@ -40,10 +43,12 @@ pacman_system=(
   iwd
   jdk-openjdk
   kdenlive
+  ktorrent
   loupe
   man-db
   meson
   modemmanager
+  mpv
   nautilus
   neovim
   ninja
@@ -52,6 +57,7 @@ pacman_system=(
   nm-connection-editor
   nodejs
   npm
+  papers
   pavucontrol
   pipewire
   playerctl
@@ -61,6 +67,7 @@ pacman_system=(
   qt6ct
   quickshell
   rustup
+  showtime
   steam
   tmux
   upower
