@@ -1,19 +1,27 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-apps_dir="$HOME/Apps"
-screenshots_dir="$HOME/Pictures/Screenshots"
+APPS_DIR="$HOME/Apps"
+SCREENSHOTS_DIR="$HOME/Pictures/Screenshots"
+PROJECTS_DIR="$HOME/Projects"
 
-if [ ! -d "$apps_dir" ]; then
-  mkdir -p "$apps_dir"
+if [ ! -d "$APPS_DIR" ]; then
+  mkdir -p "$APPS_DIR"
   echo "Created Apps/ directory."
 else
   echo "Apps/ directory already exists."
 fi
 
-if [ ! -d "$screenshots_dir" ]; then
-  mkdir -p "$screenshots_dir"
+if [ ! -d "$SCREENSHOTS_DIR" ]; then
+  mkdir -p "$SCREENSHOTS_DIR"
   echo "Created Screenshots/ directory."
 else
   echo "Screenshots/ directory already exists."
+fi
+
+if [ ! -d "$PROJECTS_DIR" ]; then
+  mkdir -p "$PROJECTS_DIR"
+  echo "Created Projects/ directory."
+else
+  echo "Projects/ directory already exists."
 fi
