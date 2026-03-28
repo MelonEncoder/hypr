@@ -10,6 +10,7 @@ pacman_system=(
   cmake
   cups
   curl
+  ddcutil
   docker
   dnsmasq
   flatpak
