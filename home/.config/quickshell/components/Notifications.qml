@@ -9,7 +9,7 @@ import "../services"
 Scope {
     id: root
 
-    readonly property int default_timeout_ms: 10000
+    readonly property int default_timeout_ms: 7000
     readonly property bool use_notification_timeout: true
     readonly property bool expire_resident: false
     readonly property bool expire_critical: false
@@ -47,7 +47,7 @@ Scope {
             aboveWindows: true
             focusable: false
             exclusionMode: ExclusionMode.Ignore
-            implicitHeight: hasNotifications ? panel.topOffset + notificationColumn.implicitHeight : 0
+            implicitHeight: hasNotifications ? notificationColumn.implicitHeight + root.margin : 0
 
             anchors {
                 top: true
@@ -55,13 +55,15 @@ Scope {
                 right: true
             }
 
+            margins.top: Theme.bar_widget_height + (Theme.bar_padding * 2) + root.stack_gap_below_bar
+
             Item {
                 anchors.fill: parent
 
                 Column {
                     id: notificationColumn
                     anchors.top: parent.top
-                    anchors.topMargin: panel.topOffset
+                    anchors.topMargin: root.margin
                     anchors.horizontalCenter: parent.horizontalCenter
                     width: root.width
                     spacing: root.spacing
@@ -76,7 +78,8 @@ Scope {
 
                             property var notification: modelData
                             property bool closing: false
-                            property bool expireOnClose: false
+                            property bool toastHidden: false
+                            property real barProgress: 0
                             property var visibleActions: {
                                 var actions = notification.actions || [];
                                 var filtered = [];
@@ -101,34 +104,34 @@ Scope {
                             implicitHeight: Math.max(root.min_height, content.implicitHeight + (root.padding * 2) + root.top_accent_height)
                             width: implicitWidth
                             height: implicitHeight
+                            visible: !toastHidden
 
-                            function beginClose(expire) {
+                            function beginClose() {
                                 if (closing)
                                     return;
                                 closing = true;
-                                expireOnClose = expire;
                                 card.entered = false;
                                 closeTimer.start();
                             }
 
-                            Timer {
-                                id: autoExpireTimer
+                            // Drives the accent bar left→right over the timeout duration
+                            NumberAnimation {
+                                target: notificationItem
+                                property: "barProgress"
+                                from: 0
+                                to: 1
+                                duration: notificationItem.resolvedTimeout
                                 running: notificationItem.shouldAutoExpire && notificationItem.resolvedTimeout > 0 && !notificationItem.closing
-                                interval: notificationItem.resolvedTimeout
-                                repeat: false
-                                onTriggered: notificationItem.beginClose(true)
+                                onFinished: notificationItem.beginClose()
                             }
 
+                            // Waits for exit animation to finish, then hides the toast
+                            // without removing the notification — it stays in the bell menu
                             Timer {
                                 id: closeTimer
                                 interval: Math.max(Animations.duration_slow, Animations.duration_normal) + 40
                                 repeat: false
-                                onTriggered: {
-                                    if (notificationItem.expireOnClose)
-                                        notificationItem.notification.expire();
-                                    else
-                                        notificationItem.notification.dismiss();
-                                }
+                                onTriggered: notificationItem.toastHidden = true
                             }
 
                             Rectangle {
@@ -148,12 +151,12 @@ Scope {
                                 scale: entered ? 1.0 : 0.97
                                 transformOrigin: Item.Top
 
-                                // Top accent stripe
+                                // Top accent stripe — fills left→right over the timeout
                                 Rectangle {
                                     anchors.top: parent.top
                                     anchors.left: parent.left
-                                    anchors.right: parent.right
                                     height: root.top_accent_height
+                                    width: notificationItem.shouldAutoExpire ? parent.width * notificationItem.barProgress : parent.width
                                     color: card.accentColor
                                 }
 
@@ -182,7 +185,7 @@ Scope {
 
                                 MouseArea {
                                     anchors.fill: parent
-                                    onClicked: notificationItem.beginClose(false)
+                                    onClicked: notificationItem.beginClose()
                                 }
 
                                 Connections {
@@ -191,6 +194,7 @@ Scope {
                                     function onClosed() {
                                         notificationItem.closing = true;
                                         card.entered = false;
+                                        closeTimer.start();
                                     }
                                 }
 
