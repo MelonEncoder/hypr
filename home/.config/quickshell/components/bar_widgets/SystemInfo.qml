@@ -162,7 +162,7 @@ Rectangle {
         anchors.centerIn: parent
         text: root.distroIcon
         color: Theme.color_text
-        font.pixelSize: Theme.font_size + 2
+        font.pixelSize: Theme.font_size_icon
         font.family: Theme.font_family_icon
     }
 
@@ -273,7 +273,7 @@ Rectangle {
                                     text: root.kernelDisplay.length > 0 ? ("Kernel " + root.kernelDisplay) : ""
                                     visible: text.length > 0
                                     color: Theme.color_text_subtle
-                                    font.pixelSize: Theme.font_size - 1
+                                    font.pixelSize: Theme.font_size_sm
                                     font.family: Theme.font_family
                                 }
 
@@ -282,7 +282,7 @@ Rectangle {
                                     text: root.versionDisplay.length > 0 ? ("Version " + root.versionDisplay) : ""
                                     visible: text.length > 0
                                     color: Theme.color_text_subtle
-                                    font.pixelSize: Theme.font_size - 1
+                                    font.pixelSize: Theme.font_size_sm
                                     font.family: Theme.font_family
                                 }
                             }
@@ -290,7 +290,7 @@ Rectangle {
                             Text {
                                 text: root.distroIcon
                                 color: Theme.color_text
-                                font.pixelSize: Theme.font_size + 4
+                                font.pixelSize: Theme.font_size_icon_lg
                                 font.family: Theme.font_family_icon
                             }
                         }
@@ -326,7 +326,7 @@ Rectangle {
                             Text {
                                 text: option.modelData.icon
                                 color: Theme.color_text
-                                font.pixelSize: Theme.font_size + 2
+                                font.pixelSize: Theme.font_size_icon
                                 font.family: Theme.font_family_icon
                             }
 

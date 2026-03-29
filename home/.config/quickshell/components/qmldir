@@ -1,2 +1,8 @@
 singleton Theme 1.0 ShellTheme.qml
 singleton Animations 1.0 ShellAnimations.qml
+
+Bar 1.0 Bar.qml
+Launcher 1.0 Launcher.qml
+Lock 1.0 Lock.qml
+Wallpaper 1.0 Wallpaper.qml
+Notifications 1.0 Notifications.qml

@@ -82,7 +82,7 @@ Rectangle {
         Text {
             text: "󰃠"
             color: Theme.color_text
-            font.pixelSize: Theme.font_size + 4
+            font.pixelSize: Theme.font_size_icon_lg
             font.family: Theme.font_family_icon
             Layout.alignment: Qt.AlignVCenter
         }

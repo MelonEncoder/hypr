@@ -90,7 +90,7 @@ Rectangle {
                     Text {
                         text: Bluetooth.defaultAdapter.enabled ? "󰂱" : "󰂲"
                         color: Theme.color_text
-                        font.pixelSize: Theme.font_size + 2
+                        font.pixelSize: Theme.font_size_icon
                         font.family: Theme.font_family_icon
                         Layout.alignment: Qt.AlignVCenter
                     }

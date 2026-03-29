@@ -39,7 +39,7 @@ Item {
                 Text {
                     text: "󰍹"
                     color: Theme.color_text
-                    font.pixelSize: Theme.font_size + 1
+                    font.pixelSize: Theme.font_size_icon_sm
                     font.family: Theme.font_family_icon
                 }
 
@@ -76,7 +76,7 @@ Item {
                 Text {
                     text: "󰹑"
                     color: Theme.color_text
-                    font.pixelSize: Theme.font_size + 1
+                    font.pixelSize: Theme.font_size_icon_sm
                     font.family: Theme.font_family_icon
                 }
 

@@ -13,7 +13,7 @@ Rectangle {
     property string panelScreenName: ""
     property int ddcDisplay: 1
     readonly property int iconSpacing: 4
-    readonly property int slotSize: Math.max(1, Theme.bar_widget_height - 8)
+    readonly property int slotSize: Math.max(1, Theme.bar_widget_icon_size)
     readonly property int popupWidth: 280
     readonly property int popupMaxHeight: 420
 
@@ -47,7 +47,7 @@ Rectangle {
                     anchors.centerIn: parent
                     text: parent.modelData
                     color: Theme.color_text
-                    font.pixelSize: Theme.font_size + 2
+                    font.pixelSize: Theme.font_size_icon
                     font.family: Theme.font_family_icon
                 }
             }

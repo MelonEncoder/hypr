@@ -139,7 +139,7 @@ Rectangle {
                             visible: !trayIcon.visible
                             text: trayItem.itemLabel
                             color: Theme.color_text
-                            font.pixelSize: Math.max(9, Theme.font_size - 1)
+                            font.pixelSize: Math.max(9, Theme.font_size_sm)
                             font.family: Theme.font_family
                             font.bold: true
                         }

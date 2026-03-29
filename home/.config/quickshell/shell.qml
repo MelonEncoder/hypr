@@ -3,9 +3,9 @@ import Quickshell
 import "components"
 
 ShellRoot {
-	WallpaperRoot {}
-	BarRoot {}
-	LauncherRoot {}
-	NotificationsRoot {}
-	LockRoot {}
+    Bar {}
+    Launcher {}
+    Lock {}
+    Notifications {}
+    Wallpaper {}
 }

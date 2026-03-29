@@ -109,7 +109,7 @@ Rectangle {
                             anchors.centerIn: parent
                             text: !root.sink || !root.sink.audio ? "󰝟" : (root.sink.audio.muted ? "󰝟" : (root.currentVolume > 50 ? "󰕾" : "󰖀"))
                             color: Theme.color_text
-                            font.pixelSize: Theme.font_size + 2
+                            font.pixelSize: Theme.font_size_icon
                             font.family: Theme.font_family_icon
                         }
                     }
@@ -209,7 +209,7 @@ Rectangle {
                             anchors.centerIn: parent
                             text: root.expanded ? "\uf077" : "\uf078"
                             color: root.expanded ? Theme.color_text : Theme.color_text_subtle
-                            font.pixelSize: Theme.font_size - 2
+                            font.pixelSize: Theme.font_size_xs
                             font.family: Theme.font_family_icon
                         }
 
@@ -292,7 +292,7 @@ Rectangle {
                                 Text {
                                     text: deviceItem.isDefault ? "" : ""
                                     color: deviceItem.isDefault ? Theme.color_text : Theme.color_text_subtle
-                                    font.pixelSize: Theme.font_size - 1
+                                    font.pixelSize: Theme.font_size_sm
                                     font.family: Theme.font_family_icon
                                     Layout.alignment: Qt.AlignVCenter
                                 }

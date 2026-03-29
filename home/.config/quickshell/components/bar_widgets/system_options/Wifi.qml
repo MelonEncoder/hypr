@@ -126,7 +126,7 @@ Rectangle {
                     Text {
                         text: "󰖩"
                         color: Theme.color_text
-                        font.pixelSize: Theme.font_size + 2
+                        font.pixelSize: Theme.font_size_icon
                         font.family: Theme.font_family_icon
                         Layout.alignment: Qt.AlignVCenter
                     }
@@ -156,7 +156,7 @@ Rectangle {
                     Text {
                         text: root.expanded ? "" : ""
                         color: Theme.color_text_subtle
-                        font.pixelSize: Theme.font_size - 2
+                        font.pixelSize: Theme.font_size_xs
                         font.family: Theme.font_family_icon
                         Layout.alignment: Qt.AlignVCenter
                     }
