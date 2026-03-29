@@ -238,6 +238,24 @@ Rectangle {
                 spacing: 6
                 width: root.popupWidth
 
+                Text {
+                    Layout.fillWidth: true
+                    text: "System"
+                    color: Theme.color_text_subtle
+                    font.pixelSize: Theme.font_size_xs
+                    font.family: Theme.font_family
+                    font.capitalization: Font.AllUppercase
+                    font.letterSpacing: 1
+                    leftPadding: 2
+                    bottomPadding: 2
+                }
+
+                Rectangle {
+                    Layout.fillWidth: true
+                    implicitHeight: 1
+                    color: Theme.color_border_subtle
+                }
+
                 Rectangle {
                     id: aboutItem
                     Layout.fillWidth: true

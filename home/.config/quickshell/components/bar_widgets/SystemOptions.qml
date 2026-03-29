@@ -107,6 +107,24 @@ Rectangle {
                     width: parent.width
                     spacing: 6
 
+                    Text {
+                        width: parent.width
+                        text: "Quick Settings"
+                        color: Theme.color_text_subtle
+                        font.pixelSize: Theme.font_size_xs
+                        font.family: Theme.font_family
+                        font.capitalization: Font.AllUppercase
+                        font.letterSpacing: 1
+                        leftPadding: 2
+                        bottomPadding: 2
+                    }
+
+                    Rectangle {
+                        width: parent.width
+                        implicitHeight: 1
+                        color: Theme.color_border_subtle
+                    }
+
                     Screenshot {
                         width: popupContent.width
                     }
