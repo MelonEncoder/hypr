@@ -24,3 +24,5 @@ for name in "${!DIRS[@]}"; do
     echo "$name/ directory already exists."
   fi
 done
+
+xdg-user-dirs-update
