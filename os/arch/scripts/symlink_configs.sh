@@ -28,6 +28,8 @@ echo "config: $config"
 
 mappings=(
   "$repo/home/.config/fcitx5|$config/fcitx5"
+  "$repo/home/.config/gtk-3.0|$config/gtk-3.0"
+  "$repo/home/.config/gtk-4.0|$config/gtk-4.0"
   "$repo/home/.config/hypr|$config/hypr"
   "$repo/home/.config/nvim|$config/nvim"
   "$repo/home/.config/qt6ct|$config/qt6ct"
