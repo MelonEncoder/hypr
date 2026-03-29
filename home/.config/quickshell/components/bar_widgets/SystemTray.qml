@@ -104,7 +104,7 @@ Rectangle {
 
                 Text {
                     Layout.fillWidth: true
-                    text: "System Tray"
+                    text: Strings.tr.system_tray
                     color: Theme.color_text_subtle
                     font.pixelSize: Theme.font_size_xs
                     font.family: Theme.font_family

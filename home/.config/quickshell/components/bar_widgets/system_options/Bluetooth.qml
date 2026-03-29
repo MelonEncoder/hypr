@@ -101,14 +101,14 @@ Rectangle {
                         spacing: 1
 
                         Text {
-                            text: "Bluetooth"
+                            text: Strings.tr.bluetooth
                             color: Theme.color_text
                             font.pixelSize: Theme.font_size
                             font.family: Theme.font_family
                         }
 
                         Text {
-                            text: Bluetooth.defaultAdapter.enabled ? "On" : "Off"
+                            text: Bluetooth.defaultAdapter.enabled ? Strings.tr.bt_on : Strings.tr.bt_off
                             color: Theme.color_text_subtle
                             font.pixelSize: Theme.font_size
                             font.family: Theme.font_family
@@ -160,7 +160,7 @@ Rectangle {
                     spacing: 3
 
                     Text {
-                        text: "Connected"
+                        text: Strings.tr.connected
                         color: Theme.color_text_subtle
                         font.pixelSize: Theme.font_size
                         font.family: Theme.font_family
@@ -222,7 +222,7 @@ Rectangle {
                             anchors.left: parent.left
                             anchors.leftMargin: 10
                             anchors.verticalCenter: parent.verticalCenter
-                            text: !Bluetooth.defaultAdapter ? "Bluetooth unavailable" : (Bluetooth.defaultAdapter.enabled ? "None connected" : "Bluetooth disabled")
+                            text: !Bluetooth.defaultAdapter ? Strings.tr.bt_unavailable : (Bluetooth.defaultAdapter.enabled ? Strings.tr.none_connected : Strings.tr.bt_disabled)
                             color: Theme.color_text_subtle
                             font.pixelSize: Theme.font_size
                             font.family: Theme.font_family
@@ -230,7 +230,7 @@ Rectangle {
                     }
 
                     Text {
-                        text: "Available"
+                        text: Strings.tr.available
                         color: Theme.color_text_subtle
                         font.pixelSize: Theme.font_size
                         font.family: Theme.font_family
@@ -292,7 +292,7 @@ Rectangle {
                             anchors.left: parent.left
                             anchors.leftMargin: 10
                             anchors.verticalCenter: parent.verticalCenter
-                            text: !Bluetooth.defaultAdapter ? "Bluetooth unavailable" : (Bluetooth.defaultAdapter.enabled ? (root.discovering ? "Scanning..." : "None available") : "Bluetooth disabled")
+                            text: !Bluetooth.defaultAdapter ? Strings.tr.bt_unavailable : (Bluetooth.defaultAdapter.enabled ? (root.discovering ? Strings.tr.scanning : Strings.tr.none_available) : Strings.tr.bt_disabled)
                             color: Theme.color_text_subtle
                             font.pixelSize: Theme.font_size
                             font.family: Theme.font_family

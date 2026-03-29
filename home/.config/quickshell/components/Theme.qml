@@ -83,4 +83,14 @@ QtObject {
     // Workspace indicator colors
     readonly property color workspace_dot_occupied: Qt.rgba(0.690, 0.690, 0.690, 1)
     readonly property color workspace_dot_empty: Qt.rgba(0.478, 0.478, 0.478, 1)
+
+    // Calendar
+    readonly property color calendar_color_sunday: Qt.rgba(0.878, 0.424, 0.455, 1)
+    readonly property color calendar_color_saturday: Qt.rgba(0.380, 0.686, 0.937, 1)
+    readonly property int calendar_cell_width: 32
+    readonly property int calendar_cell_height: 28
+    readonly property int calendar_header_height: 22
+    readonly property int calendar_today_size: 22
+    readonly property int calendar_nav_height: 24
+    readonly property int calendar_content_spacing: 6
 }

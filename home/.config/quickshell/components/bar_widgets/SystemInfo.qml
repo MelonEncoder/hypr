@@ -26,27 +26,22 @@ Rectangle {
         {
             action: "lock",
             icon: "",
-            label: "Lock Screen"
         },
         {
             action: "logout",
             icon: "󰍃",
-            label: "Log Out"
         },
         {
             action: "suspend",
             icon: "",
-            label: "Sleep"
         },
         {
             action: "reboot",
             icon: "",
-            label: "Restart"
         },
         {
             action: "poweroff",
             icon: "",
-            label: "Shut Down"
         }
     ]
 
@@ -240,7 +235,7 @@ Rectangle {
 
                 Text {
                     Layout.fillWidth: true
-                    text: "System"
+                    text: Strings.tr.system
                     color: Theme.color_text_subtle
                     font.pixelSize: Theme.font_size_xs
                     font.family: Theme.font_family
@@ -288,7 +283,7 @@ Rectangle {
 
                                 Text {
                                     Layout.fillWidth: true
-                                    text: root.kernelDisplay.length > 0 ? ("Kernel " + root.kernelDisplay) : ""
+                                    text: root.kernelDisplay.length > 0 ? (Strings.tr.kernel + " " + root.kernelDisplay) : ""
                                     visible: text.length > 0
                                     color: Theme.color_text_subtle
                                     font.pixelSize: Theme.font_size_sm
@@ -297,7 +292,7 @@ Rectangle {
 
                                 Text {
                                     Layout.fillWidth: true
-                                    text: root.versionDisplay.length > 0 ? ("Version " + root.versionDisplay) : ""
+                                    text: root.versionDisplay.length > 0 ? (Strings.tr.version + " " + root.versionDisplay) : ""
                                     visible: text.length > 0
                                     color: Theme.color_text_subtle
                                     font.pixelSize: Theme.font_size_sm
@@ -349,7 +344,7 @@ Rectangle {
 
                             Text {
                                 Layout.fillWidth: true
-                                text: option.modelData.label
+                                text: Strings.tr["power_" + option.modelData.action]
                                 color: Theme.color_text
                                 font.pixelSize: Theme.font_size
                                 font.family: Theme.font_family

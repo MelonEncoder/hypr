@@ -137,7 +137,7 @@ Rectangle {
                         spacing: 1
 
                         Text {
-                            text: "Wi-Fi"
+                            text: Strings.tr.wifi
                             color: Theme.color_text
                             font.pixelSize: Theme.font_size
                             font.family: Theme.font_family
@@ -204,7 +204,7 @@ Rectangle {
                     spacing: 3
 
                     Text {
-                        text: "Connected"
+                        text: Strings.tr.connected
                         color: Theme.color_text_subtle
                         font.pixelSize: Theme.font_size
                         font.family: Theme.font_family
@@ -265,7 +265,7 @@ Rectangle {
                             anchors.left: parent.left
                             anchors.leftMargin: 10
                             anchors.verticalCenter: parent.verticalCenter
-                            text: root.loading ? "Loading..." : "None connected"
+                            text: root.loading ? Strings.tr.loading : Strings.tr.none_connected
                             color: Theme.color_text_subtle
                             font.pixelSize: Theme.font_size
                             font.family: Theme.font_family
@@ -273,7 +273,7 @@ Rectangle {
                     }
 
                     Text {
-                        text: "Available"
+                        text: Strings.tr.available
                         color: Theme.color_text_subtle
                         font.pixelSize: Theme.font_size
                         font.family: Theme.font_family
@@ -334,7 +334,7 @@ Rectangle {
                             anchors.left: parent.left
                             anchors.leftMargin: 10
                             anchors.verticalCenter: parent.verticalCenter
-                            text: root.loading ? "Loading..." : "None available"
+                            text: root.loading ? Strings.tr.loading : Strings.tr.none_available
                             color: Theme.color_text_subtle
                             font.pixelSize: Theme.font_size
                             font.family: Theme.font_family

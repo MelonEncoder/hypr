@@ -51,7 +51,7 @@ Item {
                 }
 
                 Text {
-                    text: "Fullscreen"
+                    text: Strings.tr.fullscreen
                     color: Theme.color_text
                     font.pixelSize: Theme.font_size
                     font.family: Theme.font_family
@@ -95,7 +95,7 @@ Item {
                 }
 
                 Text {
-                    text: "Region"
+                    text: Strings.tr.region
                     color: Theme.color_text
                     font.pixelSize: Theme.font_size
                     font.family: Theme.font_family

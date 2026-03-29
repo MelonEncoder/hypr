@@ -487,7 +487,7 @@ Item {
                 // ── Header label ───────────────────────────────────────────────
 
                 Text {
-                    text: "Media"
+                    text: Strings.tr.media
                     color: Theme.color_text_subtle
                     font.pixelSize: Theme.font_size_xs
                     font.family: Theme.font_family
@@ -542,7 +542,7 @@ Item {
 
                     Text {
                         width: parent.width - parent.leftPadding
-                        text: root.currentPlayer ? (root.currentPlayer.trackTitle || root.playerLabel(root.currentPlayer)) : "No media"
+                        text: root.currentPlayer ? (root.currentPlayer.trackTitle || root.playerLabel(root.currentPlayer)) : Strings.tr.no_media
                         color: Theme.color_text
                         font.pixelSize: Theme.font_size
                         font.family: Theme.font_family

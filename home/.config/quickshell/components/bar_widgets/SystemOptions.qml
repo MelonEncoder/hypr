@@ -109,7 +109,7 @@ Rectangle {
 
                     Text {
                         width: parent.width
-                        text: "Quick Settings"
+                        text: Strings.tr.quick_settings
                         color: Theme.color_text_subtle
                         font.pixelSize: Theme.font_size_xs
                         font.family: Theme.font_family

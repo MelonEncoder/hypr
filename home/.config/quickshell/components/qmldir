@@ -1,5 +1,6 @@
-singleton Theme 1.0 ShellTheme.qml
-singleton Animations 1.0 ShellAnimations.qml
+singleton Theme 1.0 Theme.qml
+singleton Animations 1.0 Animations.qml
+singleton Strings 1.0 Strings.qml
 
 Bar 1.0 Bar.qml
 Launcher 1.0 Launcher.qml

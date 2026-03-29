@@ -276,7 +276,7 @@ Rectangle {
                     spacing: 3
 
                     Text {
-                        text: "Output Devices"
+                        text: Strings.tr.output_devices
                         color: Theme.color_text_subtle
                         font.pixelSize: Theme.font_size
                         font.family: Theme.font_family
