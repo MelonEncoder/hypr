@@ -1,1 +1,2 @@
 singleton DateTime 1.0 DateTime.qml
+singleton NotificationService 1.0 NotificationService.qml

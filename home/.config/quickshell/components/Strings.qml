@@ -16,6 +16,11 @@ QtObject {
             quick_settings:   "Quick Settings",
             system_tray:      "System Tray",
             calendar:         "Calendar",
+            notifications:    "Notifications",
+
+            // Notification panel
+            no_notifications: "No notifications",
+            clear_all:        "Clear all",
 
             // System info labels
             kernel:           "Kernel",
@@ -66,6 +71,11 @@ QtObject {
             quick_settings:   "クイック設定",
             system_tray:      "システムトレイ",
             calendar:         "カレンダー",
+            notifications:    "通知",
+
+            // Notification panel
+            no_notifications: "通知なし",
+            clear_all:        "すべて削除",
 
             // System info labels
             kernel:           "カーネル",

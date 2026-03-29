@@ -4,6 +4,7 @@ import Quickshell.Services.Notifications
 import QtQuick
 import QtQuick.Layouts
 import "."
+import "../services"
 
 Scope {
     id: root
@@ -31,21 +32,6 @@ Scope {
     readonly property int image_max_height: 120
     readonly property int image_radius: Theme.radius_normal
 
-    NotificationServer {
-        id: notificationServer
-
-        keepOnReload: true
-        bodySupported: true
-        bodyMarkupSupported: true
-        actionsSupported: true
-        persistenceSupported: true
-        imageSupported: true
-
-        onNotification: notification => {
-            notification.tracked = true;
-        }
-    }
-
     Variants {
         model: Quickshell.screens
 
@@ -61,11 +47,11 @@ Scope {
             aboveWindows: true
             focusable: false
             exclusionMode: ExclusionMode.Ignore
-            implicitWidth: root.width
-            implicitHeight: hasNotifications ? notificationColumn.implicitHeight : 0
+            implicitHeight: hasNotifications ? panel.topOffset + notificationColumn.implicitHeight : 0
 
             anchors {
                 top: true
+                left: true
                 right: true
             }
 
@@ -75,13 +61,14 @@ Scope {
                 Column {
                     id: notificationColumn
                     anchors.top: parent.top
-                    anchors.right: parent.right
+                    anchors.topMargin: panel.topOffset
+                    anchors.horizontalCenter: parent.horizontalCenter
                     width: root.width
                     spacing: root.spacing
 
                     Repeater {
                         id: notificationRepeater
-                        model: notificationServer.trackedNotifications
+                        model: NotificationService.trackedNotifications
 
                         delegate: Item {
                             id: notificationItem
@@ -157,9 +144,9 @@ Scope {
                                 border.width: root.border_width
                                 border.color: Theme.color_border
                                 opacity: entered ? 1 : 0
-                                x: entered ? 0 : width + root.slide_offset
+                                y: entered ? 0 : -(root.slide_offset + height)
                                 scale: entered ? 1.0 : 0.97
-                                transformOrigin: Item.TopRight
+                                transformOrigin: Item.Top
 
                                 // Top accent stripe
                                 Rectangle {
@@ -170,7 +157,7 @@ Scope {
                                     color: card.accentColor
                                 }
 
-                                Behavior on x {
+                                Behavior on y {
                                     NumberAnimation {
                                         duration: Animations.duration_slow
                                         easing.type: Animations.easing_emphasized

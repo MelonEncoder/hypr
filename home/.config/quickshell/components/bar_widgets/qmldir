@@ -1,5 +1,6 @@
 BatteryStatus 1.0 BatteryStatus.qml
 Clock 1.0 Clock.qml
+NotificationBell 1.0 NotificationBell.qml
 CurrentWindow 1.0 CurrentWindow.qml
 IdleInhibitor 1.0 IdleInhibitor.qml
 Media 1.0 Media.qml
