@@ -317,9 +317,8 @@ Rectangle {
 
                 Rectangle {
                     Layout.fillWidth: true
-                    Layout.preferredHeight: 1
-                    color: Theme.color_border
-                    opacity: 0.5
+                    implicitHeight: 1
+                    color: Theme.color_border_subtle
                 }
 
                 Repeater {

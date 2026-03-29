@@ -32,6 +32,13 @@ Item {
             radius: Theme.radius_normal
             color: pressed ? Theme.color_surface_pressed : (hovered ? Theme.color_surface_hover : Theme.color_surface)
 
+            Behavior on color {
+                ColorAnimation {
+                    duration: Animations.duration_hover
+                    easing.type: Animations.easing_standard
+                }
+            }
+
             RowLayout {
                 anchors.centerIn: parent
                 spacing: 6
@@ -68,6 +75,13 @@ Item {
             Layout.preferredHeight: Theme.bar_widget_height * 1.5
             radius: Theme.radius_normal
             color: pressed ? Theme.color_surface_pressed : (hovered ? Theme.color_surface_hover : Theme.color_surface)
+
+            Behavior on color {
+                ColorAnimation {
+                    duration: Animations.duration_hover
+                    easing.type: Animations.easing_standard
+                }
+            }
 
             RowLayout {
                 anchors.centerIn: parent

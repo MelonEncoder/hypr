@@ -161,8 +161,8 @@ Rectangle {
                                 Behavior on width {
                                     enabled: !sliderMouse.pressed
                                     NumberAnimation {
-                                        duration: 140
-                                        easing.type: Easing.InOutCubic
+                                        duration: Animations.duration_fast
+                                        easing.type: Animations.easing_standard
                                     }
                                 }
                             }
@@ -180,8 +180,8 @@ Rectangle {
                             Behavior on x {
                                 enabled: !sliderMouse.pressed
                                 NumberAnimation {
-                                    duration: 140
-                                    easing.type: Easing.InOutCubic
+                                    duration: Animations.duration_fast
+                                    easing.type: Animations.easing_standard
                                 }
                             }
 
