@@ -507,7 +507,9 @@ Item {
 
                 Rectangle {
                     width: parent.width
-                    height: 130
+                    height: (artImage.status === Image.Ready && artImage.sourceSize.width > 0)
+                        ? Math.round(parent.width * artImage.sourceSize.height / artImage.sourceSize.width)
+                        : parent.width
                     radius: Theme.radius_normal
                     color: Theme.color_surface
                     clip: true
