@@ -74,17 +74,33 @@ Rectangle {
             left: parent.left
             right: parent.right
             verticalCenter: parent.verticalCenter
-            leftMargin: Theme.bar_widget_height
-            rightMargin: Theme.bar_widget_height
+            leftMargin: 10
+            rightMargin: 10
         }
         spacing: 10
 
-        Text {
-            text: "󰃠"
-            color: Theme.color_text
-            font.pixelSize: Theme.font_size_icon_lg
-            font.family: Theme.font_family_icon
+        Rectangle {
+            id: leftSlot
+            implicitWidth: Theme.bar_widget_height
+            implicitHeight: Theme.bar_widget_height
             Layout.alignment: Qt.AlignVCenter
+            radius: Theme.radius_normal
+            color: "transparent"
+
+            Behavior on color {
+                ColorAnimation {
+                    duration: Animations.duration_hover
+                    easing.type: Animations.easing_standard
+                }
+            }
+
+            Text {
+                anchors.centerIn: parent
+                text: "󰃠"
+                color: Theme.color_text
+                font.pixelSize: Theme.font_size_icon
+                font.family: Theme.font_family_icon
+            }
         }
 
         Item {
@@ -158,6 +174,30 @@ Rectangle {
                         return;
                     root.updateBrightnessFromTrack(mouse.x, sliderTrack.width);
                 }
+            }
+        }
+
+        Rectangle {
+            id: rightSlot
+            implicitWidth: Theme.bar_widget_height
+            implicitHeight: Theme.bar_widget_height
+            Layout.alignment: Qt.AlignVCenter
+            radius: Theme.radius_normal
+            color: "transparent"
+
+            Behavior on color {
+                ColorAnimation {
+                    duration: Animations.duration_hover
+                    easing.type: Animations.easing_standard
+                }
+            }
+
+            Text {
+                anchors.centerIn: parent
+                text: ""
+                color: Theme.color_text
+                font.pixelSize: Theme.font_size_icon
+                font.family: Theme.font_family_icon
             }
         }
     }

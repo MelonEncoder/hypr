@@ -100,17 +100,40 @@ Rectangle {
                     }
                     spacing: 10
 
-                    Item {
+                    Rectangle {
+                        id: muteButton
+                        property bool hovered: muteButtonMouse.containsMouse
+                        property bool pressed: muteButtonMouse.pressed
                         implicitWidth: Theme.bar_widget_height
                         implicitHeight: Theme.bar_widget_height
                         Layout.alignment: Qt.AlignVCenter
+                        radius: Theme.radius_normal
+                        color: muteButton.pressed ? Theme.color_surface_pressed : (muteButton.hovered ? Theme.color_surface_hover : "transparent")
+
+                        Behavior on color {
+                            ColorAnimation {
+                                duration: Animations.duration_hover
+                                easing.type: Animations.easing_standard
+                            }
+                        }
 
                         Text {
                             anchors.centerIn: parent
-                            text: !root.sink || !root.sink.audio ? "󰝟" : (root.sink.audio.muted ? "󰝟" : (root.currentVolume > 50 ? "󰕾" : "󰖀"))
+                            text: !root.sink || !root.sink.audio ? "" : (root.sink.audio.muted ? "" : (root.currentVolume > 66 ? "" : (root.currentVolume > 33 ? "" : "")))
                             color: Theme.color_text
                             font.pixelSize: Theme.font_size_icon
                             font.family: Theme.font_family_icon
+                        }
+
+                        MouseArea {
+                            id: muteButtonMouse
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            cursorShape: Qt.PointingHandCursor
+                            onClicked: {
+                                if (root.sink && root.sink.audio)
+                                    root.sink.audio.muted = !root.sink.audio.muted;
+                            }
                         }
                     }
 
@@ -209,7 +232,7 @@ Rectangle {
                             anchors.centerIn: parent
                             text: root.expanded ? "\uf077" : "\uf078"
                             color: root.expanded ? Theme.color_text : Theme.color_text_subtle
-                            font.pixelSize: Theme.font_size_xs
+                            font.pixelSize: Theme.font_size_icon_lg
                             font.family: Theme.font_family_icon
                         }
 
