@@ -98,7 +98,7 @@ hl.config({
         accel_profile  = "adaptive",
         natural_scroll = false,
         touchpad       = {
-            middle_button_emulation = true,
+            middle_button_emulation = false,
             natural_scroll = false,
             -- scroll_factor = "",
         }
